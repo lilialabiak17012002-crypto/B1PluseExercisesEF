@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What would happen if you quit texting for a week?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+</style>
+</head>
+<body><div class="wrap">
+<h1>What would happen if you quit texting for a week?</h1><p class="sub">A2 · Revision: second conditional · First or second conditional?</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Second conditional</h2><p>Уявна, гіпотетична ситуація в <b>теперішньому або майбутньому</b>, яка нереальна або малоймовірна. Імовірність десь <b>до 40%</b>: це може статися, але, швидше за все, не станеться.</p><table><tr><th>if + past simple</th><th>would / wouldn't + verb</th></tr><tr><td>If I won the lottery,</td><td>I'd buy a villa in Sicily.</td></tr><tr><td>If we had a garden,</td><td>we'd have a cat.</td></tr><tr><td>If I had more time,</td><td>I'd do more exercise.</td></tr></table><p><b style='color:#e5484d'>❗ НІКОЛИ не став would після if!</b> <span class='ex'><s>If I would have money…</s> ✗ → If I had money… ✓</span></p><p><b>Питання:</b> <span class='ex'>Would you go for a swim if there were sharks in the sea? What would you do if you lost your phone?</span></p><p><b>would</b> однаковий для всіх осіб. Скорочення: <b>'d</b> = would (<span class='ex'>I'd, you'd, she'd</span>), <b>wouldn't</b> = would not.</p><p><b>be:</b> після I / he / she / it можна вжити <b>were</b> замість was: <span class='ex'>If he were here, he'd know what to do.</span> Порада: <span class='ex'>If I were you, I wouldn't take that job.</span></p><p>Замість <b>would</b> можна вжити <b>could</b>: <span class='ex'>If we went by car, we could stop on the way.</span></p>"}, {"type": "text", "n": 1, "title": "Second conditional", "task": "Complete the gaps with the correct form of the verbs in brackets.", "items": [{"t": "He [do] more exercise if he [have] more time.", "a": [["would do"], ["had"]]}, {"t": "If she [be] taller, she [play] basketball.", "a": [["were", "was"], ["would play"]]}, {"t": "The air [be] cleaner if people [not / drive].", "a": [["would be"], ["did not drive"]]}, {"t": "If I [be] you, I [go] to the doctor.", "a": [["were", "was"], ["would go"]]}, {"t": "If we [meet] Tom Hanks, we [not / know] what to say.", "a": [["met"], ["would not know"]]}, {"t": "If they [buy] a car, they [go] away every weekend.", "a": [["bought"], ["would go"]]}, {"t": "If I [stop] texting for a week, my life [be] very difficult.", "a": [["stopped"], ["would be"]]}, {"t": "[your friends / be] annoyed if you [not / text] them for a week?", "a": [["would your friends be"], ["did not text"]]}]}, {"type": "order", "n": 2, "title": "Write the questions", "task": "Write the question for each answer. Example: The world would be a happier place if there were no wars. → Would the world be a happier place if there were no wars?", "items": [{"t": "Answer: If I saw a wolf in the forest, I would run away. → What / you / do / if / you / see / a wolf in the forest?", "a": ["What would you do if you saw a wolf in the forest?"]}, {"t": "Answer: If I lost my job tomorrow, I would move to a different country. → What / you / do / if / you / lose / your job tomorrow?", "a": ["What would you do if you lost your job tomorrow?"]}, {"t": "Answer: If I were the president, I would give all people equal rights. → What / you / do / if / you / be / the president of your country?", "a": ["What would you do if you were the president of your country?", "What would you do if you was the president of your country?"]}, {"t": "Answer: If my friends could travel anywhere, they would travel to Japan. → Where / your friends / travel / if / they / can / travel anywhere?", "a": ["Where would your friends travel if they could travel anywhere?"]}, {"t": "Answer: If I didn't have my phone, I would read more books. → What / you / do / if / you / not have / your phone?", "a": ["What would you do if you didn't have your phone?", "What would you do if you did not have your phone?"]}]}, {"type": "explain", "html": "<h2><span class='num'>i</span>First чи second conditional?</h2><table><tr><th>First conditional</th><th>Second conditional</th></tr><tr><td><b>if + present simple, will + verb</b></td><td><b>if + past simple, would + verb</b></td></tr><tr><td><b>Можлива</b> ситуація: імовірність <b>50–90%</b>, це, мабуть, станеться.</td><td><b>Уявна, гіпотетична</b> ситуація: імовірність <b>до 40%</b>, можливо, але, швидше за все, не станеться.</td></tr><tr><td><span class='ex'>If I don't have to work tomorrow, I'll help you.</span><br>(Можливо, я завтра вільна.)</td><td><span class='ex'>If I didn't have to work tomorrow, I'd help you.</span><br>(Але я працюю, тому не можу допомогти.)</td></tr><tr><td><span class='ex'>If it's sunny tomorrow, we'll go to the beach.</span></td><td><span class='ex'>If I lived by the sea, I'd swim every day.</span> (Але я не живу біля моря.)</td></tr></table>"}, {"type": "choice", "n": 3, "title": "Possible or imaginary?", "task": "Is the situation possible (first conditional) or imaginary (second conditional)? Choose the correct sentence.", "items": [{"t": "I have an exam tomorrow and I've studied a lot. → ___", "o": ["If I pass, I'll celebrate.", "If I passed, I'd celebrate."], "c": 0}, {"t": "I can't speak Chinese at all. → ___", "o": ["If I speak Chinese, I'll work in Beijing.", "If I spoke Chinese, I'd work in Beijing."], "c": 1}, {"t": "Maybe my phone battery will die soon. → ___", "o": ["If my battery dies, I'll call you from Anna's phone.", "If my battery died, I'd call you from Anna's phone."], "c": 0}, {"t": "I'm not a famous singer. → ___", "o": ["If I'm famous, I'll buy a big house.", "If I were famous, I'd buy a big house."], "c": 1}, {"t": "It's cloudy. Maybe it will rain this afternoon. → ___", "o": ["If it rains, we'll stay at home.", "If it rained, we'd stay at home."], "c": 0}, {"t": "There are no dinosaurs today. → ___", "o": ["If dinosaurs live today, they'll be in zoos.", "If dinosaurs lived today, they'd be in zoos."], "c": 1}, {"t": "I might finish work early today. → ___", "o": ["If I finish early, I'll meet you for coffee.", "If I finished early, I'd meet you for coffee."], "c": 0}, {"t": "I don't have a car. → ___", "o": ["If I have a car, I'll drive to work.", "If I had a car, I'd drive to work."], "c": 1}]}, {"type": "text", "n": 4, "title": "First or second?", "task": "Read the situation. Then put the verbs in the correct form: first conditional (present + will) or second conditional (past + would).", "items": [{"t": "(Possible) If you [text] me later, I [answer] you.", "a": [["text"], ["will answer"]]}, {"t": "(Imaginary) If I [live] on the moon, I [not / need] a phone.", "a": [["lived"], ["would not need"]]}, {"t": "(Possible) If the shop [be] open, I [buy] some milk.", "a": [["is"], ["will buy"]]}, {"t": "(Imaginary) If I [be] a cat, I [sleep] all day.", "a": [["were", "was"], ["would sleep"]]}, {"t": "(Possible) She [be] angry if you [not / call] her tonight.", "a": [["will be"], ["do not call"]]}, {"t": "(Imaginary) If we [have] a million euros, we [travel] around the world.", "a": [["had"], ["would travel"]]}, {"t": "(Possible) If it [snow] tomorrow, the children [build] a snowman.", "a": [["snows"], ["will build"]]}, {"t": "(Imaginary) What [you / do] if you [can] fly?", "a": [["would you do"], ["could"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp,' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script></body></html>
