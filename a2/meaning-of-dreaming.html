@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The meaning of dreaming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+</style>
+</head>
+<body><div class="wrap">
+<h1>The meaning of dreaming</h1><p class="sub">English File A2 · Revision: all the tenses</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='tag ps'>Present simple</span></h2><p>Факти про нас, звички, загальні факти: <span class='ex'>I live in Lviv. I usually dream in colour. Water boils at 100°C.</span> · <b>he/she/it + -s</b>, <b>don't / doesn't</b>, <b>Do / Does…?</b></p>"}, {"type": "text", "n": 1, "title": "Present simple", "task": "Complete with the present simple.", "items": [{"t": "I usually [remember] my dreams.", "a": [["remember"]]}, {"t": "My brother [dream] about football almost every night.", "a": [["dreams"]]}, {"t": "She [not / sleep] well when she's stressed.", "a": [["does not sleep"]]}, {"t": "[you / have] the same dream again and again?", "a": [["do you have"]]}, {"t": "Most people [dream] for about two hours every night.", "a": [["dream"]]}, {"t": "My grandmother [not / believe] that dreams mean anything.", "a": [["does not believe"]]}, {"t": "What time [your dad / go] to bed?", "a": [["does your dad go"]]}]}, {"type": "explain", "html": "<h2><span class='tag pc'>Present continuous</span></h2><p>Те, що відбувається <b>зараз</b> (now, at the moment, Look!), а також домовленості на майбутнє: <span class='ex'>Shh! The baby's sleeping. I'm meeting Anna tonight.</span> · <b>am / is / are + -ing</b></p>"}, {"type": "text", "n": 2, "title": "Present continuous", "task": "Complete with the present continuous.", "items": [{"t": "Shh! The baby [sleep].", "a": [["is sleeping"]]}, {"t": "Look! It [snow].", "a": [["is snowing"]]}, {"t": "I can't talk now. I [drive].", "a": [["am driving"]]}, {"t": "What [you / read] at the moment?", "a": [["are you reading"]]}, {"t": "They [not / watch] TV right now. They're asleep.", "a": [["are not watching"]]}, {"t": "We [have] dinner with my parents tonight. It's all arranged.", "a": [["are having"]]}, {"t": "Listen! Somebody [play] the piano.", "a": [["is playing"]]}]}, {"type": "explain", "html": "<h2><span class='tag ps'>Past simple</span></h2><p>Завершені дії в минулому (yesterday, last night, ago): <span class='ex'>I had a strange dream last night.</span> · regular <b>-ed</b>, irregular треба знати · <b>didn't / Did…?</b> + базова форма</p>"}, {"type": "text", "n": 3, "title": "Past simple", "task": "Complete with the past simple.", "items": [{"t": "Last night I [have] a very strange dream.", "a": [["had"]]}, {"t": "In my dream I [fly] over the sea.", "a": [["flew"]]}, {"t": "I [wake up] at 3 a.m. and couldn't sleep.", "a": [["woke up"]]}, {"t": "We [not / go] out last weekend.", "a": [["did not go"]]}, {"t": "[you / see] the film yesterday?", "a": [["did you see"]]}, {"t": "She [study] psychology at university.", "a": [["studied"]]}, {"t": "The party [be] great, but I [not / stay] long.", "a": [["was"], ["did not stay"]]}]}, {"type": "explain", "html": "<h2><span class='tag pc'>Past continuous</span></h2><p>Дія <b>тривала</b> в минулому: довга дія, яку перервала інша; дві дії одночасно; дія в конкретний момент: <span class='ex'>I was sleeping when the phone rang. At 10 p.m. we were watching TV.</span> · <b>was / were + -ing</b></p>"}, {"type": "text", "n": 4, "title": "Past continuous", "task": "Complete with the past continuous.", "items": [{"t": "I [sleep] when the phone rang.", "a": [["was sleeping"]]}, {"t": "At 10 p.m. last night we [watch] a horror film.", "a": [["were watching"]]}, {"t": "In my dream I [walk] in a beautiful garden.", "a": [["was walking"]]}, {"t": "While my mum [cook], my dad [read] the newspaper.", "a": [["was cooking"], ["was reading"]]}, {"t": "What [you / do] at 8 o'clock yesterday evening?", "a": [["were you doing"]]}, {"t": "It [not / rain] when we left the house.", "a": [["was not raining"]]}, {"t": "They [wait] for the bus when it started to snow.", "a": [["were waiting"]]}]}, {"type": "explain", "html": "<h2><span class='tag pc'>be going to</span></h2><p>Плани, які ми вже вирішили, і передбачення, коли є доказ: <span class='ex'>I'm going to start yoga next month. Look at the clouds! It's going to rain.</span> · <b>am / is / are + going to + verb</b></p>"}, {"type": "text", "n": 5, "title": "be going to", "task": "Complete with be going to.", "items": [{"t": "I [start] a new job next month. I've already signed the contract.", "a": [["am going to start"]]}, {"t": "Look at those clouds! It [rain].", "a": [["is going to rain"]]}, {"t": "We [not / go] on holiday this year. We want to save money.", "a": [["are not going to go"]]}, {"t": "What [you / do] after the course?", "a": [["are you going to do"]]}, {"t": "She [learn] to drive this summer.", "a": [["is going to learn"]]}, {"t": "Be careful! You [drop] those plates!", "a": [["are going to drop"]]}, {"t": "[they / buy] a house?", "a": [["are they going to buy"]]}]}, {"type": "explain", "html": "<h2><span class='tag ps'>will / won't</span></h2><p>Особиста думка про майбутнє (I think…), рішення в момент мовлення, пропозиції, обіцянки: <span class='ex'>I think you'll like it. I'll have the steak. I'll help you. I won't tell anyone.</span> · <b>will / won't + verb</b></p>"}, {"type": "text", "n": 6, "title": "will / won't", "task": "Complete with will or won't.", "items": [{"t": "I think it [be] sunny tomorrow.", "a": [["will be"]]}, {"t": "A: I'm cold. B: I [close] the window.", "a": [["will close"]]}, {"t": "Don't worry. I [not / tell] anybody, I promise.", "a": [["will not tell"]]}, {"t": "I don't think she [pass] the exam. She didn't study at all.", "a": [["will pass"]]}, {"t": "[you / help] me with this box, please?", "a": [["will you help"]]}, {"t": "A: Tea or coffee? B: I [have] tea, please.", "a": [["will have"]]}, {"t": "I'm sure you [not / have] any problems at the new school.", "a": [["will not have"]]}]}, {"type": "explain", "html": "<h2><span class='tag ps'>Present perfect</span></h2><p>Досвід у житті (ever, never), щойно виконана дія з результатом зараз (just, already, yet). Без точного часу! <span class='ex'>Have you ever dreamed about flying? I've just woken up.</span> · <b>have / has + past participle</b></p>"}, {"type": "text", "n": 7, "title": "Present perfect", "task": "Complete with the present perfect.", "items": [{"t": "[you / ever / have] the same dream twice?", "a": [["have you ever had"]]}, {"t": "I [never / be] to Japan.", "a": [["have never been"]]}, {"t": "She [just / wake up]. She's still in bed.", "a": [["has just woken up"]]}, {"t": "We [not / finish] our homework yet.", "a": [["have not finished"]]}, {"t": "He [already / see] this film three times!", "a": [["has already seen"]]}, {"t": "[she / call] you yet?", "a": [["has she called"]]}, {"t": "I [lose] my keys! I can't open the door.", "a": [["have lost"]]}]}, {"type": "text", "n": 8, "title": "All the tenses", "task": "Read the context carefully and put the verb in the correct tense.", "items": [{"t": "I usually [sleep] for eight hours, but last night I only [sleep] for four.", "a": [["sleep"], ["slept"]]}, {"t": "Shh! Dad [sleep]. He [work] all night.", "a": [["is sleeping"], ["worked"]]}, {"t": "I [have] a terrible dream when my alarm [ring].", "a": [["was having"], ["rang"]]}, {"t": "[you / ever / dream] about your teacher?", "a": [["have you ever dreamed", "have you ever dreamt"]]}, {"t": "I've bought a book about dreams. I [read] it this weekend. That's my plan.", "a": [["am going to read"]]}, {"t": "A: I don't understand this word. B: I [explain] it to you.", "a": [["will explain"]]}, {"t": "My sister [study] in Canada at the moment. She [go] there last September.", "a": [["is studying"], ["went"]]}, {"t": "Look at the sky! It [be] a beautiful day.", "a": [["is going to be"]]}, {"t": "I [just / finish] my essay. Can I go out now?", "a": [["have just finished"]]}, {"t": "In my dream yesterday, I [run] in a forest when I [see] a big white horse.", "a": [["was running"], ["saw"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp,' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script></body></html>
