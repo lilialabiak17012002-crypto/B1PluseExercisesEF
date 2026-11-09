@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scream Queens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+</style>
+</head>
+<body><div class="wrap">
+<h1>Scream Queens</h1><p class="sub">A2 · Life events · Present perfect or past simple? · for / since</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "match", "n": 1, "title": "Life events", "task": "Match the life events with the Ukrainian translations.", "pool": ["народитися", "одружитися (з кимось)", "піти в початкову школу", "мати дітей", "піти в середню школу", "вступити до університету", "закінчити / покинути школу", "розійтися (жити окремо)", "влаштуватися на роботу", "розлучитися (з кимось)", "вийти на пенсію", "закохатися", "померти"], "items": [["be born", "народитися"], ["marry sb / get married", "одружитися (з кимось)"], ["go to primary school", "піти в початкову школу"], ["have children", "мати дітей"], ["go to secondary school", "піти в середню школу"], ["go to university", "вступити до університету"], ["leave school", "закінчити / покинути школу"], ["separate", "розійтися (жити окремо)"], ["get a job", "влаштуватися на роботу"], ["divorce sb / get divorced", "розлучитися (з кимось)"], ["retire", "вийти на пенсію"], ["fall in love", "закохатися"], ["die", "померти"]]}, {"type": "text", "n": 2, "title": "Tell the story of a life", "task": "Complete the story with the words from the box.", "bank": ["died", "fell in love", "got a job", "got divorced", "got married", "had", "left school", "retired", "was born", "went to university"], "items": [{"t": "My grandfather Mykola [?] in a small village in 1950.", "a": [["was born"]]}, {"t": "He [?] at 17 and moved to Kyiv.", "a": [["left school"]]}, {"t": "In Kyiv he [?] and studied engineering.", "a": [["went to university"]]}, {"t": "After his studies he [?] at a big factory.", "a": [["got a job"]]}, {"t": "At the factory he met Olena and [?] with her at first sight.", "a": [["fell in love"]]}, {"t": "They [?] in 1976.", "a": [["got married"]]}, {"t": "They [?] three children: two sons and a daughter.", "a": [["had"]]}, {"t": "Sadly, they weren't happy together and they [?] in 1995.", "a": [["got divorced"]]}, {"t": "He worked at the factory for 40 years and [?] when he was 65.", "a": [["retired"]]}, {"t": "He [?] last year at the age of 74.", "a": [["died"]]}]}, {"type": "explain", "html": "<h2><span class='num'>i</span>Present perfect чи past simple?</h2><table><tr><th>Past simple</th><th>Present perfect</th></tr><tr><td>Період <b>закінчився</b>. Ситуація в минулому, зараз її вже немає.</td><td>Період <b>не закінчився</b>: почався в минулому і триває <b>досі</b>.</td></tr><tr><td><span class='ex'>My grandma <b>lived</b> in Lviv for 30 years. (Тепер вона там не живе або її вже немає.)</span></td><td><span class='ex'>My grandma <b>has lived</b> in Lviv for 30 years. (Вона досі там живе.)</span></td></tr><tr><td><span class='ex'>How long <b>were</b> they married? They <b>were</b> married for 12 years. (Вони розлучились.)</span></td><td><span class='ex'>How long <b>have</b> they <b>been</b> married? They<b>'ve been</b> married since 2015. (Досі в шлюбі.)</span></td></tr><tr><td><span class='ex'>How many films <b>did</b> he <b>make</b>? He <b>made</b> ten films. (Він помер або вже не знімає.)</span></td><td><span class='ex'>What kind of films <b>has</b> she <b>made</b>? She<b>'s made</b> comedies. (Вона досі знімає, будуть ще.)</span></td></tr></table><p><b style='color:#e5484d'>❗ Якщо людина вже померла або ситуація закінчилась, вживаємо тільки past simple:</b> <span class='ex'>My great-grandfather <s>has been</s> was a teacher for 40 years.</span></p><p><b style='color:#e5484d'>❗ for буває і з past simple</b>, якщо період у минулому <b>закінчився</b>: <span class='ex'>I lived in Odesa for two years, but then I moved to Kyiv.</span></p><p><b style='color:#e5484d'>❗ since вживаємо тільки з present perfect.</b></p><p><b style='color:#e5484d'>❗ Зі словами, що вказують на закінчений час (ago, yesterday, last year, in 2010, when I was a child), вживаємо тільки past simple:</b> <span class='ex'>She <s>has left</s> left school two years ago.</span> Питання <b>When…?</b> теж ставимо в past simple: <span class='ex'>When did you get married?</span></p><p><b>Порівняй:</b><br><span class='ex'>Jack <b>was</b> married for ten years. = Зараз Джек не одружений (розлучився або помер).<br>Jack <b>has been</b> married for ten years. = Джек одружений і зараз. Одружився 10 років тому.</span></p>"}, {"type": "choice", "n": 3, "title": "Revision: for or since", "task": "Choose the correct option.", "items": [{"t": "I've lived in London ___ two months.", "o": ["for", "since"], "c": 0}, {"t": "I've had this car ___ 1980.", "o": ["for", "since"], "c": 1}, {"t": "How long ___ here?", "o": ["do you work", "have you worked"], "c": 1}, {"t": "I ___ to Mexico for twenty years.", "o": ["haven't been", "not been"], "c": 0}, {"t": "I've known her ___ I was a child.", "o": ["for", "since"], "c": 1}, {"t": "I've been happy ___ a long time.", "o": ["for", "since"], "c": 0}, {"t": "We've had our dog ___ last summer.", "o": ["for", "since"], "c": 1}, {"t": "She's been a nurse ___ fifteen years.", "o": ["since", "for"], "c": 1}, {"t": "They ___ married since 2019.", "o": ["are", "have been"], "c": 1}, {"t": "He hasn't called me ___ Tuesday.", "o": ["for", "since"], "c": 1}]}, {"type": "choice", "n": 4, "title": "Choose the correct form", "task": "Present perfect or past simple? Choose the correct form.", "items": [{"t": "My brother ___ school three years ago.", "o": ["left", "has left"], "c": 0}, {"t": "I ___ in this flat since 2020.", "o": ["lived", "'ve lived"], "c": 1}, {"t": "Oleh ___ in Poland for five years, but then he came back to Ukraine.", "o": ["worked", "has worked"], "c": 0}, {"t": "We ___ friends since primary school.", "o": ["were", "'ve been"], "c": 1}, {"t": "My parents ___ married last June.", "o": ["got", "have got"], "c": 0}, {"t": "My grandad retired in 2010. He ___ a bus driver for 35 years.", "o": ["was", "has been"], "c": 0}, {"t": "Our town ___ a lot since they built the new bridge.", "o": ["changed", "has changed"], "c": 1}, {"t": "They separated last year. They ___ only together for two years.", "o": ["were", "have been"], "c": 0}, {"t": "I ___ my best friend when I was at university.", "o": ["met", "'ve met"], "c": 0}, {"t": "Ira ___ this phone for six months, and she still loves it.", "o": ["had", "has had"], "c": 1}]}, {"type": "text", "n": 5, "title": "Complete the dialogues", "task": "Complete with the present perfect or past simple. Use the words in brackets.", "items": [{"t": "A: Where does your sister work? B: In a bank. A: How long [she / work] there?", "a": [["has she worked"]]}, {"t": "B: For two years. She [get] the job after university.", "a": [["got"]]}, {"t": "A: When [Shevchenko / die]? B: In 1861, I think.", "a": [["did shevchenko die"]]}, {"t": "A: How long [he / live] in Saint Petersburg? B: Quite a long time.", "a": [["did he live"]]}, {"t": "B: He [move] there when he was a young man.", "a": [["moved"]]}, {"t": "A: My aunt and uncle are very happy together. B: How long [they / be] married?", "a": [["have they been"]]}, {"t": "A: They [be] married since 2005.", "a": [["have been", "'ve been", "ve been"]]}, {"t": "A: They [meet] on holiday in Greece.", "a": [["met"]]}, {"t": "A: How long [you / have] your cat? B: Since last Christmas.", "a": [["have you had"]]}, {"t": "A: Where [you / find] her? B: My son found her in the park.", "a": [["did you find"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp,' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script></body></html>
