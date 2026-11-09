@@ -1,6 +1,7 @@
 {
   "cleanUrls": true,
   "redirects": [
-    { "source": "/will-shall-going-to", "destination": "/b1-plus/will-shall-going-to", "permanent": true }
+    { "source": "/will-shall-going-to", "destination": "/b1-plus/will-shall-going-to", "permanent": true },
+    { "source": "/a2/to-or-ing", "destination": "/a2/infinitive-vs-gerund", "permanent": true }
   ]
 }
