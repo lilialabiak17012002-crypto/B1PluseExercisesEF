@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fearof.net</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+</style>
+</head>
+<body><div class="wrap">
+<h1>Fearof.net</h1><p class="sub">English File A2 · Vocabulary: fear · Grammar: present perfect + for and since</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Words about fear</h2><table><tr><td><b>fear</b> (n)</td><td>страх</td><td><span class='ex'>She has a fear of spiders.</span></td></tr><tr><td><b>suffer from</b></td><td>страждати від</td><td><span class='ex'>He suffers from a fear of flying.</span></td></tr><tr><td><b>panic</b> (n / v)</td><td>паніка; панікувати</td><td><span class='ex'>Don't panic! I felt panic in the lift.</span></td></tr><tr><td><b>scared</b> (of)</td><td>наляканий, боїться</td><td><span class='ex'>I'm scared of dogs.</span></td></tr><tr><td><b>frightened</b> (of)</td><td>наляканий (= scared)</td><td><span class='ex'>The child was frightened of the dark.</span></td></tr><tr><td><b>terrified</b> (of)</td><td>дуже наляканий, в жаху</td><td><span class='ex'>I'm terrified of snakes!</span></td></tr><tr><td><b>dizzy</b></td><td>запаморочення, коли все крутиться</td><td><span class='ex'>I feel dizzy when I look down from high places.</span></td></tr></table>"}, {"type": "text", "n": 1, "title": "Fear vocabulary", "task": "Complete the sentences with a word from the box.", "bank": ["dizzy", "fear", "frightened", "panic", "scared", "suffer from", "terrified"], "items": [{"t": "Many people [?] a fear of flying.", "a": [["suffer from"]]}, {"t": "My little brother is [?] of the dark. He always sleeps with the light on.", "a": [["scared", "frightened"]]}, {"t": "I feel [?] when I stand on a high balcony.", "a": [["dizzy"]]}, {"t": "She has a terrible [?] of spiders.", "a": [["fear"]]}, {"t": "When the lift stopped, I started to [?].", "a": [["panic"]]}, {"t": "I'm not just a bit scared of snakes. I'm absolutely [?]!", "a": [["terrified"]]}, {"t": "The dog barked, and the children were very [?].", "a": [["frightened", "scared"]]}]}, {"type": "explain", "html": "<h2><span class='num'>i</span>Present perfect + for / since</h2><p>Використовуємо <b>present perfect</b> для дій і станів, які <b>почалися в минулому і тривають досі</b>.</p><p class='ex'>I've lived in Manchester for twenty years. = Я переїхала в Манчестер 20 років тому і живу там досі.<br>I've had this fear since I was 12 years old. (Почалося у 12 років, і я досі боюся.)</p><p><b style='color:#e5484d'>❗ Тут НЕ вживаємо present simple:</b> <span class='ex'><s>I live in Manchester for twenty years.</s> ✗ → I've lived in Manchester for twenty years. ✓</span></p><p><b>Питання How long…?</b> = як довго: <span class='ex'>How long have you lived there? How long have you been married? How long has she had her car?</span></p><table><tr><th>for</th><th>since</th></tr><tr><td><b>період часу</b>: як довго?<br>протягом…</td><td><b>конкретний момент у минулому</b>, коли почалося: з…</td></tr><tr><td><span class='ex'>for two weeks, for ten years, for three months, for a long time, for ages</span></td><td><span class='ex'>since 2014, since last June, since Monday, since 8:15, since I was a child</span></td></tr><tr><td><span class='ex'>I've had this car for three months.</span></td><td><span class='ex'>I've been afraid of spiders since I was a child.</span></td></tr></table>"}, {"type": "text", "n": 2, "title": "Present perfect", "task": "Complete the sentences with the present perfect. The action started in the past and is still true now.", "items": [{"t": "I [live] in Lviv since 2015.", "a": [["have lived"]]}, {"t": "She [be] afraid of dogs since she was a child.", "a": [["has been"]]}, {"t": "We [know] each other for ten years.", "a": [["have known"]]}, {"t": "My dad [work] in this company since 2010.", "a": [["has worked"]]}, {"t": "They [be] married for 25 years.", "a": [["have been"]]}, {"t": "I [have] this phone for two years.", "a": [["have had"]]}, {"t": "He [not / see] his brother since Christmas.", "a": [["has not seen"]]}, {"t": "My sister [suffer] from a fear of flying for a long time.", "a": [["has suffered"]]}, {"t": "I [not / drive] a car since the accident.", "a": [["have not driven"]]}, {"t": "We [have] our cat since 2020.", "a": [["have had"]]}]}, {"type": "order", "n": 3, "title": "How long…?", "task": "Write questions with How long and the present perfect.", "items": [{"t": "you / be married", "a": ["How long have you been married?"]}, {"t": "you / be afraid of flying", "a": ["How long have you been afraid of flying?"]}, {"t": "your sister / have her new car", "a": ["How long has your sister had her new car?"]}, {"t": "they / live in this town", "a": ["How long have they lived in this town?"]}, {"t": "your dad / be a teacher", "a": ["How long has your dad been a teacher?"]}, {"t": "you / know your best friend", "a": ["How long have you known your best friend?"]}, {"t": "you / have your dog", "a": ["How long have you had your dog?"]}, {"t": "Anna / work here", "a": ["How long has Anna worked here?"]}]}, {"type": "choice", "n": 4, "title": "for or since? (sentences)", "task": "Choose for or since.", "items": [{"t": "I've been scared of the dark ___ I was a child.", "o": ["for", "since"], "c": 1}, {"t": "She has lived in Canada ___ six years.", "o": ["for", "since"], "c": 0}, {"t": "We've known each other ___ 2012.", "o": ["for", "since"], "c": 1}, {"t": "He's had a fear of heights ___ a long time.", "o": ["for", "since"], "c": 0}, {"t": "I haven't eaten anything ___ breakfast.", "o": ["for", "since"], "c": 1}, {"t": "They've been married ___ 30 years.", "o": ["for", "since"], "c": 0}, {"t": "My brother has worked in that hospital ___ last May.", "o": ["for", "since"], "c": 1}, {"t": "I've had this jacket ___ ages!", "o": ["for", "since"], "c": 0}, {"t": "She hasn't called me ___ Monday.", "o": ["for", "since"], "c": 1}, {"t": "We've lived in this flat ___ a few months.", "o": ["for", "since"], "c": 0}]}, {"type": "choice", "n": 5, "title": "for or since? (time expressions)", "task": "Choose for or since for each time expression.", "items": [{"t": "___ 1999", "o": ["for", "since"], "c": 1}, {"t": "___ a long time", "o": ["for", "since"], "c": 0}, {"t": "___ about 20 years", "o": ["for", "since"], "c": 0}, {"t": "___ ages", "o": ["for", "since"], "c": 0}, {"t": "___ I was a child", "o": ["for", "since"], "c": 1}, {"t": "___ six months", "o": ["for", "since"], "c": 0}, {"t": "___ the 4th of May", "o": ["for", "since"], "c": 1}, {"t": "___ a few weeks", "o": ["for", "since"], "c": 0}, {"t": "___ then", "o": ["for", "since"], "c": 1}, {"t": "___ I got up this morning", "o": ["for", "since"], "c": 1}, {"t": "___ 8:15", "o": ["for", "since"], "c": 1}, {"t": "___ five minutes", "o": ["for", "since"], "c": 0}, {"t": "___ last summer", "o": ["for", "since"], "c": 1}, {"t": "___ two days", "o": ["for", "since"], "c": 0}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp,' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script></body></html>
