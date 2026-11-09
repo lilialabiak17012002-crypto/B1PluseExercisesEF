@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>will, shall or be going to? Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body><div class="wrap">
+<h1>will, shall or be going to?</h1>
+<p class="sub">Встав дієслово з дужок у правильній формі: <b>will / won't</b>, <b>shall</b> або <b>be going to</b> (а також <b>was / were going to</b>). Якщо в дужках є підмет, напиши і його, наприклад: <i>Shall I open</i>.</p>
+<div class="card" style="padding:14px 22px">
+  <div class="legend" style="margin-top:0"><span class="pill to">will / won't</span><span class="pill sh">shall I / we…?</span><span class="pill ing">be going to</span></div>
+</div>
+<div class="card"><ol id="list"></ol></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result">
+  <div>Твій результат</div>
+  <div id="score"></div>
+  <div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+  <div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div>
+</div>
+</div>
+<script>
+const R={pred:'prediction (no evidence) → will',ev:'prediction with evidence → be going to',plan:'plan / intention → be going to',fact:'future fact → will',inst:'instant decision → will',prom:'promise → will / won\'t',off:'offer / suggestion → Shall I / we…?',offw:'offer → will',past:'future in the past → was / were going to'};
+// [before, verb, after, accepted answers, rule]
+const Q=[
+ ["A: Do you want tea or coffee? B: I","have","a coffee, please.",["will have"],"inst"],
+ ["Look at those dark clouds! It","rain","",["is going to rain"],"ev"],
+ ["We've already booked the tickets. We","visit","Lisbon in May.",["are going to visit"],"plan"],
+ ["","I / carry","your bag? It looks heavy.",["shall i carry"],"off"],
+ ["I think robots","do","most of the housework in the future.",["will do","are going to do"],"pred"],
+ ["Sorry I'm late again. I promise it","not / happen","again.",["will not happen"],"prom"],
+ ["My sister","be","30 next month.",["will be"],"fact"],
+ ["Be careful! You","fall","!",["are going to fall"],"ev"],
+ ["","we / order","a pizza tonight? I'm too tired to cook.",["shall we order"],"off"],
+ ["A: The phone's ringing. B: Don't worry, I","answer","it.",["will answer"],"inst"],
+ ["Tom has saved enough money. He","buy","a new laptop next week.",["is going to buy"],"plan"],
+ ["I","call","you last night, but I fell asleep.",["was going to call"],"past"],
+ ["Don't worry about the exam. I'm sure you","pass","!",["will pass","are going to pass"],"pred"],
+ ["What","I / do","with all these old books?",["shall i do"],"off"],
+ ["A: I can't open this jar. B: Give it to me, I","help","you.",["will help"],"offw"],
+ ["She's studying medicine because she","become","a doctor.",["is going to become"],"plan"],
+ ["Thanks for lending me the money. I","pay","you back on Friday, I promise.",["will pay"],"prom"],
+ ["Look at the score! Our team","win","the match.",["is going to win"],"ev"],
+ ["We","go","to the beach yesterday, but it was too windy.",["were going to go"],"past"],
+ ["Next year","be","the company's 50th anniversary.",["will be"],"fact"],
+ ["I don't think people","live","on Mars in my lifetime.",["will live","are going to live"],"pred"],
+ ["Where","we / meet","tomorrow?",["shall we meet"],"off"],
+ ["They","not / move","house this year. They've decided to stay.",["are not going to move"],"plan"],
+ ["I'm so tired. I think I","go","to bed.",["will go"],"inst"],
+];
+const show={"will not happen":"won't happen","are not going to move":"aren't going to move"};
+const list=document.getElementById('list');
+Q.forEach((q,i)=>{
+  const li=document.createElement('li'); li.className='q';
+  if(q[0]) li.append(q[0]+' ');
+  const inp=document.createElement('input'); inp.type='text'; inp.autocomplete='off'; inp.spellcheck=false;
+  inp.setAttribute('autocapitalize','off'); inp.setAttribute('aria-label','Answer '+(i+1));
+  li.append(inp);
+  const h=document.createElement('span'); h.className='hint'; h.textContent='('+q[1]+')';
+  li.append(' ',h,(q[2].match(/^[!?.]/)?'':' ')+q[2]);
+  const fix=document.createElement('div'); fix.className='fix'; li.append(fix);
+  list.append(li);
+});
+const PRON=/^(i|you|he|she|it|we|they)\s+/;
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/shan't/g,'shall not').replace(/n't/g,' not')
+     .replace(/'ll/g,' will').replace(/'m/g,' am').replace(/'re/g,' are').replace(/'s/g,' is');
+  return s.replace(/\s+/g,' ').trim();
+}
+const nice=a=>{a=show[a]||a;return a.replace(/^shall (i|we)/,(m,p)=>'Shall '+(p==='i'?'I':'we'));};
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{
+  let score=0;
+  [...list.children].forEach((li,i)=>{
+    const inp=li.querySelector('input'), fix=li.querySelector('.fix');
+    let g=norm(inp.value); const acc=Q[i][3];
+    if(!acc.some(a=>PRON.test(a))) g=g.replace(PRON,'');
+    const ok=acc.includes(g);
+    li.classList.remove('ok','bad'); li.classList.add(ok?'ok':'bad'); fix.className='fix'; fix.textContent='';
+    const rule=document.createElement('span'); rule.className='rule'; rule.textContent=R[Q[i][4]];
+    if(ok){score++; if(acc.length>1){fix.classList.add('both'); fix.textContent='✓ Тут можна і так, і так: '+acc.map(nice).join(' / ');}}
+    else { fix.textContent='✗ Правильно: '+acc.map(nice).join(' / '); fix.append(rule); }
+    inp.readOnly=true;
+  });
+  $('check').disabled=true;
+  $('result').style.display='block';
+  $('score').textContent=score+' / '+Q.length;
+  $('result').scrollIntoView({behavior:'smooth'});
+};
+$('again').onclick=()=>{
+  [...list.children].forEach(li=>{li.classList.remove('ok','bad');const i=li.querySelector('input');i.value='';i.readOnly=false;const f=li.querySelector('.fix');f.textContent='';f.className='fix';});
+  $('check').disabled=false; $('result').style.display='none'; window.scrollTo({top:0,behavior:'smooth'});
+};
+</script>
+</body></html>
