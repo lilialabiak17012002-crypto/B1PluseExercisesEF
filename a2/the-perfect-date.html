@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Perfect Date: Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{float:right;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input.wide{width:min(420px,90%)}
+.scramble{font-style:italic;color:var(--muted)}
+</style>
+</head>
+<body><div class="wrap">
+<h1>The Perfect Date</h1>
+<p class="sub">English File A2 · Vocabulary: describing people · Grammar: present simple</p>
+
+<div class="card" id="s0"><h2><span class="num">1</span>Appearance <span class="secscore"></span></h2>
+<p class="task">Choose the correct word.</p><ol class="list"></ol></div>
+
+<div class="card" id="s1"><h2><span class="num">2</span>Personality <span class="secscore"></span></h2>
+<p class="task">Complete the sentences with an adjective from the box.</p>
+<div class="bank"></div><ol class="list"></ol></div>
+
+<div class="card" id="s2"><h2><span class="num">3</span>Present simple: + and – <span class="secscore"></span></h2>
+<p class="task">Complete the sentences with the verb in brackets in the present simple.</p><ol class="list"></ol></div>
+
+<div class="card" id="s3"><h2><span class="num">4</span>Present simple: questions <span class="secscore"></span></h2>
+<p class="task">You're on a first date. Put the words in the correct order to make questions.</p><ol class="list"></ol></div>
+
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result">
+  <div>Твій результат</div><div id="score"></div>
+  <div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+  <div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div>
+</div>
+</div>
+<script>
+const S=[
+ {type:'choice',items:[
+  ["He doesn't have any hair. He's",["bald","short","thin"],0,"."],
+  ["Her hair isn't straight. It's",["blonde","curly","long"],1,"."],
+  ["He's 1.95 m. He's very",["short","overweight","tall"],2,"."],
+  ["He has hair on his chin. He has a",["beard","moustache","slim"],0,"."],
+  ["She isn't tall and she isn't short. She's",["slim","medium height","bald"],1,"."],
+  ["He weighs 115 kg. He's a bit",["overweight","thin","slim"],0,"."],
+  ["Her hair is very light, almost yellow. She has",["dark","curly","blonde"],2,"hair."],
+  ["She's thin in an attractive way. She's",["slim","overweight","bald"],0,"."],
+  ["My dad has hair above his mouth, but not on his chin. He has a",["beard","moustache","curly"],1,"."],
+  ["Her hair has no curls at all. It's",["curly","bald","straight"],2,"."],
+ ]},
+ {type:'text',bank:["hard-working","mean","quiet","serious","extrovert","kind","talkative","funny","generous","clever"],items:[
+  ["Clint isn't lazy. He's very","",".",["hard-working","hardworking","hard working"]],
+  ["My brother never buys anyone a coffee. He's","",".",["mean"]],
+  ["She doesn't talk much. She's very","",".",["quiet"]],
+  ["He never laughs or tells jokes. He's very","",".",["serious"]],
+  ["He isn't shy at all. He's a real","",".",["extrovert"]],
+  ["She always helps people. She's very","",".",["kind"]],
+  ["He talks all the time! He's very","",".",["talkative"]],
+  ["She always makes me laugh. She's really","",".",["funny"]],
+  ["He often buys presents for his friends. He's very","",".",["generous"]],
+  ["She knows the answer to every question. She's very","",".",["clever","smart"]],
+ ]},
+ {type:'text',items:[
+  ["Tom","work","in a hospital.",["works"]],
+  ["He","finish","work at 6 p.m.",["finishes"]],
+  ["He","not / have","a girlfriend.",["does not have"]],
+  ["His sister","try","to find him a date online.",["tries"]],
+  ["Tom","watch","films every weekend.",["watches"]],
+  ["He","not / like","loud parties.",["does not like"]],
+  ["His parents","live","in a small village.",["live"]],
+  ["They","not / use","dating apps.",["do not use"]],
+  ["Tom","go","to the gym on Mondays.",["goes"]],
+  ["His sister","study","psychology at university.",["studies"]],
+  ["I","not / think","he's shy.",["do not think"]],
+  ["Tom","have","a dog called Max.",["has"]],
+ ]},
+ {type:'order',items:[
+  ["do / what / do / you","What do you do?"],
+  ["live / where / you / do","Where do you live?"],
+  ["you / like / do / cooking","Do you like cooking?"],
+  ["have / does / your sister / a boyfriend","Does your sister have a boyfriend?"],
+  ["you / do / free time / your / in / what / do","What do you do in your free time?"],
+  ["music / what kind of / you / listen to / do","What kind of music do you listen to?"],
+  ["your best friend / where / work / does","Where does your best friend work?"],
+  ["often / how / you / do / go out","How often do you go out?"],
+ ]},
+];
+const show={"does not have":"doesn't have","does not like":"doesn't like","do not use":"don't use","do not think":"don't think"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m/g,' am').replace(/'re/g,' are');
+  return s.replace(/\s+/g,' ').trim();
+}
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const state=[];
+S.forEach((sec,si)=>{
+  const box=document.querySelector('#s'+si), list=box.querySelector('.list');
+  if(sec.bank){const b=box.querySelector('.bank');sec.bank.slice().sort().forEach(w=>b.append(mk('span','',w)));}
+  state[si]=[];
+  sec.items.forEach((it,i)=>{
+    const li=mk('li','q');
+    if(sec.type==='choice'){
+      li.append(it[0]+' ');
+      const o=mk('span','opts');
+      it[1].forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;state[si][i]=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,' '+(it[3]==='.'?'':it[3]));
+    } else if(sec.type==='text'){
+      li.append(it[0]+' ');
+      const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');li.append(inp);
+      if(it[1]) li.append(' ',mk('span','hint','('+it[1]+')'));
+      li.append(/^[.!?]/.test(it[2])?it[2]:' '+it[2]);
+    } else {
+      li.append(mk('span','scramble',it[0]),mk('br'));
+      const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp);
+    }
+    li.append(mk('div','fix'));
+    list.append(li);
+  });
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{
+  let total=0,max=0;
+  S.forEach((sec,si)=>{
+    const lis=document.querySelectorAll('#s'+si+' li.q'); let sc=0;
+    sec.items.forEach((it,i)=>{
+      const li=lis[i], fix=li.querySelector('.fix'); let ok, right;
+      if(sec.type==='choice'){
+        const pick=state[si][i]; ok=pick===it[2]; right=it[1][it[2]];
+        li.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it[2])b.classList.add('right');else if(k===pick)b.classList.add('wrong');});
+      } else if(sec.type==='text'){
+        const inp=li.querySelector('input'); ok=it[3].includes(norm(inp.value)); right=it[3].map(a=>show[a]||a).filter((a,j,arr)=>!(a==='hardworking'||a==='hard working')).join(' / '); inp.readOnly=true;
+      } else {
+        const inp=li.querySelector('input'); ok=norm(inp.value)===norm(it[1]); right=it[1]; inp.readOnly=true;
+      }
+      li.dataset.done='1'; li.classList.add(ok?'ok':'bad');
+      fix.textContent=ok?'':'✗ Правильно: '+right;
+      if(ok)sc++;
+    });
+    document.querySelector('#s'+si+' .secscore').textContent=sc+' / '+sec.items.length;
+    total+=sc; max+=sec.items.length;
+  });
+  $('check').disabled=true; $('result').style.display='block';
+  $('score').textContent=total+' / '+max; $('result').scrollIntoView({behavior:'smooth'});
+};
+$('again').onclick=()=>{
+  document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';
+    const inp=li.querySelector('input'); if(inp){inp.value='';inp.readOnly=false;}
+    li.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));});
+  state.forEach(a=>a.length=0); document.querySelectorAll('.secscore').forEach(e=>e.textContent='');
+  $('check').disabled=false; $('result').style.display='none'; window.scrollTo({top:0,behavior:'smooth'});
+};
+</script>
+</body></html>
