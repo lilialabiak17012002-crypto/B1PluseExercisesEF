@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OMG! Where is my passport?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+</style>
+</head>
+<body><div class="wrap">
+<h1>OMG! Where is my passport?</h1><p class="sub">English File A2 · Vocabulary: holidays · Grammar: past simple (regular and irregular verbs)</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "choice", "n": 1, "title": "Holiday phrases", "task": "Choose the correct word.", "items": [{"t": "Last summer we went ___ to Spain. It was our first time outside our country.", "o": ["camping", "abroad", "out"], "c": 1}, {"t": "We didn't stay in a hotel. We went ___ in the mountains and slept in a tent.", "o": ["camping", "sightseeing", "sailing"], "c": 0}, {"t": "In Rome we went ___ and saw the Colosseum.", "o": ["swimming", "skiing", "sightseeing"], "c": 2}, {"t": "We went away ___ the weekend to the seaside.", "o": ["on", "for", "by"], "c": 1}, {"t": "I went to Kraków ___ train.", "o": ["by", "on", "in"], "c": 0}, {"t": "After dinner we went ___ a walk on the beach.", "o": ["on", "to", "for"], "c": 2}, {"t": "We booked our ___ online two months before the holiday.", "o": ["photos", "flights", "souvenirs"], "c": 1}, {"t": "We ___ a car at the airport and drove around the island.", "o": ["hired", "booked a", "spent"], "c": 0}, {"t": "I lay on the beach and ___ all day.", "o": ["went sightseeing", "went out", "sunbathed"], "c": 2}, {"t": "In Paris we ___ a lot of money on clothes!", "o": ["bought", "spent", "stayed"], "c": 1}, {"t": "We bought some ___ for our friends at home.", "o": ["souvenirs", "flights", "apartments"], "c": 0}, {"t": "We ___ a lot of photos of the old town.", "o": ["made", "did", "took"], "c": 2}]}, {"type": "choice", "n": 2, "title": "Adjectives", "task": "Choose the correct adjective.", "items": [{"t": "The hotel had a spa, three pools and a private beach. It was really ___.", "o": ["basic", "luxurious", "dirty"], "c": 1}, {"t": "The room only had a bed and a chair. It was very ___.", "o": ["basic", "luxurious", "comfortable"], "c": 0}, {"t": "The bed was big and soft. It was very ___.", "o": ["crowded", "dirty", "comfortable"], "c": 2}, {"t": "Nobody cleaned the bathroom. It was really ___.", "o": ["beautiful", "dirty", "luxurious"], "c": 1}, {"t": "There were thousands of people on the beach. It was very ___.", "o": ["crowded", "basic", "comfortable"], "c": 0}, {"t": "The view from our window was amazing! The mountains were ___.", "o": ["dirty", "crowded", "beautiful"], "c": 2}, {"t": "It was 35°C every day. The weather was really ___.", "o": ["cloudy", "hot", "foggy"], "c": 1}, {"t": "We couldn't see the sun at all. It was ___ all week.", "o": ["cloudy", "sunny", "hot"], "c": 0}]}, {"type": "explain", "html": "<h2><span class='num'>i</span>Past simple</h2><p>Використовуємо для <b>завершених дій у минулому</b>: <span class='ex'>yesterday, last summer, two days ago, in 2020</span>.</p><table><tr><th></th><th>Regular verbs</th><th>Irregular verbs</th></tr><tr><td><b>+</b></td><td>I <b>booked</b> a hotel.</td><td>We <b>went</b> abroad.</td></tr><tr><td><b>–</b></td><td>I <b>didn't book</b> a hotel.</td><td>We <b>didn't go</b> abroad.</td></tr><tr><td><b>?</b></td><td><b>Did</b> you <b>book</b> a hotel?</td><td><b>Did</b> you <b>go</b> abroad?</td></tr></table><p><b>Правопис -ed:</b> stay → stay<b>ed</b> · like → like<b>d</b> · stop → sto<b>pped</b> · stud<s>y</s> → stud<b>ied</b></p><p><b>Irregular verbs:</b> go → went · have → had · buy → bought · take → took · see → saw · leave → left · lose → lost · find → found</p><p>⚠️ Після <b>didn't</b> і <b>Did…?</b> дієслово <b>завжди в базовій формі</b>: <span class='ex'>I didn't <s>went</s> go. Did you <s>saw</s> see it?</span></p><p><b>was / were:</b> <span class='ex'>The hotel was nice. The beaches were crowded. It wasn't cheap. Were you tired?</span></p>"}, {"type": "text", "n": 3, "title": "Positive sentences", "task": "Complete the sentences with the past simple form of the verb in brackets.", "items": [{"t": "Last year we [go] to Italy.", "a": [["went"]]}, {"t": "We [stay] in a small hotel near the beach.", "a": [["stayed"]]}, {"t": "I [lose] my passport at the airport!", "a": [["lost"]]}, {"t": "Luckily, a man [find] it and [give] it back to me.", "a": [["found"], ["gave"]]}, {"t": "We [book] the flights online.", "a": [["booked"]]}, {"t": "My sister [buy] a lot of souvenirs.", "a": [["bought"]]}, {"t": "We [visit] three museums in two days.", "a": [["visited"]]}, {"t": "The weather [be] beautiful and the beaches [be] crowded.", "a": [["was"], ["were"]]}, {"t": "We [take] hundreds of photos.", "a": [["took"]]}, {"t": "My dad [stop] the car to look at the view.", "a": [["stopped"]]}, {"t": "I [study] Italian before the trip.", "a": [["studied"]]}, {"t": "We [leave] the hotel early and [have] breakfast in a café.", "a": [["left"], ["had"]]}]}, {"type": "text", "n": 4, "title": "Negative sentences", "task": "Complete the sentences with the past simple negative.", "items": [{"t": "We [not / go] abroad last summer.", "a": [["did not go"]]}, {"t": "I [not / like] the food in the hotel.", "a": [["did not like"]]}, {"t": "They [not / book] a hotel, so they slept in the car!", "a": [["did not book"]]}, {"t": "She [not / take] her passport with her.", "a": [["did not take"]]}, {"t": "We [not / see] the sea from our room.", "a": [["did not see"]]}, {"t": "He [not / buy] any souvenirs.", "a": [["did not buy"]]}, {"t": "The room [not / be] very comfortable.", "a": [["was not"]]}, {"t": "The people in the hotel [not / be] very friendly.", "a": [["were not"]]}, {"t": "I [not / find] my phone charger anywhere.", "a": [["did not find"]]}, {"t": "We [not / stay] for the whole week.", "a": [["did not stay"]]}]}, {"type": "text", "n": 5, "title": "Questions", "task": "Make past simple questions.", "items": [{"t": "Where [you / go] on holiday last year?", "a": [["did you go"]]}, {"t": "[you / have] a good time?", "a": [["did you have"]]}, {"t": "How [you / travel]? By plane?", "a": [["did you travel"]]}, {"t": "Where [you / stay]?", "a": [["did you stay"]]}, {"t": "What [you / do] in the evenings?", "a": [["did you do"]]}, {"t": "[she / find] her passport?", "a": [["did she find"]]}, {"t": "What [you / buy]?", "a": [["did you buy"]]}, {"t": "[the hotel / be] comfortable?", "a": [["was the hotel"]]}, {"t": "[your friends / be] with you?", "a": [["were your friends"]]}, {"t": "When [they / come] back home?", "a": [["did they come"]]}]}, {"type": "text", "n": 6, "title": "Mix: + – ?", "task": "Complete the dialogue with the past simple. Use +, – or ? forms.", "items": [{"t": "A: [you / enjoy] your holiday?", "a": [["did you enjoy"]]}, {"t": "B: Not really. On the first day I [lose] my bag.", "a": [["lost"]]}, {"t": "A: Oh no! [you / find] it?", "a": [["did you find"]]}, {"t": "B: No, I [not / find] it, but the hotel [find] it the next day.", "a": [["did not find"], ["found"]]}, {"t": "A: Great! What [you / do] after that?", "a": [["did you do"]]}, {"t": "B: We [go] sightseeing and [take] lots of photos.", "a": [["went"], ["took"]]}, {"t": "A: [the weather / be] good?", "a": [["was the weather"]]}, {"t": "B: No, it [not / be]. It [rain] every day!", "a": [["was not"], ["rained"]]}, {"t": "A: Where [you / stay]?", "a": [["did you stay"]]}, {"t": "B: In a hotel. It [be] very basic, and we [not / sleep] well.", "a": [["was"], ["did not sleep"]]}]}];
+const show={"is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ');
+  return s.replace(/\s+/g,' ').trim();
+}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp,' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const ok=acc.includes(norm(inp.value));inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script></body></html>
