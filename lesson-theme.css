@@ -24,7 +24,7 @@ h2 .num,.num{background:var(--navy);color:var(--butter);border-radius:9px}
 .explain .ex{color:var(--blue-ink)}
 
 /* word banks and options */
-.bank span{background:#FBEFC2;color:#5B4A12}
+.bank span{background:#FFF1C4;color:#5B4A12}
 .opt{border-color:#DDD3C3;background:var(--paper)}
 .opt.sel{border-color:var(--blue-ink);background:#EEF4FA}
 input[type=text],li.q select{border-color:#DDD3C3;background:var(--paper)}
