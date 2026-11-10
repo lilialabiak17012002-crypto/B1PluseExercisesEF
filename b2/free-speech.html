@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free speech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+</style>
+</head>
+<body><div class="wrap">
+<!-- site-nav --><style>.sitenav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.sitenav a{font:500 14px Poppins,system-ui,sans-serif;color:#6b7280;text-decoration:none;background:#fff;border-radius:999px;padding:6px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}.sitenav a:hover{color:#4f7cff}</style><nav class="sitenav"><a href="/b2">← Усі уроки B2</a><a href="/">Усі рівні</a></nav><!-- /site-nav -->
+
+<h1>Free speech</h1><p class="sub">B2 · Articles · Word pairs</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Articles: a / an, the, no article</h2><table><tr><th>Артикль</th><th>Коли</th><th>Приклад</th></tr><tr><td><b>a / an</b></td><td>згадуємо <b>вперше</b>; кажемо, <b>хто / що</b> це (професія, тип)</td><td><span class='ex'>My neighbour has got <b>a</b> dog and <b>a</b> cat. The dog is <b>an</b> Alsatian.</span></td></tr><tr><td><b>the</b></td><td>зрозуміло, <b>яке саме</b>: вже згадували, <b>єдине</b>, або наше</td><td><span class='ex'><b>The</b> dog is an Alsatian. Jack got into <b>the</b> car and drove to <b>the</b> town hall.</span></td></tr><tr><td><b>— (без артикля)</b></td><td>говоримо <b>загалом</b> про множину або незлічуване; у фразах <i>at home / work, go to bed, next / last week</i></td><td><span class='ex'><b>Children</b> are better than <b>adults</b> at technology. I don't like <b>sport</b>. Last night I came <b>home</b> and went to <b>bed</b>.</span></td></tr></table><h2 style='margin-top:18px'>Institutions</h2><p><b>school, hospital, prison, church, university</b>: <b>без артикля</b>, коли думаємо про <b>призначення</b> (навчатися, лікуватися, сидіти); з <b>a / the</b>, коли про <b>будівлю</b>.</p><p class='ex'>My dad's <b>in hospital</b>. (лікується) / They're building <b>a new hospital</b>.<br>He was sent <b>to prison</b>. / My grandma used to clean <b>the prison</b>.</p><h2 style='margin-top:18px'>Geographical names</h2><table><tr><th>Без the</th><th>З the</th></tr><tr><td>більшість <b>країн, континентів</b>, міст, островів, вулиць, парків, магазинів, ресторанів, <b>окремих гір і озер</b><br><span class='ex'>Ukraine, Africa, Kyiv, Sicily, Oxford Street, Central Park, Lake Victoria, Mount Everest</span></td><td><b>країни з Republic / Kingdom / States, множина</b>; <b>гірські хребти, річки, моря, океани, пустелі, групи островів</b>; <b>театри, кінотеатри, готелі, музеї, галереї</b><br><span class='ex'>the USA, the UK, the Netherlands, the Czech Republic, the Alps, the Dnipro, the Black Sea, the Sahara, the Canaries, the Louvre, the Hilton</span></td></tr></table><p><b style='color:#e5484d'>❗ the Ukraine ✗ → Ukraine ✓</b></p><p><b style='color:#e5484d'>❗ Загалом — без артикля:</b> <span class='ex'><s>The life is beautiful.</s> ✗ → Life is beautiful. ✓ &nbsp;<s>I love the dogs.</s> (загалом) ✗ → I love dogs. ✓</span></p>"}, {"type": "choice", "n": 1, "title": "Choose the correct article", "task": "Choose a / an, the or — (no article).", "items": [{"t": "Olena bought ___ new coat at the weekend.", "o": ["a", "the", "—"], "c": 0}, {"t": "The weather was awful, so we stayed at ___ home.", "o": ["a", "the", "—"], "c": 2}, {"t": "___ washing machine we bought last month has stopped working.", "o": ["A", "The", "—"], "c": 1}, {"t": "I love reading ___ detective stories.", "o": ["a", "the", "—"], "c": 2}, {"t": "Max was exhausted, so he went to ___ bed early.", "o": ["a", "the", "—"], "c": 2}, {"t": "I saw a man with a dog in the park. ___ dog was enormous.", "o": ["A", "The", "—"], "c": 1}, {"t": "The teachers are on strike, so the kids aren't going to ___ school.", "o": ["a", "the", "—"], "c": 2}, {"t": "Turn left right after ___ church and go up the hill.", "o": ["a", "the", "—"], "c": 1}, {"t": "My uncle is in ___ prison because he didn't pay his taxes.", "o": ["a", "the", "—"], "c": 2}, {"t": "People are angry because the council won't build ___ new school.", "o": ["a", "the", "—"], "c": 0}, {"t": "Visitors can't enter ___ hospital after 8 p.m.", "o": ["a", "the", "—"], "c": 1}]}, {"type": "text", "n": 2, "title": "Geographical names", "task": "Write the or — (no article).", "items": [{"t": "They're going to [?] USA to visit their cousins.", "a": [["the"]]}, {"t": "[?] Sicily is the largest island in [?] Mediterranean.", "a": [["—", "-", ""], ["the"]]}, {"t": "Kyiv is on [?] Dnipro.", "a": [["the"]]}, {"t": "We didn't have time to visit [?] Louvre when we were in Paris.", "a": [["the"]]}, {"t": "[?] Mount Hoverla is in [?] Carpathians.", "a": [["—", "-", ""], ["the"]]}, {"t": "The largest lake in the world is [?] Caspian Sea.", "a": [["the"]]}, {"t": "We stayed at [?] Grand Hotel while we were in Lviv.", "a": [["the"]]}, {"t": "I've always wanted to visit [?] India.", "a": [["—", "-", ""]]}, {"t": "[?] Netherlands is famous for tulips.", "a": [["The"]]}, {"t": "[?] Lake Baikal is the deepest lake in the world.", "a": [["—", "-", ""]]}]}, {"type": "order", "n": 3, "title": "Correct the mistakes", "task": "Each sentence has one mistake with articles. Write the correct sentence.", "items": [{"t": "The life is too short to worry about everything.", "a": ["Life is too short to worry about everything."]}, {"t": "My sister is the doctor at a hospital in Odesa.", "a": ["My sister is a doctor at a hospital in Odesa."]}, {"t": "We're going on holiday to the Spain next month.", "a": ["We're going on holiday to Spain next month."]}, {"t": "I usually have lunch at the work.", "a": ["I usually have lunch at work."]}, {"t": "Sun rises in the east.", "a": ["The sun rises in the east."]}, {"t": "Have you ever been to Alps?", "a": ["Have you ever been to the Alps?"]}]}, {"type": "explain", "html": "<h2><span class='num'>i</span>Word pairs</h2><p>Пари слів з <b>and</b> або <b>or</b> мають <b>сталий порядок</b>:</p><p class='ex'><b>thunder and lightning</b> (грім і блискавка), <b>pros and cons</b> (за і проти), <b>cause and effect</b> (причина й наслідок), <b>supply and demand</b> (попит і пропозиція), <b>short and sweet</b> (коротко і ясно), <b>peace and quiet</b> (тиша і спокій), <b>health and safety</b> (охорона здоров'я та безпека), <b>forgive and forget</b> (пробачити й забути), <b>live and learn</b> (вік живи — вік учись), <b>backwards and forwards</b> (туди-сюди), <b>black and white</b>, <b>salt and pepper</b>, <b>sooner or later</b>, <b>more or less</b>, <b>now and then</b>, <b>sick and tired</b>, <b>ups and downs</b></p><p><b style='color:#e5484d'>❗ Порядок НЕ змінюється:</b> <span class='ex'><s>lightning and thunder, cons and pros</s> ✗</span></p>"}, {"type": "match", "n": 4, "title": "Match", "task": "Match the questions with the responses.", "items": [["Did you hear the storm last night?", "Yes, the thunder and lightning woke me up."], ["Do you think I should accept the job?", "Weigh up the pros and cons first."], ["Why are you moving to the country?", "We're looking for some peace and quiet."], ["Why has the shop sold out of bread?", "I guess it's a question of supply and demand."], ["How was your meeting?", "Short and sweet. It only lasted ten minutes."], ["What did you do while you waited at the hospital?", "I walked backwards and forwards in the corridor."], ["Why does water boil when you heat it?", "It's the law of cause and effect."], ["What should I do about the argument with my sister?", "I'd forgive and forget if I were you."], ["Why is the playground closed?", "For health and safety reasons."], ["My bike was stolen because I didn't lock it.", "Oh well, you live and learn."]], "pool": ["For health and safety reasons.", "I guess it's a question of supply and demand.", "I walked backwards and forwards in the corridor.", "I'd forgive and forget if I were you.", "It's the law of cause and effect.", "Oh well, you live and learn.", "Short and sweet. It only lasted ten minutes.", "We're looking for some peace and quiet.", "Weigh up the pros and cons first.", "Yes, the thunder and lightning woke me up."]}, {"type": "text", "n": 5, "title": "Complete the word pairs", "task": "Complete the word pairs.", "items": [{"t": "I'm sick and [?] of hearing the same excuses.", "a": [["tired"]]}, {"t": "Every relationship has its ups and [?].", "a": [["downs"]]}, {"t": "Sooner or [?] you'll have to tell him the truth.", "a": [["later"]]}, {"t": "I've more or [?] finished my essay.", "a": [["less"]]}, {"t": "Could you pass the salt and [?], please?", "a": [["pepper"]]}, {"t": "I don't go to the cinema often, but now and [?] I see a film.", "a": [["then"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script></body></html>
