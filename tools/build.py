@@ -167,7 +167,7 @@ for folder, code, name, cls in LEVELS:
 home_body = ('<section class="hero"><div class="hero-text"><span class="pill pill-light">practice for our lessons · A1–B2</span>'
              '<h1>Let\'s make your <mark>practice</mark> perfect</h1>'
              '<p class="hero-sub">Open the exercise from our lesson, check your answers and send me your score.</p></div>' +
-             ('<figure class="hero-photo has-img"><img src="/img/hero.jpg" alt="Students studying English together around a table" width="640" height="340">'
+             ('<figure class="hero-photo has-img"><img src="/img/hero.jpg" alt="Illustration: students studying English grammar and vocabulary around a table" width="480" height="480">'
               if os.path.exists('img/hero.jpg') else '<figure class="hero-photo" aria-hidden="true"><span>photo</span>') +
              '<span class="sticker">one lesson<br>at a time</span></figure></section>\n'
              '<section class="section" id="levels"><div class="section-head"><span class="pill">General English</span>'
