@@ -20,8 +20,8 @@ LEVELS = [  # folder, code, name, colour class
     ('a1', 'A1', 'Elementary', 'c-blue'),
     ('a2', 'A2', 'Pre-Intermediate', 'c-butter'),
     ('b1-1', 'B1.1', 'Intermediate', 'c-blush'),
-    ('b1-2', 'B1.2', 'Intermediate', 'c-blue'),
-    ('b1-plus', 'B1+', 'Intermediate Plus', 'c-butter'),
+    ('b1-2', 'B1.2', 'Intermediate', 'c-peach'),
+    ('b1-plus', 'B1+', 'Intermediate Plus', 'c-cedar'),
     ('b2', 'B2', 'Upper Intermediate', 'c-wine'),
 ]
 COVER_CYCLE = ['c-blue', 'c-butter', 'c-blush', 'c-sand']
