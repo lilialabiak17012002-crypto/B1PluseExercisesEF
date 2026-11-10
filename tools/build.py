@@ -119,11 +119,15 @@ def units_html(cs):
         if u not in units:
             units[u] = []; order.append(('unit', u, None))
         units[u].append((m.group(2), m.group(3), h))
-    n = 0
+    n, cur_unit = 0, None
     for kind, a, b in order:
         n += 1
         if kind == 'single':
             out.append(lesson_card(n, a, b)); continue
+        unit_no = re.match(r'\d+', a).group()
+        if unit_no != cur_unit:
+            cur_unit = unit_no
+            out.append(f'<h2 class="unit-head">Unit {unit_no}</h2>')
         cover = COVER_CYCLE[(n - 1) % len(COVER_CYCLE)]
         links = ''.join(
             f'<a class="ulink" href="{h}"><span class="k">{k}</span><span class="t">{H.escape(t, quote=False)}</span>'
