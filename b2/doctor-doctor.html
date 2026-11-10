@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doctor, Doctor!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+</style>
+</head>
+<body><div class="wrap">
+<!-- site-nav --><style>.sitenav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.sitenav a{font:500 14px Poppins,system-ui,sans-serif;color:#6b7280;text-decoration:none;background:#fff;border-radius:999px;padding:6px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}.sitenav a:hover{color:#4f7cff}</style><nav class="sitenav"><a href="/b2">← Усі уроки B2</a><a href="/">Усі рівні</a></nav><!-- /site-nav -->
+
+<h1>Doctor, Doctor!</h1><p class="sub">B2 · Illnesses and injuries · Present perfect simple and continuous</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Illnesses and injuries</h2><table><tr><th>Симптоми / хвороби</th><th>Травми</th><th>Лікування</th></tr><tr><td><b>a rash</b>: висип<br><b>a cough</b>: кашель<br><b>sneeze</b>: чхати<br><b>a temperature</b>: температура<br><b>a headache</b>: головний біль<br><b>a sore throat</b>: біль у горлі<br><b>flu</b>: грип<br><b>a cold</b>: застуда<br><b>diarrhoea</b>: діарея<br><b>feel sick</b>: нудить<br><b>feel dizzy</b>: паморочиться в голові<br><b>be sick / throw up / vomit</b>: блювати<br><b>faint / pass out</b>: знепритомніти<br><b>food poisoning</b>: харчове отруєння<br><b>an allergic reaction</b>: алергічна реакція<br><b>high / low blood pressure</b>: високий / низький тиск</td><td><b>be bleeding</b>: кровоточити<br><b>a blister</b>: мозоля, пухир<br><b>a sprained ankle</b>: розтягнення щиколотки<br><b>swollen</b>: опухлий<br><b>cut yourself</b>: порізатися<br><b>burn yourself</b>: обпектися<br><b>choke</b>: подавитися<br><b>be unconscious</b>: бути без свідомості<br><b>My back hurts.</b>: болить спина</td><td><b>have stitches</b>: накласти шви<br><b>take antibiotics / painkillers</b>: пити антибіотики / знеболювальне<br><b>antihistamine</b>: антигістамінне<br><b>a plaster</b>: пластир<br><b>a bandage</b>: бинт, пов'язка<br><b>antiseptic cream</b>: антисептичний крем</td></tr></table><p><b>Фразові дієслова:</b> <span class='ex'><b>lie down</b> (прилягти), <b>pass out</b> (знепритомніти), <b>get over</b> (одужати після), <b>throw up</b> (блювати), <b>come round</b> (прийти до тями)</span></p><p><b style='color:#e5484d'>❗ have a temperature</b> = мати підвищену температуру (слово <i>high</i> не обов'язкове): <span class='ex'>She has a temperature.</span></p><p><b style='color:#e5484d'>❗ sick</b> у британській англійській часто означає «нудить / блювати»: <span class='ex'>I feel sick. I was sick twice.</span></p>"}, {"type": "text", "n": 1, "title": "Minor illnesses and injuries", "task": "Complete the words.", "items": [{"t": "After eating strawberries, he got a red r[?] all over his arms.", "a": [["ash"]]}, {"t": "I twisted my foot playing football, and now my ankle is very sw[?].", "a": [["ollen"]]}, {"t": "Don't stand near Olena. She's been s[?] all morning. She has a stomach bug.", "a": [["ick"]]}, {"t": "Quick, get a plaster! Your knee is bl[?].", "a": [["eeding"]]}, {"t": "My new boots are too small and now I have a big bl[?] on my heel.", "a": [["ister"]]}, {"t": "Bless you! Why are you sn[?] so much? Do you have an allergy?", "a": [["eezing"]]}, {"t": "He's had a terrible c[?] for a week. He can't stop coughing.", "a": [["ough"]]}, {"t": "I've been sitting at my computer all day and now my back h[?].", "a": [["urts"]]}, {"t": "Turn off the music, please. I have a terrible h[?].", "a": [["eadache"]]}, {"t": "The baby feels very hot. I think she has a t[?].", "a": [["emperature"]]}]}, {"type": "text", "n": 2, "title": "Complete the conversations", "task": "Complete the conversations with a word from the box.", "bank": ["allergic reaction", "blood pressure", "burnt", "choking", "food poisoning", "sprained", "unconscious"], "items": [{"t": "Patient: My face is red and itchy after I used that new cream. Doctor: It looks like an [?].", "a": [["allergic reaction"]]}, {"t": "Patient: What happened? Doctor: You fell off your bike and you were [?] for ten minutes.", "a": [["unconscious"]]}, {"t": "Patient: I slipped on the ice and now my wrist is huge. Doctor: You've probably [?] it.", "a": [["sprained"]]}, {"t": "Patient: I often get headaches and my heart beats very fast. Doctor: Let's check your [?].", "a": [["blood pressure"]]}, {"t": "Patient: I've been sick all night. I think it was the fish I ate. Doctor: You might have [?].", "a": [["food poisoning"]]}, {"t": "Patient: What should I do if someone is [?] on a piece of food? Doctor: Tell them to keep coughing.", "a": [["choking"]]}, {"t": "Patient: I touched the hot oven door. Doctor: Yes, you've [?] your hand quite badly.", "a": [["burnt", "burned"]]}]}, {"type": "match", "n": 3, "title": "Conditions and treatments", "task": "Match the conditions to the treatments.", "items": [["an allergic reaction", "take antihistamine tablets or cream"], ["a headache", "take painkillers"], ["an infection", "take antibiotics"], ["a deep, major cut", "have stitches"], ["a small, minor cut", "put antiseptic cream and a plaster on it"], ["a sprained ankle", "put ice on it and bandage it"]], "pool": ["have stitches", "put antiseptic cream and a plaster on it", "put ice on it and bandage it", "take antibiotics", "take antihistamine tablets or cream", "take painkillers"]}, {"type": "text", "n": 4, "title": "Phrasal verbs", "task": "Complete the sentences with a word from the box.", "bank": ["down", "out", "over", "round", "up"], "items": [{"t": "You look very pale. Why don't you go and lie [?] for a while?", "a": [["down"]]}, {"t": "It was so hot in the concert hall that two people passed [?].", "a": [["out"]]}, {"t": "It took me nearly a month to get [?] the flu.", "a": [["over"]]}, {"t": "Stop the bus! I think I'm going to throw [?]!", "a": [["up"]]}, {"t": "When she came [?], she didn't remember anything about the accident.", "a": [["round"]]}]}, {"type": "match", "n": 5, "title": "Vocabulary from reading", "task": "Match the words and phrases with their meanings.", "items": [["feel under the weather", "feel unwell or slightly sick"], ["heart rate", "the number of heartbeats per minute"], ["open-heart surgery", "an operation on the heart with the chest opened"], ["a not-insignificant number", "quite a lot, a considerable amount"], ["obsessively", "in a way that you can't stop thinking about something"], ["a life-threatening illness", "a disease that could kill you"], ["the worst-case scenario", "the most unpleasant thing that could possibly happen"], ["miracle cures", "treatments that promise amazing results"], ["self-deprecating", "making fun of yourself"], ["make something worse", "make a problem or situation more serious"]], "pool": ["a disease that could kill you", "an operation on the heart with the chest opened", "feel unwell or slightly sick", "in a way that you can't stop thinking about something", "make a problem or situation more serious", "making fun of yourself", "quite a lot, a considerable amount", "the most unpleasant thing that could possibly happen", "the number of heartbeats per minute", "treatments that promise amazing results"]}, {"type": "text", "n": 6, "title": "Use the new words", "task": "Complete the sentences with a phrase from the box.", "bank": ["heart rate", "life-threatening illness", "miracle cures", "open-heart surgery", "under the weather", "worst-case scenario"], "items": [{"t": "Don't believe websites that sell [?]. Nothing can cure everything in three days!", "a": [["miracle cures"]]}, {"t": "My watch shows that my [?] goes up to 160 when I run.", "a": [["heart rate"]]}, {"t": "Cyberchondriacs always imagine the [?]. A headache becomes a brain tumour!", "a": [["worst-case scenario"]]}, {"t": "Luckily, it wasn't a [?]. Just a bad infection.", "a": [["life-threatening illness"]]}, {"t": "I'm not going to the party. I'm feeling a bit [?].", "a": [["under the weather"]]}, {"t": "My grandfather had [?] last year, but he's doing well now.", "a": [["open-heart surgery"]]}]}, {"type": "explain", "html": "<h2><span class='num'>i</span>Present perfect simple і continuous</h2><table><tr><th>Present perfect simple<br>have / has + V3</th><th>Present perfect continuous<br>have / has + been + V-ing</th></tr><tr><td>1. <b>Досвід</b>, без точного часу (часто з <i>ever / never</i>):<br><span class='ex'>Have you ever <b>broken</b> a bone?</span><br>2. З <b>just, yet, already</b>:<br><span class='ex'>I've just <b>phoned</b> for an ambulance, but it <b>hasn't arrived</b> yet.</span><br>3. З <b>superlatives</b> і <b>the first / last time</b>:<br><span class='ex'>It's the best book I've ever <b>read</b>.</span><br>4. Закінчена дія з <b>результатом зараз</b>:<br><span class='ex'>My computer<b>'s crashed</b>!</span><br>5. <b>Non-action verbs</b> (be, know, like, need, have = мати) для того, що почалося в минулому і триває досі:<br><span class='ex'>I<b>'ve known</b> Miriam since I was a child.</span><br>6. <b>Скільки разів / скільки</b> (how much / how many / how often):<br><span class='ex'>How many novels <b>have</b> you <b>read</b>?</span></td><td>1. <b>Action verbs</b> (run, study, wait, cook): дія почалася в минулому і <b>досі триває</b>:<br><span class='ex'>How long <b>have</b> you <b>been waiting</b>?</span><br>2. <b>Повторювані</b> дії, часто з <i>all day, recently</i>:<br><span class='ex'>I <b>haven't been sleeping</b> well recently.</span><br>3. Довга дія, яка <b>щойно закінчилась</b> і має <b>видимий результат</b>:<br><span class='ex'>I'm exhausted. I<b>'ve been shopping</b> all morning.<br>My shoes are dirty. I<b>'ve been working</b> in the garden.</span></td></tr></table><p><b>Обидва часи</b> часто вживаємо з <i>How long…?, for, since, all day</i>.</p><h2 style='margin-top:18px'>Simple чи continuous?</h2><p>1️⃣ Незакінчена дія: <b>action verb</b> → continuous, <b>non-action verb</b> → simple:<br><span class='ex'>I<b>'ve been feeling</b> terrible for days. / He<b>'s liked</b> classical music since he was a teenager.</span></p><p>2️⃣ Деякі дієслова бувають і такими, і такими: <span class='ex'>She<b>'s been having</b> piano lessons (дія). / They<b>'ve had</b> that car for ten years (володіння).</span></p><p>3️⃣ З <b>live</b> і <b>work</b> підходять обидва часи. Continuous — для більш <b>тимчасового</b>: <span class='ex'>We<b>'ve lived</b> here since 1980. / We<b>'ve been living</b> in a rented flat for two months.</span></p><p>4️⃣ <b>Simple</b> = важливий <b>результат</b>, дія закінчена. <b>Continuous</b> = важливий <b>процес / тривалість</b>, дія може бути не завершена:<br><span class='ex'>I<b>'ve painted</b> the kitchen. (готово) / I<b>'ve been painting</b> the kitchen. (фарбувала, може, ще не закінчила)</span></p><p><b style='color:#e5484d'>❗ Тут НЕ вживаємо present simple / continuous:</b> <span class='ex'><s>I know Miriam since I was a child.</s> ✗ &nbsp;<s>I'm living here for three years.</s> ✗</span></p><p><b style='color:#e5484d'>❗ З кількістю разів або «скільки зроблено» — тільки simple:</b> <span class='ex'>I've read 100 pages. ✓ &nbsp;<s>I've been reading 100 pages.</s> ✗</span></p>"}, {"type": "choice", "n": 7, "title": "Right or wrong?", "task": "Choose the correct option. Choose ✓ both if both are possible.", "items": [{"t": "Don't worry, I ___ a taxi for you. It's coming in five minutes.", "o": ["'ve already ordered", "'ve already been ordering", "✓ both"], "c": 0}, {"t": "This is the first time I ___ an injection. I'm so nervous!", "o": ["'ve been having", "'ve had", "✓ both"], "c": 1}, {"t": "Oleh isn't at work today, because he ___ all night.", "o": ["'s been coughing", "'s coughed", "✓ both"], "c": 0}, {"t": "I play a lot of sport, but I ___ a bone.", "o": ["'ve never been breaking", "'ve never broken", "✓ both"], "c": 1}, {"t": "We can't make a salad, because we ___ of tomatoes.", "o": ["'ve run out", "'ve been running out", "✓ both"], "c": 0}, {"t": "How long ___ about the problem?", "o": ["have you been knowing", "have you known", "✓ both"], "c": 1}, {"t": "My brother ___ in Warsaw since 2020.", "o": ["has lived", "has been living", "✓ both"], "c": 2}, {"t": "How many times ___ the doctor this year?", "o": ["have you seen", "have you been seeing", "✓ both"], "c": 0}, {"t": "I ___ all morning. I've read 80 pages.", "o": ["'ve been reading", "'ve read", "✓ both"], "c": 0}, {"t": "Your eyes are red. ___?", "o": ["Have you been crying", "Have you cried", "✓ both"], "c": 0}]}, {"type": "text", "n": 8, "title": "Simple or continuous?", "task": "Complete the sentences using the words in brackets. Use the present perfect simple or continuous. Put the adverbs in the correct position.", "items": [{"t": "Anna is a bit scared. [she / fly / never] before.", "a": [["she's never flown", "she has never flown"]]}, {"t": "How many cups of coffee [you / drink] today?", "a": [["have you drunk"]]}, {"t": "Dad is very tired, because [he / not sleep] well recently.", "a": [["he hasn't been sleeping", "he has not been sleeping"]]}, {"t": "Ouch! [I / cut / just] my finger!", "a": [["I've just cut", "I have just cut"]]}, {"t": "[I / have] problems with my knee for several months now.", "a": [["I've had", "I have had"]]}, {"t": "She's one of the kindest people [I / meet / ever].", "a": [["I've ever met", "I have ever met"]]}, {"t": "[Max / not go] to the gym for long. Just two weeks.", "a": [["Max hasn't been going", "Max has not been going"]]}, {"t": "[Iryna / have] a cold for more than a week.", "a": [["Iryna has had", "Iryna's had"]]}, {"t": "How long [your brother / look for] a job?", "a": [["has your brother been looking for"]]}, {"t": "I got this book for my birthday, but [I / not read] it yet.", "a": [["I haven't read", "I have not read"]]}]}, {"type": "text", "n": 9, "title": "An email", "task": "Complete the email with the present perfect simple or continuous of the verbs in brackets.", "items": [{"t": "Hi Marta, sorry I [not write] for so long,", "a": [["haven't written", "have not written"]]}, {"t": "but I [not feel] very well lately.", "a": [["haven't been feeling", "have not been feeling"]]}, {"t": "I [have] a bad cold, and I'm only just getting over it.", "a": [["'ve had", "have had", "'ve been having", "have been having"]]}, {"t": "I [not go] to university for a week,", "a": [["haven't been", "haven't gone", "have not been", "have not gone"]]}, {"t": "and I [lie] in bed most of the time.", "a": [["'ve been lying", "have been lying"]]}, {"t": "My flatmate [cook] for me all week, which is really nice of her.", "a": [["'s been cooking", "has been cooking"]]}, {"t": "While I've been ill, I [think] about your visit,", "a": [["'ve been thinking", "have been thinking"]]}, {"t": "and I [come up with] a few ideas for things we can do.", "a": [["'ve come up with", "have come up with"]]}, {"t": "For the last few days I [try] to get tickets for a concert,", "a": [["'ve been trying", "have been trying"]]}, {"t": "but I [not manage] to get any yet. Write back soon!", "a": [["haven't managed", "have not managed"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script></body></html>
