@@ -36,8 +36,8 @@ DESC_OVERRIDE = {
     'a2/revise-present-simple-continuous': 'Revision: present simple and present continuous',
 }
 
-GROUPED = {'b1-1'}  # Roadmap-style: one card per sub-unit (1A, 1B…) with Vocabulary / Grammar
-UNIT_RE = re.compile(r'^(\d+[A-Z])\s+(Vocabulary|Grammar)\s*:\s*(.*)$')
+GROUPED = {'b1-1': 'Unit', 'b1-2': 'File'}  # one card per sub-unit (1A, 1B…) with Vocabulary / Grammar; value = heading word
+UNIT_RE = re.compile(r'^(\d+[A-Z])\s+(?:(.+?)\s+·\s+)?(Vocabulary|Grammar)\s*:\s*(.*)$')
 KIND_ORDER = {'Vocabulary': 0, 'Grammar': 1}
 
 
@@ -112,7 +112,7 @@ def lesson_card(i, href, title):
             + (f'<span class="ldesc">{H.escape(d, quote=False)}</span>' if d else '') + '</span></a>')
 
 
-def units_html(cs):
+def units_html(cs, head_word='Unit'):
     units, order, out = {}, [], []
     for h, t in cs:
         m = UNIT_RE.match(t)
@@ -120,8 +120,8 @@ def units_html(cs):
             order.append(('single', h, t)); continue
         u = m.group(1)
         if u not in units:
-            units[u] = []; order.append(('unit', u, None))
-        units[u].append((m.group(2), m.group(3), h))
+            units[u] = []; order.append(('unit', u, m.group(2)))
+        units[u].append((m.group(3), m.group(4), h))
     n, cur_unit = 0, None
     for kind, a, b in order:
         n += 1
@@ -130,14 +130,15 @@ def units_html(cs):
         unit_no = re.match(r'\d+', a).group()
         if unit_no != cur_unit:
             cur_unit = unit_no
-            out.append(f'<h2 class="unit-head">Unit {unit_no}</h2>')
+            out.append(f'<h2 class="unit-head">{head_word} {unit_no}</h2>')
         cover = COVER_CYCLE[(n - 1) % len(COVER_CYCLE)]
         links = ''.join(
             f'<a class="ulink" href="{h}"><span class="k">{k}</span><span class="t">{H.escape(t, quote=False)}</span>'
             f'<span class="arr" aria-hidden="true">→</span></a>'
             for k, t, h in sorted(units[a], key=lambda x: KIND_ORDER[x[0]]))
+        topic = f'<div class="utopic">{H.escape(b, quote=False)}</div>' if b else ''
         out.append(f'<div class="ucard"><div class="lcover {cover}"><span class="lnum">{a}</span></div>'
-                   f'<div class="ulinks">{links}</div></div>')
+                   f'<div class="ubody">{topic}<div class="ulinks">{links}</div></div></div>')
     return '\n'.join(out)
 
 
@@ -148,7 +149,7 @@ for folder, code, name, cls, section in LEVELS:
     if not cs:
         listing = '<p class="empty">Lessons coming soon.</p>'
     elif folder in GROUPED:
-        listing = f'<div class="ugrid">\n{units_html(cs)}\n</div>'
+        listing = f'<div class="ugrid">\n{units_html(cs, GROUPED[folder])}\n</div>'
     else:
         listing = '<div class="lgrid">\n' + '\n'.join(lesson_card(i, h, t) for i, (h, t) in enumerate(cs, 1)) + '\n</div>'
     count = f'<span class="lvl-count">{plural_uroky(len(cs))}</span>' if cs else ''
