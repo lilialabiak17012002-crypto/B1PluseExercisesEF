@@ -42,16 +42,14 @@ KIND_ORDER = {'Vocabulary': 0, 'Grammar': 1}
 
 
 def plural_uroky(n):
-    if n % 10 == 1 and n % 100 != 11: return f'{n} урок'
-    if 2 <= n % 10 <= 4 and not 12 <= n % 100 <= 14: return f'{n} уроки'
-    return f'{n} уроків'
+    return f'{n} lesson' if n == 1 else f'{n} lessons'
 
 
 def header_html():
     return (f'<header class="site-header"><div class="hwrap">'
             f'<a class="brand" href="/"><span class="logo-slot" aria-hidden="true">logo</span>'
             f'<span class="brand-name">{SITE_NAME}</span></a>'
-            f'<nav class="hnav"><a href="/#levels">Рівні</a><a href="#contacts">Контакти</a></nav>'
+            f'<nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav>'
             f'</div></header>')
 
 
@@ -70,7 +68,7 @@ def footer_html():
 
 
 def page(title, body):
-    return (f'<!DOCTYPE html>\n<html lang="uk"><head>\n<meta charset="utf-8">\n'
+    return (f'<!DOCTYPE html>\n<html lang="en"><head>\n<meta charset="utf-8">\n'
             f'<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>{title}</title>\n'
             f'{FONTS}\n<link rel="stylesheet" href="/chrome.css">\n<link rel="stylesheet" href="/site.css">\n'
             f'</head>\n<body>\n{header_html()}\n<main class="wrap">\n{body}\n</main>\n{footer_html()}\n</body></html>\n')
@@ -109,7 +107,7 @@ def lesson_card(i, href, title):
     d = desc(href)
     cover = COVER_CYCLE[(i - 1) % len(COVER_CYCLE)]
     return (f'<a class="lcard" href="{href}"><span class="lcover {cover}"><span class="lnum">{i:02d}</span></span>'
-            f'<span class="lbody"><span class="lkicker">Урок {i}</span>'
+            f'<span class="lbody"><span class="lkicker">Lesson {i}</span>'
             f'<span class="ltitle">{H.escape(title, quote=False)}</span>'
             + (f'<span class="ldesc">{H.escape(d, quote=False)}</span>' if d else '') + '</span></a>')
 
@@ -148,13 +146,13 @@ for folder, code, name, cls, section in LEVELS:
     os.makedirs(folder, exist_ok=True)
     cs = cards(folder)
     if not cs:
-        listing = '<p class="empty">Уроки скоро з\'являться.</p>'
+        listing = '<p class="empty">Lessons coming soon.</p>'
     elif folder in GROUPED:
         listing = f'<div class="ugrid">\n{units_html(cs)}\n</div>'
     else:
         listing = '<div class="lgrid">\n' + '\n'.join(lesson_card(i, h, t) for i, (h, t) in enumerate(cs, 1)) + '\n</div>'
     count = f'<span class="lvl-count">{plural_uroky(len(cs))}</span>' if cs else ''
-    body = (f'<a class="back" href="/">← Усі рівні</a>\n'
+    body = (f'<a class="back" href="/">← All levels</a>\n'
             f'<section class="lvl-hero {cls}"><span class="pill">{section}</span>'
             f'<div class="lvl-code">{code}</div><h1>{name}</h1>{count}</section>\n'
             f'{source_block(cs)}\n{listing}')
@@ -173,7 +171,7 @@ for folder, code, name, cls, section in LEVELS:
                      f'<span class="tmeta"><span class="name">{name}</span><span class="count">{plural_uroky(n)}</span></span></a>')
     else:
         tiles[section].append(f'<div class="tile soon"><span class="code{long}">{code}</span>'
-                     f'<span class="tmeta"><span class="pill">скоро</span><span class="name">{name}</span></span></div>')
+                     f'<span class="tmeta"><span class="pill">soon</span><span class="name">{name}</span></span></div>')
 home_body = ('<section class="hero"><div class="hero-text"><span class="pill pill-light">practice for our lessons · A1–C1</span>'
              '<h1>Let\'s make your <mark>practice</mark> perfect</h1>'
              '<p class="hero-sub">Open the exercise from our lesson, check your answers and send me your score.</p></div>' +
@@ -216,8 +214,8 @@ for folder, code, name, cls, section in LEVELS:
                                  f'<link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->\n</head>', 1)
         s = s.replace('<body><div class="wrap">',
                       f'<body>\n<!-- site-header -->{header_html()}<!-- /site-header -->\n<div class="wrap">\n'
-                      f'<!-- site-nav --><nav class="sitenav"><a href="/{folder}">← Усі уроки {code}</a>'
-                      f'<a href="/">Усі рівні</a></nav><!-- /site-nav -->\n', 1)
+                      f'<!-- site-nav --><nav class="sitenav"><a href="/{folder}">← All {code} lessons</a>'
+                      f'<a href="/">All levels</a></nav><!-- /site-nav -->\n', 1)
         s = s.replace('</body>', f'\n<!-- site-footer -->{footer_html()}<!-- /site-footer -->\n</body>', 1)
         open(f, 'w').write(s)
 print('ok')
