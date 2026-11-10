@@ -16,14 +16,19 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600'
          '&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">')
 
-LEVELS = [  # folder, code, name, colour class
-    ('a1', 'A1', 'Elementary', 'c-blue'),
-    ('a2', 'A2', 'Pre-Intermediate', 'c-butter'),
-    ('b1-1', 'B1.1', 'Intermediate', 'c-blush'),
-    ('b1-2', 'B1.2', 'Intermediate', 'c-peach'),
-    ('b1-plus', 'B1+', 'Intermediate Plus', 'c-cedar'),
-    ('b2', 'B2', 'Upper Intermediate', 'c-wine'),
+GE, BE = 'General English', 'Business English'
+LEVELS = [  # folder, code, name, colour class, section
+    ('a1', 'A1', 'Elementary', 'c-blue', GE),
+    ('a2', 'A2', 'Pre-Intermediate', 'c-butter', GE),
+    ('b1-1', 'B1.1', 'Intermediate', 'c-blush', GE),
+    ('b1-2', 'B1.2', 'Intermediate', 'c-peach', GE),
+    ('b1-plus', 'B1+', 'Intermediate Plus', 'c-cedar', GE),
+    ('b2', 'B2', 'Upper Intermediate', 'c-wine', GE),
+    ('business-a2-b1', 'A2–B1', 'Pre-Intermediate to Intermediate', 'c-blue', BE),
+    ('business-b1-b2', 'B1–B2', 'Intermediate to Upper Intermediate', 'c-butter', BE),
+    ('business-b2-c1', 'B2–C1', 'Upper Intermediate to Advanced', 'c-blush', BE),
 ]
+SECTIONS = [(GE, 'Choose your level'), (BE, 'English for work')]
 COVER_CYCLE = ['c-blue', 'c-butter', 'c-blush', 'c-sand']
 
 DESC_OVERRIDE = {
@@ -61,7 +66,7 @@ def footer_html():
             '<div class="fcol"><h4>Info</h4>'
             '<a href="/terms">Terms &amp; Conditions</a></div>'
             '</div><div class="fbottom"><span>© 2026 Liliia Labiak</span>'
-            '<span>English practice · A1–B2</span></div></footer>')
+            '<span>English practice · A1–C1</span></div></footer>')
 
 
 def page(title, body):
@@ -139,7 +144,7 @@ def units_html(cs):
 
 
 # ---------- level pages ----------
-for folder, code, name, cls in LEVELS:
+for folder, code, name, cls, section in LEVELS:
     os.makedirs(folder, exist_ok=True)
     cs = cards(folder)
     if not cs:
@@ -150,32 +155,34 @@ for folder, code, name, cls in LEVELS:
         listing = '<div class="lgrid">\n' + '\n'.join(lesson_card(i, h, t) for i, (h, t) in enumerate(cs, 1)) + '\n</div>'
     count = f'<span class="lvl-count">{plural_uroky(len(cs))}</span>' if cs else ''
     body = (f'<a class="back" href="/">← Усі рівні</a>\n'
-            f'<section class="lvl-hero {cls}"><span class="pill">General English</span>'
+            f'<section class="lvl-hero {cls}"><span class="pill">{section}</span>'
             f'<div class="lvl-code">{code}</div><h1>{name}</h1>{count}</section>\n'
             f'{source_block(cs)}\n{listing}')
     open(f'{folder}/index.html', 'w').write(page(f'{code} {name} · {SITE_NAME}', body))
 
 # ---------- home page ----------
-tiles = []
-for folder, code, name, cls in LEVELS:
+tiles = {sec: [] for sec, _ in SECTIONS}
+for folder, code, name, cls, section in LEVELS:
+    long = ' long' if len(code) > 4 else ''
     n = len(cards(folder))
     photo = next((p for p in glob.glob(f'img/levels/{folder}.*')), None)
     style = f' style="--photo:url(/{photo})"' if photo else ''
     extra = ' has-photo' if photo else ''
     if n:
-        tiles.append(f'<a class="tile {cls}{extra}" href="/{folder}"{style}><span class="code">{code}</span>'
+        tiles[section].append(f'<a class="tile {cls}{extra}" href="/{folder}"{style}><span class="code{long}">{code}</span>'
                      f'<span class="tmeta"><span class="name">{name}</span><span class="count">{plural_uroky(n)}</span></span></a>')
     else:
-        tiles.append(f'<div class="tile soon"><span class="code">{code}</span>'
+        tiles[section].append(f'<div class="tile soon"><span class="code{long}">{code}</span>'
                      f'<span class="tmeta"><span class="pill">скоро</span><span class="name">{name}</span></span></div>')
-home_body = ('<section class="hero"><div class="hero-text"><span class="pill pill-light">practice for our lessons · A1–B2</span>'
+home_body = ('<section class="hero"><div class="hero-text"><span class="pill pill-light">practice for our lessons · A1–C1</span>'
              '<h1>Let\'s make your <mark>practice</mark> perfect</h1>'
              '<p class="hero-sub">Open the exercise from our lesson, check your answers and send me your score.</p></div>' +
              ('<figure class="hero-photo has-img"><img src="/img/hero.jpg" alt="Illustration: students studying English grammar and vocabulary around a table" width="480" height="480">'
               if os.path.exists('img/hero.jpg') else '<figure class="hero-photo" aria-hidden="true"><span>photo</span>') +
              '<img class="sticker-img" src="/img/sticker.png" width="290" height="155" alt="A little practice goes a long way. You\'ve got this!"></figure></section>\n'
-             '<section class="section" id="levels"><div class="section-head"><span class="pill">General English</span>'
-             '<h2>Choose your level</h2></div>\n<div class="tiles">\n' + '\n'.join(tiles) + '\n</div></section>')
+             + '\n'.join(f'<section class="section"{" id=\"levels\"" if i == 0 else ""}><div class="section-head"><span class="pill">{sec}</span>'
+                         f'<h2>{h}</h2></div>\n<div class="tiles">\n' + '\n'.join(tiles[sec]) + '\n</div></section>'
+                         for i, (sec, h) in enumerate(SECTIONS)))
 open('index.html', 'w').write(page(SITE_NAME, home_body))
 
 # ---------- terms page ----------
@@ -200,7 +207,7 @@ open('terms.html', 'w').write(page(f'Terms & Conditions · {SITE_NAME}', terms_b
 # ---------- lesson pages: theme, header, nav, footer ----------
 MARK = re.compile(r'\n?<!-- site-(?:nav|header|footer) -->.*?<!-- /site-(?:nav|header|footer) -->\n?', re.S)
 HEADMARK = re.compile(r'<!-- site-head -->.*?<!-- /site-head -->\n', re.S)
-for folder, code, name, cls in LEVELS:
+for folder, code, name, cls, section in LEVELS:
     for f in glob.glob(f'{folder}/*.html'):
         if f.endswith('index.html'): continue
         s = HEADMARK.sub('', MARK.sub('', open(f).read()))

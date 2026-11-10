@@ -104,3 +104,8 @@ h1,h2,.tile .code,.lvl-hero .lvl-code,.lcover .lnum,.ltitle,.ulink .t,.doc h2{fo
 .unit-head{font-size:30px;margin:22px 0 2px;display:flex;align-items:center;gap:14px}
 .unit-head::after{content:"";flex:1;height:1px;background:var(--line)}
 .ugrid>.unit-head:first-child{margin-top:0}
+
+/* longer level codes (Business English: A2–B1 …) */
+.tile .code.long{font-size:44px;letter-spacing:-.03em}
+.section+.section{margin-top:48px}
+@media (max-width:640px){.tile .code.long{font-size:36px}}
