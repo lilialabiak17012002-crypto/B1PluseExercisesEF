@@ -44,3 +44,12 @@ input[type=text]:focus{border-color:var(--blue-ink)}
 @media (prefers-reduced-motion:reduce){#score::after{animation:none}}
 @media (max-width:640px){.wrap>h1{font-size:36px}}
 #score,.wrap>h1{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+
+/* after the score: the brand sticker */
+#result::after{content:"a little practice\A goes a long way";white-space:pre;text-align:center;display:block;width:max-content;margin:22px auto 0;
+  font:italic 600 24px/1.1 var(--serif);color:var(--wine);transform:rotate(-3deg)}
+#result .btns::after{content:"you've got this!";position:absolute;left:50%;bottom:-120px;transform:translateX(-50%) rotate(3deg);
+  font:700 14px/1 var(--sans);letter-spacing:.02em;color:var(--navy);background:var(--butter);padding:7px 12px;border-radius:6px;
+  box-shadow:0 6px 14px rgba(42,37,34,.14);white-space:nowrap}
+#result{position:relative;padding-bottom:70px}
+#result .btns{position:relative}

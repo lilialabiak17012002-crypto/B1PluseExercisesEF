@@ -42,3 +42,7 @@ mark{background:linear-gradient(transparent 12%,var(--butter) 12%,var(--butter) 
   .site-header .hnav{gap:14px}
   .site-header .brand-name{font-size:19px}
 }
+
+/* brand phrase: "you've got this!" as a butter label under the sticker text */
+.sticker b{display:block;width:max-content;margin:10px 0 0 18px;font:700 15px/1 var(--sans);letter-spacing:.02em;font-style:normal;
+  color:var(--navy);background:var(--butter);padding:7px 12px;border-radius:6px;transform:rotate(4deg);text-shadow:none;box-shadow:0 6px 14px rgba(0,0,0,.18)}
