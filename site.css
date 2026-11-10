@@ -114,3 +114,10 @@ h1,h2,.tile .code,.lvl-hero .lvl-code,.lcover .lnum,.ltitle,.ulink .t,.doc h2{fo
 .ubody{display:flex;flex-direction:column;min-width:0}
 .utopic{font:italic 600 22px/1.2 var(--serif);padding:16px 20px 12px;border-bottom:1px solid var(--line)}
 .ubody .ulinks{flex:1}
+
+/* any number of buttons per sub-unit (Vocabulary / Grammar / Additional grammar) */
+.ulinks{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
+.ulink.extra .k{color:#9A6B12}
+.ulink.extra{background:#FDF8E6}
+.ulink.extra:hover{background:#FBEFC2}
+@media (max-width:640px){.ulinks{grid-auto-flow:row}}

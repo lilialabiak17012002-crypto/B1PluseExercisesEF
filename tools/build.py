@@ -36,9 +36,9 @@ DESC_OVERRIDE = {
     'a2/revise-present-simple-continuous': 'Revision: present simple and present continuous',
 }
 
-GROUPED = {'b1-1': 'Unit', 'b1-2': 'File'}  # one card per sub-unit (1A, 1B…) with Vocabulary / Grammar; value = heading word
-UNIT_RE = re.compile(r'^(\d+[A-Z])\s+(?:(.+?)\s+·\s+)?(Vocabulary|Grammar)\s*:\s*(.*)$')
-KIND_ORDER = {'Vocabulary': 0, 'Grammar': 1}
+GROUPED = {'b1-1': 'Unit', 'b1-2': 'File', 'a1': 'File'}  # one card per sub-unit (1A, 1B…) with Vocabulary / Grammar; value = heading word
+UNIT_RE = re.compile(r'^(\d+[A-Z])\s+(?:(.+?)\s+·\s+)?(Vocabulary|Grammar|Additional Grammar)\s*:\s*(.*)$')
+KIND_ORDER = {'Vocabulary': 0, 'Grammar': 1, 'Additional Grammar': 2}
 
 
 def plural_uroky(n):
@@ -121,6 +121,8 @@ def units_html(cs, head_word='Unit'):
         u = m.group(1)
         if u not in units:
             units[u] = []; order.append(('unit', u, m.group(2)))
+        elif m.group(2) and not next(o for o in order if o[0] == 'unit' and o[1] == u)[2]:
+            i = next(i for i, o in enumerate(order) if o[0] == 'unit' and o[1] == u); order[i] = ('unit', u, m.group(2))
         units[u].append((m.group(3), m.group(4), h))
     n, cur_unit = 0, None
     for kind, a, b in order:
@@ -133,7 +135,7 @@ def units_html(cs, head_word='Unit'):
             out.append(f'<h2 class="unit-head">{head_word} {unit_no}</h2>')
         cover = COVER_CYCLE[(n - 1) % len(COVER_CYCLE)]
         links = ''.join(
-            f'<a class="ulink" href="{h}"><span class="k">{k}</span><span class="t">{H.escape(t, quote=False)}</span>'
+            f'<a class="ulink{" extra" if k.startswith("Additional") else ""}" href="{h}"><span class="k">{k}</span><span class="t">{H.escape(t, quote=False)}</span>'
             f'<span class="arr" aria-hidden="true">→</span></a>'
             for k, t, h in sorted(units[a], key=lambda x: KIND_ORDER[x[0]]))
         topic = f'<div class="utopic">{H.escape(b, quote=False)}</div>' if b else ''
