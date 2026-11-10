@@ -28,7 +28,7 @@ LEVELS = [  # folder, code, name, colour class, section
     ('business-b1-b2', 'B1–B2', 'Intermediate to Upper Intermediate', 'c-butter', BE),
     ('business-b2-c1', 'B2–C1', 'Upper Intermediate to Advanced', 'c-blush', BE),
 ]
-SECTIONS = [(GE, 'Choose your level'), (BE, 'English for work')]
+SECTIONS = [(GE, 'English for life'), (BE, 'English for work')]
 COVER_CYCLE = ['c-blue', 'c-butter', 'c-blush', 'c-sand']
 
 DESC_OVERRIDE = {
