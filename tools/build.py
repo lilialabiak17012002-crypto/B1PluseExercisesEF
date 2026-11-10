@@ -29,6 +29,11 @@ LEVELS = [  # folder, code, name, colour class, section
     ('business-b2-c1', 'B2–C1', 'Upper Intermediate to Advanced', 'c-blush', BE),
 ]
 SECTIONS = [(GE, 'English for life'), (BE, 'English for work')]
+STICKER = {GE: ('climb', 'Sticker: a student climbing a staircase of books'), BE: ('desk', 'Sticker: a student working at a laptop')}
+
+def sticker(sec):
+    f, alt = STICKER[sec]
+    return f'<img class="dc-sticker" src="/img/stickers/{f}.png" alt="{alt}" loading="lazy">' if os.path.exists(f'img/stickers/{f}.png') else ''
 COVER_CYCLE = ['c-blue', 'c-butter', 'c-blush', 'c-sand']
 
 DESC_OVERRIDE = {
@@ -157,7 +162,7 @@ for folder, code, name, cls, section in LEVELS:
     count = f'<span class="lvl-count">{plural_uroky(len(cs))}</span>' if cs else ''
     body = (f'<a class="back" href="/">← All levels</a>\n'
             f'<section class="lvl-hero {cls}"><span class="pill">{section}</span>'
-            f'<div class="lvl-code">{code}</div><h1>{name}</h1>{count}</section>\n'
+            f'<div class="lvl-code">{code}</div><h1>{name}</h1>{count}{sticker(section)}</section>\n'
             f'{source_block(cs)}\n{listing}')
     open(f'{folder}/index.html', 'w').write(page(f'{code} {name} · {SITE_NAME}', body))
 
@@ -182,7 +187,7 @@ home_body = ('<section class="hero"><div class="hero-text"><span class="pill pil
               if os.path.exists('img/hero.jpg') else '<figure class="hero-photo" aria-hidden="true"><span>photo</span>') +
              '<img class="sticker-img" src="/img/sticker.png" width="290" height="155" alt="A little practice goes a long way. You\'ve got this!"></figure></section>\n'
              + '\n'.join(f'<section class="section"{" id=\"levels\"" if i == 0 else ""}><div class="section-head"><span class="pill">{sec}</span>'
-                         f'<h2>{h}</h2></div>\n<div class="tiles">\n' + '\n'.join(tiles[sec]) + '\n</div></section>'
+                         f'<h2>{h}</h2>{sticker(sec)}</div>\n<div class="tiles">\n' + '\n'.join(tiles[sec]) + '\n</div></section>'
                          for i, (sec, h) in enumerate(SECTIONS)))
 open('index.html', 'w').write(page(SITE_NAME, home_body))
 

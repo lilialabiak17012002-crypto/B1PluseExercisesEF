@@ -26,8 +26,8 @@ a.tile:hover{transform:translateY(-3px) rotate(-.4deg);box-shadow:0 14px 28px rg
 .tile .tmeta{display:flex;flex-direction:column;gap:2px}
 .tile .name{font:600 14px/1.3 var(--sans)}
 .tile .count{font:500 13px var(--sans);opacity:.75}
-.tile.soon{background:transparent;border:1.5px dashed #CDBFA8;color:#A39787}
-.tile.soon .pill{align-self:flex-start;font-size:12px;padding:3px 10px;margin-bottom:8px}
+.tile.soon{background:transparent;border:1.5px solid #E8DFCF;color:#A39787}
+.tile.soon .pill{align-self:flex-start;font-size:10.5px;padding:6px 12px;margin-bottom:10px;background:#EFE5D2;color:#8A7F72}
 .tile.has-photo{color:#fff;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,.55)),var(--photo) center/cover}
 
 .c-blue{background:var(--baby)} .c-butter{background:var(--butter)} .c-blush{background:var(--blush)}
@@ -38,7 +38,7 @@ a.tile:hover{transform:translateY(-3px) rotate(-.4deg);box-shadow:0 14px 28px rg
 .back{display:inline-block;font:500 14px var(--sans);color:var(--muted);text-decoration:none;border-bottom:1.5px solid transparent;margin-bottom:18px}
 .back:hover{color:var(--ink);border-bottom-color:var(--butter-deep)}
 .lvl-hero{border-radius:26px;padding:34px 36px;display:grid;grid-template-columns:auto 1fr;grid-template-areas:"pill pill" "code title" "code count";column-gap:24px;align-items:end;margin-bottom:30px}
-.lvl-hero .pill{grid-area:pill;justify-self:start;margin-bottom:14px;color:inherit;border-color:currentColor;opacity:.7}
+.lvl-hero .pill{grid-area:pill;justify-self:start;margin-bottom:16px}
 .lvl-hero .lvl-code{grid-area:code;font:600 96px/.9 var(--serif);letter-spacing:-.03em}
 .lvl-hero h1{grid-area:title;font-size:42px;line-height:1.05}
 .lvl-hero .lvl-count{grid-area:count;font:500 14px var(--sans);opacity:.75;margin-top:4px}
@@ -65,7 +65,7 @@ a.tile:hover{transform:translateY(-3px) rotate(-.4deg);box-shadow:0 14px 28px rg
 .ulink .t{font:600 21px/1.2 var(--serif);padding-right:22px}
 .ulink .arr{position:absolute;right:18px;top:18px;color:var(--muted)}
 .ulink:hover{background:#FBF3D6}
-.empty{font:italic 500 22px var(--serif);color:var(--muted);border:1.5px dashed #CDBFA8;border-radius:20px;padding:28px}
+.empty{font:italic 500 22px var(--serif);color:var(--muted);border:1.5px solid #E8DFCF;border-radius:20px;padding:28px}
 
 @media (max-width:640px){
   .wrap{padding-top:20px}
@@ -121,3 +121,15 @@ h1,h2,.tile .code,.lvl-hero .lvl-code,.lcover .lnum,.ltitle,.ulink .t,.doc h2{fo
 .ulink.extra{background:#FDF8E6}
 .ulink.extra:hover{background:#FBEFC2}
 @media (max-width:640px){.ulinks{grid-auto-flow:row}}
+
+/* die-cut illustration stickers (home sections + level pages only) */
+.dc-sticker{display:block;height:auto;filter:drop-shadow(0 8px 12px rgba(42,37,34,.20));pointer-events:none}
+.section-head{position:relative}
+.section-head .dc-sticker{position:absolute;right:6px;bottom:-4px;width:136px;transform:rotate(4deg)}
+.lvl-hero{position:relative}
+.lvl-hero .dc-sticker{position:absolute;right:34px;bottom:-26px;width:200px;transform:rotate(-4deg)}
+.lvl-hero .pill{background:var(--paper)}
+@media (max-width:640px){
+  .section-head .dc-sticker{display:none}
+  .lvl-hero .dc-sticker{width:84px;right:10px;bottom:auto;top:-28px}
+}
