@@ -43,3 +43,14 @@ a.card:hover{border-color:var(--blue);transform:translateX(2px)}
 a.card .ct{display:flex;flex-direction:column;gap:2px;min-width:0}
 a.card .t{font-weight:600}
 a.card .d{font-size:14px;font-weight:400;color:var(--muted);line-height:1.4}
+
+/* Roadmap units: one card per sub-unit with Vocabulary / Grammar buttons */
+.unit{display:flex;gap:14px;align-items:stretch;background:var(--card);border-radius:16px;padding:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:10px}
+.unit-code{flex:none;width:58px;border-radius:12px;background:#eef2ff;color:var(--blue);font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center}
+.unit-links{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px;min-width:0}
+.ulink{display:flex;flex-direction:column;gap:2px;border:2px solid var(--line);border-radius:12px;padding:10px 14px;text-decoration:none;color:var(--ink);transition:border-color .15s,background .15s}
+.ulink .k{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.ulink .t{font-weight:600;font-size:15px;line-height:1.35}
+.ulink.v .k{color:#0f9488}.ulink.g .k{color:var(--blue)}
+.ulink.v:hover{border-color:#14b8a6;background:#effcfa}.ulink.g:hover{border-color:var(--blue);background:#f2f5ff}
+@media (max-width:560px){.unit-links{grid-template-columns:1fr}.unit-code{width:48px;font-size:16px}}
