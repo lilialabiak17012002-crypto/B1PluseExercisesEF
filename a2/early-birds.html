@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Early Birds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+</style>
+</head>
+<body><div class="wrap">
+<!-- site-nav --><style>.sitenav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.sitenav a{font:500 14px Poppins,system-ui,sans-serif;color:#6b7280;text-decoration:none;background:#fff;border-radius:999px;padding:6px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}.sitenav a:hover{color:#4f7cff}</style><nav class="sitenav"><a href="/a2">← Усі уроки A2</a><a href="/">Усі рівні</a></nav><!-- /site-nav -->
+
+<h1>Early Birds</h1><p class="sub">A2 · Phrasal verbs: separable and inseparable</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Phrasal verbs</h2><p><b>Фразове дієслово</b> = дієслово + маленьке слово-частка (прийменник або прислівник: <i>on, off, up, down, out, in, for…</i>). Разом вони мають нове значення:</p><p class='ex'>get = отримати → <b>get up</b> = вставати<br>look = дивитися → <b>look for</b> = шукати<br>turn = повертати → <b>turn off</b> = вимикати</p><p>Фразові дієслова бувають <b style='color:#1c7ed6'>inseparable</b> (не розділяються) і <b style='color:#e5484d'>separable</b> (розділяються).</p><table><tr><th style='color:#2f9e44'>Inseparable: без об'єкта</th><th style='color:#e5484d'>Separable: з об'єктом</th><th style='color:#1c7ed6'>Inseparable: з об'єктом</th></tr><tr><td>Дія не переходить ні на що. Дієслово і частка <b>завжди разом</b>.</td><td>Є <b>об'єкт</b> (річ або людина, над якою виконується дія). Його можна поставити <b>посередині або після</b>.</td><td>Є об'єкт, але дієслово і частка <b>ніколи не розділяються</b>. Об'єкт іде <b>тільки після</b>.</td></tr><tr><td><span class='ex'>I <b>get up</b> at 7.30.<br>We <b>go out</b> on Fridays.</span></td><td><span class='ex'><b>Put on</b> your coat. ✓<br><b>Put</b> your coat <b>on</b>. ✓</span></td><td><span class='ex'>I'm <b>looking for</b> my keys. ✓<br><s>I'm looking my keys for.</s> ✗</span></td></tr><tr><td style='color:#2f9e44'>check in, come on, get up, go away, go back, go out, sit down, stand up, wake up</td><td style='color:#e5484d'>call back, drop off, give back, pay back, pick up, put away, send back, take back, take out, try on, turn off, turn on, write down</td><td style='color:#1c7ed6'>go on, get on / off (a bus), get on with (a person), look for, look round, run out of</td></tr></table><p><b style='color:#e5484d'>❗ Якщо об'єкт — займенник (me, you, him, her, it, us, them), він ЗАВЖДИ стоїть посередині:</b><br><span class='ex'>Here's your coat. <b>Put it on</b>. ✓ &nbsp; <s>Put on it.</s> ✗<br>The TV is too loud. <b>Turn it down</b>. ✓ &nbsp; <s>Turn down it.</s> ✗</span></p><p><b>Порівняй:</b> <span class='ex'>Turn off the TV. ✓ / Turn the TV off. ✓ / Turn it off. ✓ / <s>Turn off it.</s> ✗</span></p>"}, {"type": "text", "n": 1, "title": "Complete the phrasal verbs", "task": "Write the missing word: on, off, up, down, in, for, after…", "items": [{"t": "Can you turn [?] the music? I'm trying to sleep!", "a": [["down"]]}, {"t": "Hurry up! The film will be [?] in five minutes.", "a": [["on"]]}, {"t": "My neighbour can look [?] our cat while we're on holiday.", "a": [["after"]]}, {"t": "Please take [?] your boots. The floor is clean!", "a": [["off"]]}, {"t": "Please fill [?] this form and sign it at the bottom.", "a": [["in", "out"]]}, {"t": "It's very cold outside. Put [?] a warm hat!", "a": [["on"]]}, {"t": "Can you pick [?] the kids from school today?", "a": [["up"]]}, {"t": "I can't find my keys. Can you help me look [?] them?", "a": [["for"]]}]}, {"type": "text", "n": 2, "title": "Choose the verb", "task": "Complete the sentences with a verb from the box.", "bank": ["find", "get", "go", "look", "set", "take", "throw", "turn"], "items": [{"t": "I check the weather app every morning to [?] out if it's going to rain.", "a": [["find"]]}, {"t": "Don't [?] away that box. I need it!", "a": [["throw"]]}, {"t": "It's dark in here. Can you [?] on the light?", "a": [["turn"]]}, {"t": "If you don't know a word, [?] it up in the dictionary.", "a": [["look"]]}, {"t": "My sister and I [?] on really well. We never argue.", "a": [["get"]]}, {"t": "We need to [?] off at 5 a.m. to catch the early train.", "a": [["set"]]}, {"t": "I usually [?] out with friends on Friday evenings.", "a": [["go"]]}, {"t": "These shoes are too small. I'm going to [?] them back to the shop.", "a": [["take"]]}]}, {"type": "text", "n": 3, "title": "Complete the conversations", "task": "Complete the conversations with a phrasal verb from the box.", "bank": ["don't get on", "drop you off", "give up", "goes off", "looking forward to it", "pick you up", "run out", "try it on", "turn it off"], "items": [{"t": "A: Do you and your cousin talk a lot? B: Not really. We [?].", "a": [["don't get on", "do not get on"]]}, {"t": "A: I want to stop eating sugar. B: Good idea, but it's hard to [?]!", "a": [["give up"]]}, {"t": "A: Are you excited about the concert? B: Yes, I'm really [?]!", "a": [["looking forward to it"]]}, {"t": "A: I like this jacket, but I'm not sure about the size. B: Why don't you [?]?", "a": [["try it on"]]}, {"t": "A: The TV is still on and nobody is watching it. B: Sorry, I'll [?].", "a": [["turn it off"]]}, {"t": "A: What time does your alarm ring? B: It [?] at 6.30 every day.", "a": [["goes off"]]}, {"t": "A: Can you take me to the station? B: Sure, I can [?] there on my way to work.", "a": [["drop you off"]]}, {"t": "A: My plane lands at 10 p.m. B: No problem, I'll [?] at the airport.", "a": [["pick you up"]]}, {"t": "A: Have we got enough milk for breakfast? B: I don't think so. We'll [?] soon. Let's buy some.", "a": [["run out"]]}]}, {"type": "match", "n": 4, "title": "Match the halves", "task": "Choose the correct ending for each sentence.", "pool": ["off", "it up", "it down", "over", "after him", "it in", "for them"], "items": [["My alarm didn't go ___, so I was late for work.", "off"], ["I didn't know what 'commute' means, so I looked ___.", "it up"], ["The music is too loud. Please turn ___.", "it down"], ["The lesson was so boring! I couldn't wait till it was ___.", "over"], ["My little brother is ill, so I'm staying at home to look ___.", "after him"], ["Here's the form. You just need to fill ___.", "it in"], ["I can't find my glasses. Can you help me look ___?", "for them"]]}, {"type": "choice", "n": 5, "title": "One option or both?", "task": "Choose the correct option. If both options are correct, choose ✓ both.", "items": [{"t": "I need to ___ tomorrow. My train leaves at 6.", "o": ["get up early", "get early up", "✓ both"], "c": 0}, {"t": "___ is really difficult for me.", "o": ["Giving up sugar", "Giving sugar up", "✓ both"], "c": 2}, {"t": "My dad is ill, so I'm ___.", "o": ["looking him after", "looking after him", "✓ both"], "c": 1}, {"t": "Can you ___? I'm on the phone.", "o": ["turn down the music", "turn the music down", "✓ both"], "c": 2}, {"t": "These are my new jeans. Can I ___?", "o": ["try on them", "try them on", "✓ both"], "c": 1}, {"t": "We're ___. Have you seen him?", "o": ["looking for our cat", "looking our cat for", "✓ both"], "c": 0}, {"t": "Please ___ here.", "o": ["write down your name", "write your name down", "✓ both"], "c": 2}, {"t": "If the shirt is too big, ___ to the shop.", "o": ["take back it", "take it back", "✓ both"], "c": 1}, {"t": "I usually ___ with my friends.", "o": ["go out on Saturdays", "go on Saturdays out", "✓ both"], "c": 0}, {"t": "It's raining. ___!", "o": ["Put on your raincoat", "Put your raincoat on", "✓ both"], "c": 2}]}, {"type": "order", "n": 6, "title": "Use a pronoun", "task": "Rewrite the sentences. Change the words in CAPITALS to a pronoun (it, them, him, her). Change the word order if necessary.", "items": [{"t": "Can you write down YOUR PHONE NUMBER?", "a": ["Can you write it down?"]}, {"t": "The teacher will give back THE TESTS on Monday.", "a": ["The teacher will give them back on Monday."]}, {"t": "Are you looking forward to THE HOLIDAYS?", "a": ["Are you looking forward to them?"]}, {"t": "I called back MY SISTER in the evening.", "a": ["I called her back in the evening."]}, {"t": "We don't get on with MRS BROWN, our new neighbour.", "a": ["We don't get on with her, our new neighbour.", "We do not get on with her, our new neighbour."]}, {"t": "Can you turn off THE LIGHTS, please?", "a": ["Can you turn them off, please?", "Can you turn them off?"]}, {"t": "Please put away YOUR TOYS.", "a": ["Please put them away."]}]}, {"type": "text", "n": 7, "title": "My morning routine", "task": "Complete the questions with a phrasal verb from the box.", "bank": ["get up", "go away", "go off", "go out", "set off"], "items": [{"t": "A: What time does your alarm clock [?]? B: At 7.00, but I stay in bed for ten more minutes.", "a": [["go off"]]}, {"t": "A: What time do you [?] on weekdays? B: Usually at about 7.15.", "a": [["get up"]]}, {"t": "A: When do you [?] for school? B: At 8.00. Lessons start at 8.30.", "a": [["set off"]]}, {"t": "A: Do you [?] with friends on Friday nights? B: Sometimes. We go to the cinema.", "a": [["go out"]]}, {"t": "A: Do you ever [?] for the weekend? B: Yes, we sometimes go to the mountains.", "a": [["go away"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script></body></html>
