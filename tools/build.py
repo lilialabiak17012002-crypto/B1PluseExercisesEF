@@ -53,15 +53,15 @@ def header_html():
 def footer_html():
     return ('<footer class="site-footer" id="contacts"><div class="fwrap">'
             f'<div class="fcol fabout"><div class="fbrand">{SITE_NAME}</div>'
-            '<p>Тут буде кілька речень про викладачку: досвід, підхід, з ким працює.</p></div>'
-            '<div class="fcol"><h4>Контакти</h4>'
-            '<a href="mailto:email@example.com">email@example.com</a>'
-            '<a href="tel:+380000000000">+380 00 000 00 00</a>'
-            '<a href="https://t.me/username">Telegram: @username</a></div>'
-            '<div class="fcol"><h4>Інформація</h4>'
-            '<a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a></div>'
-            '</div><div class="fbottom"><span>© 2026 ' + SITE_NAME + '</span>'
-            '<span>Вправи до уроків англійської · A1–B2</span></div></footer>')
+            '<p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div>'
+            '<div class="fcol"><h4>Contact</h4>'
+            '<a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a>'
+            '<a href="tel:+380989960039">+380 98 996 00 39</a>'
+            '<a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div>'
+            '<div class="fcol"><h4>Info</h4>'
+            '<a href="/terms">Terms &amp; Conditions</a></div>'
+            '</div><div class="fbottom"><span>© 2026 Liliia Labiak</span>'
+            '<span>English practice · A1–B2</span></div></footer>')
 
 
 def page(title, body):
@@ -166,12 +166,32 @@ for folder, code, name, cls in LEVELS:
                      f'<span class="tmeta"><span class="pill">скоро</span><span class="name">{name}</span></span></div>')
 home_body = ('<section class="hero"><div class="hero-text"><span class="pill pill-light">practice for our lessons · A1–B2</span>'
              '<h1>Let\'s make your <mark>practice</mark> perfect</h1>'
-             '<p class="hero-sub">Open the exercise from our lesson, check your answers and send me your score.</p></div>'
-             '<figure class="hero-photo" aria-hidden="true"><span>photo</span>'
+             '<p class="hero-sub">Open the exercise from our lesson, check your answers and send me your score.</p></div>' +
+             ('<figure class="hero-photo has-img"><img src="/img/hero.jpg" alt="Students studying English together around a table" width="640" height="340">'
+              if os.path.exists('img/hero.jpg') else '<figure class="hero-photo" aria-hidden="true"><span>photo</span>') +
              '<span class="sticker">one lesson<br>at a time</span></figure></section>\n'
              '<section class="section" id="levels"><div class="section-head"><span class="pill">General English</span>'
              '<h2>Choose your level</h2></div>\n<div class="tiles">\n' + '\n'.join(tiles) + '\n</div></section>')
 open('index.html', 'w').write(page(SITE_NAME, home_body))
+
+# ---------- terms page ----------
+terms_body = (
+    '<a class="back" href="/">← Home</a>\n<article class="doc"><span class="pill">Info</span><h1>Terms &amp; Conditions</h1>'
+    '<h2>1. About this website</h2><p>This website contains interactive English exercises for my students. '
+    'It is intended only for learning as part of our lessons.</p>'
+    '<h2>2. Materials</h2><p>The exercises were created by me or developed on the basis of the topics, grammar and vocabulary of the '
+    '<em>English File</em> (Oxford University Press) and <em>Roadmap</em> (Pearson) coursebooks. This website is not affiliated with, '
+    'or endorsed by, these publishers. All rights to the coursebooks belong to their publishers and authors. '
+    'For complete learning, I recommend using the original coursebooks.</p>'
+    '<h2>3. Use of the exercises</h2><p>You are welcome to do and repeat the exercises as many times as you like for your own learning. '
+    'Copying, sharing or using the materials of this website for commercial purposes without my permission is not allowed.</p>'
+    '<h2>4. Your results and privacy</h2><p>This website does not save your answers and does not collect any personal data. '
+    'Your score is visible only to you. If you want me to see it, take a screenshot and send it to me.</p>'
+    '<h2>5. Contact</h2><p>If you have any questions, contact me: '
+    '<a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a>, '
+    '<a href="https://t.me/Lilia_labiak">Telegram @Lilia_labiak</a>, <a href="tel:+380989960039">+380 98 996 00 39</a>.</p>'
+    '</article>')
+open('terms.html', 'w').write(page(f'Terms & Conditions · {SITE_NAME}', terms_body))
 
 # ---------- lesson pages: theme, header, nav, footer ----------
 MARK = re.compile(r'\n?<!-- site-(?:nav|header|footer) -->.*?<!-- /site-(?:nav|header|footer) -->\n?', re.S)

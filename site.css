@@ -86,4 +86,16 @@ a.tile:hover{transform:translateY(-3px) rotate(-.4deg);box-shadow:0 14px 28px rg
 }
 
 /* lining figures (after the font shorthands, which reset font-variant) */
-h1,h2,.tile .code,.lvl-hero .lvl-code,.lcover .lnum,.ltitle,.ulink .t{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+h1,h2,.tile .code,.lvl-hero .lvl-code,.lcover .lnum,.ltitle,.ulink .t,.doc h2{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+
+/* hero photo */
+.hero-photo.has-img{aspect-ratio:4/3;width:min(100%,430px)}
+.hero-photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:12px}
+
+/* text pages (terms) */
+.doc{max-width:720px;background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:40px 44px}
+.doc h1{font-size:48px;margin:14px 0 18px}
+.doc h2{font:600 26px/1.2 var(--serif);margin:26px 0 8px}
+.doc p{font:400 16px/1.7 var(--sans);margin:0;color:#3d3631}
+.doc a{color:var(--blue-ink)}
+@media (max-width:640px){.doc{padding:26px 22px}.doc h1{font-size:36px}}
