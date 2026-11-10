@@ -75,9 +75,12 @@ li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{bor
 .tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
 .tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
 </style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
 </head>
-<body><div class="wrap">
-<!-- site-nav --><style>.sitenav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.sitenav a{font:500 14px Poppins,system-ui,sans-serif;color:#6b7280;text-decoration:none;background:#fff;border-radius:999px;padding:6px 14px;box-shadow:0 1px 3px rgba(0,0,0,.06)}.sitenav a:hover{color:#4f7cff}</style><nav class="sitenav"><a href="/a2">← Усі уроки A2</a><a href="/">Усі рівні</a></nav><!-- /site-nav -->
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><span class="logo-slot" aria-hidden="true">logo</span><span class="brand-name">English Exercises</span></a><nav class="hnav"><a href="/#levels">Рівні</a><a href="#contacts">Контакти</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/a2">← Усі уроки A2</a><a href="/">Усі рівні</a></nav><!-- /site-nav -->
 
 <h1>Unbelievable!</h1><p class="sub">A2 · Time expressions · Past perfect</p>
 <div id="secs"></div>
@@ -137,4 +140,6 @@ $('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>
   $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
 $('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
   checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
-</script></body></html>
+</script>
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">English Exercises</div><p>Тут буде кілька речень про викладачку: досвід, підхід, з ким працює.</p></div><div class="fcol"><h4>Контакти</h4><a href="mailto:email@example.com">email@example.com</a><a href="tel:+380000000000">+380 00 000 00 00</a><a href="https://t.me/username">Telegram: @username</a></div><div class="fcol"><h4>Інформація</h4><a href="#">Terms &amp; Conditions</a><a href="#">Privacy Policy</a></div></div><div class="fbottom"><span>© 2026 English Exercises</span><span>Вправи до уроків англійської · A1–B2</span></div></footer><!-- /site-footer -->
+</body></html>

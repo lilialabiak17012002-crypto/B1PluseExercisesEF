@@ -1,0 +1,46 @@
+/* Restyles every lesson page without touching its content. Loaded after the lesson's own <style>. */
+:root{--blue:#3C6A97;--green:#2F7D5B;--red:#A3313F;--ink:#2A2522;--muted:#776D64;--bg:#FBF7EE}
+body{font-family:var(--sans);background:var(--cream);color:var(--ink)}
+button,input,select{font-family:var(--sans)}
+.wrap{padding-top:24px}
+
+/* back links */
+.sitenav{display:flex;flex-wrap:wrap;gap:18px;margin:0 0 22px}
+.sitenav a{font:500 14px var(--sans);color:var(--muted);text-decoration:none;border-bottom:1.5px solid transparent}
+.sitenav a:hover{color:var(--ink);border-bottom-color:var(--butter-deep)}
+
+/* titles */
+.wrap>h1{font-family:var(--serif);font-weight:600;font-size:46px;line-height:1.05;letter-spacing:-.01em;margin-bottom:10px}
+.sub{color:var(--muted)}
+
+/* cards: hairlines instead of shadows */
+.card{background:var(--paper);border:1px solid var(--line);box-shadow:none;border-radius:22px}
+h2 .num,.num{background:var(--navy);color:var(--butter);border-radius:9px}
+
+/* explanations: soft baby blue */
+.explain{background:#EEF4FA;border:1px solid #D6E4F1;border-left:4px solid #8DB5DC}
+.explain th{background:#DCE9F6}
+.explain td,.explain th{border-color:#D3E1EF}
+.explain .ex{color:var(--blue-ink)}
+
+/* word banks and options */
+.bank span{background:#FBEFC2;color:#5B4A12}
+.opt{border-color:#DDD3C3;background:var(--paper)}
+.opt.sel{border-color:var(--blue-ink);background:#EEF4FA}
+input[type=text],li.q select{border-color:#DDD3C3;background:var(--paper)}
+input[type=text]:focus{border-color:var(--blue-ink)}
+
+/* buttons */
+.primary{background:var(--navy);color:var(--butter);border-radius:999px;padding:13px 28px}
+.primary:hover{background:#2B3C5C}
+.ghost{background:transparent;border:1.5px solid var(--ink);border-radius:999px}
+
+/* the score: circled by the teacher's red pen */
+#result{background:var(--paper)}
+#score{font-family:var(--serif);font-weight:600;font-size:64px;color:var(--wine);position:relative;display:inline-block;padding:2px 30px;margin:10px 0}
+#score::after{content:"";position:absolute;inset:-4px -6px -2px -10px;border:3px solid var(--wine);border-radius:52% 48% 55% 45% / 58% 50% 50% 42%;
+  transform:rotate(-5deg);opacity:.85;animation:pen .7s ease-out both}
+@keyframes pen{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@media (prefers-reduced-motion:reduce){#score::after{animation:none}}
+@media (max-width:640px){.wrap>h1{font-size:36px}}
+#score,.wrap>h1{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
