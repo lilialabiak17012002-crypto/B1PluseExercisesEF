@@ -29,7 +29,17 @@ LEVELS = [  # folder, code, name, colour class, section
     ('business-b2-c1', 'B2–C1', 'Upper Intermediate to Advanced', 'c-blush', BE),
 ]
 SECTIONS = [(GE, 'English for life'), (BE, 'English for work')]
-STICKER = {GE: ('climb', 'Sticker: a student climbing a staircase of books'), BE: ('desk', 'Sticker: a student working at a laptop')}
+STICKER = {GE: ('climb', 'Sticker: a student climbing a staircase of books'), BE: ('presentation', 'Sticker: a presentation at work')}
+STICKERS = {'climb': 'Sticker: a student climbing a staircase of books', 'desk': 'Sticker: a student working at a laptop',
+            'books': 'Sticker: a stack of books', 'friends': 'Sticker: two students talking with books',
+            'think': 'Sticker: a student thinking', 'notes': 'Sticker: a student planning with sticky notes',
+            'interview': 'Sticker: a job interview', 'presentation': 'Sticker: a presentation at work'}
+LEVEL_STICKER = {'a1': 'friends', 'a2': 'climb', 'b1-1': 'notes', 'b1-2': 'books', 'b1-plus': 'think', 'b2': 'desk',
+                 'business-a2-b1': 'interview', 'business-b1-b2': 'presentation', 'business-b2-c1': 'think'}
+
+def level_sticker(folder):
+    f = LEVEL_STICKER.get(folder)
+    return f'<img class="dc-sticker" src="/img/stickers/{f}.png" alt="{STICKERS[f]}" loading="lazy">' if f and os.path.exists(f'img/stickers/{f}.png') else ''
 
 def sticker(sec):
     f, alt = STICKER[sec]
@@ -162,7 +172,7 @@ for folder, code, name, cls, section in LEVELS:
     count = f'<span class="lvl-count">{plural_uroky(len(cs))}</span>' if cs else ''
     body = (f'<a class="back" href="/">← All levels</a>\n'
             f'<section class="lvl-hero {cls}"><span class="pill">{section}</span>'
-            f'<div class="lvl-code">{code}</div><h1>{name}</h1>{count}{sticker(section)}</section>\n'
+            f'<div class="lvl-code">{code}</div><h1>{name}</h1>{count}{level_sticker(folder)}</section>\n'
             f'{source_block(cs)}\n{listing}')
     open(f'{folder}/index.html', 'w').write(page(f'{code} {name} · {SITE_NAME}', body))
 
