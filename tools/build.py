@@ -173,7 +173,7 @@ home_body = ('<section class="hero"><div class="hero-text"><span class="pill pil
              '<p class="hero-sub">Open the exercise from our lesson, check your answers and send me your score.</p></div>' +
              ('<figure class="hero-photo has-img"><img src="/img/hero.jpg" alt="Illustration: students studying English grammar and vocabulary around a table" width="480" height="480">'
               if os.path.exists('img/hero.jpg') else '<figure class="hero-photo" aria-hidden="true"><span>photo</span>') +
-             '<span class="sticker">a little practice<br>goes a long way<b>you\'ve got this!</b></span></figure></section>\n'
+             '<img class="sticker-img" src="/img/sticker.png" width="290" height="155" alt="A little practice goes a long way. You\'ve got this!"></figure></section>\n'
              '<section class="section" id="levels"><div class="section-head"><span class="pill">General English</span>'
              '<h2>Choose your level</h2></div>\n<div class="tiles">\n' + '\n'.join(tiles) + '\n</div></section>')
 open('index.html', 'w').write(page(SITE_NAME, home_body))

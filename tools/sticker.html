@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,700&family=Manrope:wght@800&display=swap" rel="stylesheet">
+<style>html,body{margin:0;background:transparent} svg{display:block}</style></head>
+<body>
+<svg id="st" xmlns="http://www.w3.org/2000/svg" width="580" height="310" viewBox="-10 0 580 310">
+  <defs>
+    <!-- paper grain for the white cut-out -->
+    <filter id="paper" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="7" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.40  0 0 0 0 0.33  0 0 0 0.16 0" result="grain"/>
+      <feComposite in="grain" in2="SourceGraphic" operator="in" result="g2"/>
+      <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="g2"/></feMerge>
+    </filter>
+    <!-- sticker lift shadow -->
+    <filter id="lift" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#2A2522" flood-opacity=".28"/>
+    </filter>
+    <!-- slightly rough ink -->
+    <filter id="ink"><feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="2" seed="3" result="t"/>
+      <feColorMatrix in="t" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -0.7 1.75" result="m"/>
+      <feComposite in="SourceGraphic" in2="m" operator="in"/></filter>
+  </defs>
+
+  <!-- main die-cut sticker -->
+  <g transform="rotate(-6 270 140)" filter="url(#lift)">
+    <g font-family="'Cormorant Garamond'" font-style="italic" font-weight="700" font-size="64" text-anchor="middle" stroke-linejoin="round" stroke-linecap="round">
+      <!-- outer edge line -->
+      <g stroke="#2A2522" stroke-width="46" fill="#2A2522" opacity=".9">
+        <text x="270" y="118">a little practice</text><text x="270" y="190">goes a long way</text></g>
+      <!-- paper cut-out -->
+      <g stroke="#FBF6EA" stroke-width="42" fill="#FBF6EA" filter="url(#paper)">
+        <text x="270" y="118">a little practice</text><text x="270" y="190">goes a long way</text></g>
+      <!-- printed letters -->
+      <g fill="#7A2230" filter="url(#ink)">
+        <text x="270" y="118">a little practice</text><text x="270" y="190">goes a long way</text></g>
+    </g>
+  </g>
+
+  <!-- butter ticket -->
+  <g transform="translate(318 224) rotate(7)" filter="url(#lift)">
+    <path d="M0 0 H200 a10 10 0 0 0 10 10 V40 a10 10 0 0 0 -10 10 H0 a10 10 0 0 0 -10 -10 V10 a10 10 0 0 0 10 -10 Z"
+          fill="#F4E19A" stroke="#2A2522" stroke-width="2.5" filter="url(#paper)"/>
+    <path d="M10 6 H190" stroke="#2A2522" stroke-width="1.2" stroke-dasharray="3 4" opacity=".35"/>
+    <path d="M10 44 H190" stroke="#2A2522" stroke-width="1.2" stroke-dasharray="3 4" opacity=".35"/>
+    <text x="100" y="32" text-anchor="middle" font-family="Manrope" font-weight="800" font-size="19" letter-spacing=".5" fill="#22304A">you've got this!</text>
+  </g>
+</svg>
+</body></html>
