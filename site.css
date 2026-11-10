@@ -32,7 +32,7 @@ a.tile:hover{transform:translateY(-3px) rotate(-.4deg);box-shadow:0 14px 28px rg
 
 .c-blue{background:var(--baby)} .c-butter{background:var(--butter)} .c-blush{background:var(--blush)}
 .c-sand{background:var(--sand)} .c-wine{background:var(--wine);color:#F6EBDD}
-.c-peach{background:var(--peach)} .c-cedar{background:var(--cedar);color:#22200F}
+.c-peach{background:var(--peach)} .c-cedar{background:var(--cedar);color:#F2EDE2}
 
 /* level page */
 .back{display:inline-block;font:500 14px var(--sans);color:var(--muted);text-decoration:none;border-bottom:1.5px solid transparent;margin-bottom:18px}

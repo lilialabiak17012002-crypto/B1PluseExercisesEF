@@ -2,7 +2,7 @@
 :root{
   --cream:#FBF7EE; --paper:#FFFDF8; --ink:#2A2522; --muted:#776D64; --line:#E8DFCF;
   --butter:#F4E19A; --butter-deep:#E2C55A; --baby:#BCD7F0; --blue-ink:#3C6A97;
-  --blush:#F1D0CB; --peach:#F6C4A8; --cedar:#9C9A66; --sand:#EFE5D2; --wine:#7E2733; --navy:#22304A;
+  --blush:#F1D0CB; --peach:#F6C4A8; --cedar:#4E605B; --sand:#EFE5D2; --wine:#7E2733; --navy:#22304A;
   --serif:'Cormorant Garamond',Georgia,'Times New Roman',serif;
   --sans:Manrope,system-ui,-apple-system,'Segoe UI',sans-serif;
 }
