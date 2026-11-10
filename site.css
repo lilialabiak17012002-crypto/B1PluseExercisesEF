@@ -40,3 +40,6 @@ a.card::after{content:"→";margin-left:auto;color:var(--muted);font-weight:500}
 a.card:hover{border-color:var(--blue);transform:translateX(2px)}
 .empty{color:var(--muted);font-style:italic;background:var(--card);border-radius:16px;padding:18px}
 @media (max-width:480px){h1{font-size:26px}.tiles{grid-template-columns:repeat(2,1fr)}.tile .code{font-size:34px}}
+a.card .ct{display:flex;flex-direction:column;gap:2px;min-width:0}
+a.card .t{font-weight:600}
+a.card .d{font-size:14px;font-weight:400;color:var(--muted);line-height:1.4}
