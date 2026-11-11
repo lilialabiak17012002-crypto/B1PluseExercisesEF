@@ -66,6 +66,7 @@ li.q input.wide{width:min(420px,90%)}
 .why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
 .why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
 .why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+li.q.bad .fix.empty{color:var(--muted);font-style:italic}
 </style>
 <!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
 </head>
@@ -180,8 +181,8 @@ S.forEach((sec,si)=>{
     list.append(li);
   });
 });
-const WHY=[null,null,["Present simple: <b>he / she / it</b> (Tom, his sister) → дієслово <u>+s</u>; після -sh, -ch, -o → <u>+es</u> (finishes, watches, goes); приголосна + y → <u>-ies</u> (tries, studies); have → <u>has</u>.","I / you / we / they (his parents) → без -s.","Заперечення: <u>don't</u> (I / you / we / they) або <u>doesn't</u> (he / she / it) + дієслово без -s."],["Питання в present simple: (питальне слово) + <b>do / does</b> + підмет + дієслово?","<b>does</b> — з he / she / it (your sister, your best friend); <b>do</b> — з I / you / we / they."]];
-function showWhy(fix,ans,rules){fix.textContent='';const box=mk('div','why');box.append(mk('div','why-ans','Правильна відповідь: '+ans));const ul=mk('ul');rules.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
+const WHY=[null,null,["Tom = he → <u>+s</u>: works.", "he; після -sh → <u>+es</u>: finishes.", "he → <u>doesn't</u> + have.", "His sister = she; приголосна + y → <u>-ies</u>: tries.", "he; після -ch → <u>+es</u>: watches.", "he → <u>doesn't</u> + like.", "His parents = they → без -s: <u>live</u>.", "They → <u>don't</u> + use.", "he; після -o → <u>+es</u>: goes.", "she; приголосна + y → <u>-ies</u>: studies.", "I → <u>don't</u> + think.", "he; have → <u>has</u>."],["Питання + you → What <u>do</u> you do?", "Where + <u>do</u> you live?", "<u>Do</u> you like…?", "your sister = she → <u>Does</u>…have?", "What + <u>do</u> you do…?", "What kind of music + <u>do</u> you listen to?", "your best friend = he / she → Where <u>does</u>…work?", "How often + <u>do</u> you go out?"]];
+function showWhy(fix,ans,note){fix.textContent='';const box=mk('div','why');box.append(mk('div','why-ans','Правильна відповідь: '+ans));const ul=mk('ul');const x=mk('li');x.innerHTML=note;ul.append(x);box.append(ul);fix.append(box);}
 const $=id=>document.getElementById(id);
 $('check').onclick=()=>{
   let total=0,max=0;
@@ -199,7 +200,9 @@ $('check').onclick=()=>{
       }
       li.dataset.done='1'; li.classList.add(ok?'ok':'bad');
       fix.textContent=ok?'':'✗ Правильно: '+right;
-      if(!ok&&WHY[si])showWhy(fix,right,WHY[si]);
+      const empty=!ok&&(sec.type==='choice'?state[si][i]===undefined:!li.querySelector('input').value.trim());
+      if(empty){fix.textContent='Немає відповіді. Спробуй ще раз!';fix.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}
+      else if(!ok&&WHY[si])showWhy(fix,right,WHY[si][i]);
       if(ok)sc++;
     });
     document.querySelector('#s'+si+' .secscore').textContent=sc+' / '+sec.items.length;
@@ -209,7 +212,7 @@ $('check').onclick=()=>{
   $('score').textContent=total+' / '+max; $('result').scrollIntoView({behavior:'smooth'});
 };
 $('again').onclick=()=>{
-  document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';
+  document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li.querySelector('.fix').classList.remove('empty');
     const inp=li.querySelector('input'); if(inp){inp.value='';inp.readOnly=false;}
     li.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));});
   state.forEach(a=>a.length=0); document.querySelectorAll('.secscore').forEach(e=>e.textContent='');
