@@ -97,7 +97,8 @@ li.q.bad .fix.empty{color:var(--muted);font-style:italic}
 const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
 function norm(s){
   s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
-  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
   return s.replace(/\s+/g,' ').trim();
 }
 const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};

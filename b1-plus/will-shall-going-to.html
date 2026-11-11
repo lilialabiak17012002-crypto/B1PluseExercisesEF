@@ -115,8 +115,9 @@ Q.forEach((q,i)=>{
 const PRON=/^(i|you|he|she|it|we|they)\s+/;
 function norm(s){
   s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
-  s=s.replace(/won't/g,'will not').replace(/shan't/g,'shall not').replace(/n't/g,' not')
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/shan't/g,'shall not').replace(/n't/g,' not')
      .replace(/'ll/g,' will').replace(/'m/g,' am').replace(/'re/g,' are').replace(/'s/g,' is');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
   return s.replace(/\s+/g,' ').trim();
 }
 const nice=a=>{a=show[a]||a;return a.replace(/^shall (i|we)/,(m,p)=>'Shall '+(p==='i'?'I':'we'));};
