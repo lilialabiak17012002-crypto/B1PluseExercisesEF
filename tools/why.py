@@ -19,6 +19,7 @@ CSS = ('.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid v
        'margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}\n'
        '.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}\n'
        '.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:\'▸  \';color:var(--muted)}\n'
+       'li.q.bad .fix.empty{color:var(--muted);font-style:italic}\n'
        '.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}\n')
 A_LI = "const li=mk('li','q');ol.append(li);const fix=mk('div','fix');"
 A_CHECK = "const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');"
@@ -47,7 +48,7 @@ def patch():
         if 'function showWhy' not in s:
             assert s.count(A_LI) == 1 and s.count(A_CHECK) == 1 and s.count(A_DOLLAR) == 1, f
             s = s.replace(A_LI, A_LI + "const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);", 1)
-            s = s.replace(A_CHECK, A_CHECK + "if(!ok&&li._why)showWhy(li);", 1)
+            s = s.replace(A_CHECK, A_CHECK + "const _empty=!ok&&![...li.querySelectorAll('input')].some(i=>i.value.trim())&&![...li.querySelectorAll('select')].some(x=>x.value)&&!li.querySelector('.opt.wrong');if(_empty){const fx=li.querySelector('.fix');fx.textContent=(WHY_LANG==='en'?'No answer. Try again!':'Немає відповіді. Спробуй ще раз!');fx.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}else if(!ok&&li._why)showWhy(li);", 1)
             s = s.replace(A_DOLLAR, js(lang) + A_DOLLAR, 1)
             s = s.replace('</style>', CSS + '</style>', 1)
         else:  # older pilot: per-item only -> section + item
