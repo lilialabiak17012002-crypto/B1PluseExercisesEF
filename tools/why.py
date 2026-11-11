@@ -46,12 +46,12 @@ def patch():
         s = re.sub(r"const WHY_LANG='(uk|en)';\n", f"const WHY_LANG='{lang}';\n", s)
         if 'function showWhy' not in s:
             assert s.count(A_LI) == 1 and s.count(A_CHECK) == 1 and s.count(A_DOLLAR) == 1, f
-            s = s.replace(A_LI, A_LI + "li._why=[...(sec.why||[]),...(it.why||[])];if(!li._why.length)li._why=null;", 1)
+            s = s.replace(A_LI, A_LI + "const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);", 1)
             s = s.replace(A_CHECK, A_CHECK + "if(!ok&&li._why)showWhy(li);", 1)
             s = s.replace(A_DOLLAR, js(lang) + A_DOLLAR, 1)
             s = s.replace('</style>', CSS + '</style>', 1)
         else:  # older pilot: per-item only -> section + item
-            s = s.replace("li._why=it.why;", "li._why=[...(sec.why||[]),...(it.why||[])];if(!li._why.length)li._why=null;")
+            s = s.replace("li._why=it.why;", "const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);")
         open(f, 'w').write(s); n += 1
     print('patched', n)
 
@@ -94,3 +94,24 @@ if __name__ == '__main__':
     if cmd == 'patch': patch()
     elif cmd == 'dump': [dump(p) for p in sys.argv[2:]]
     elif cmd == 'apply': apply(sys.argv[2], sys.argv[3])
+
+
+def todo(page):
+    """Sections whose questions would still show general rules: print each question with its own note (if any)."""
+    f, s, m, secs = load(page)
+    for sec in secs:
+        if sec['type'] == 'explain' or not sec.get('why'): continue
+        has = lambda i, it: (isinstance(it, dict) and it.get('why')) or (sec.get('whys') or [None] * 999)[i]
+        if all(has(i, it) for i, it in enumerate(sec['items'])): continue
+        print(f"## {f[:-5]} {sec['n']} {sec['type']} | {sec['title']} | RULE: {' || '.join(re.sub('<[^>]+>', '', r) for r in sec['why'])[:160]}")
+        for i, it in enumerate(sec['items'], 1):
+            if sec['type'] == 'match': q = f"{it[0]} => {it[1]}"
+            elif sec['type'] == 'choice': q = f"{it['t']} [{' / '.join(it['o'])}] => {it['o'][it['c']]}"
+            elif sec['type'] == 'order' or sec['type'] == 'replace': q = f"{it['t']} => {it['a'][0]}"
+            else: q = f"{it['t']} => {' | '.join(a[0] for a in it['a'])}"
+            note = re.sub('<[^>]+>', '', ' '.join(it.get('why', []))) if isinstance(it, dict) else ''
+            print(f"{i}. {q}" + (f"   ## {note}" if note else ''))
+
+
+if __name__ == '__main__' and sys.argv[1] == 'todo':
+    [todo(p) for p in sys.argv[2:]]

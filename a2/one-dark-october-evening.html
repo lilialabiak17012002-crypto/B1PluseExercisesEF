@@ -111,7 +111,7 @@ SECS.forEach((sec,si)=>{
   const ol=mk('ol');card.append(ol);wrap.append(card);
   const fns=[];
   sec.items.forEach(it=>{
-    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');li._why=[...(sec.why||[]),...(it.why||[])];if(!li._why.length)li._why=null;
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);
     if(sec.type==='match'){
       li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
       sec.pool.forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
