@@ -80,7 +80,8 @@ li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{bor
 .explain p{text-align:left}
 li.q .word{font-size:16px}
 li.q select{max-width:100%}
-li.q input[type=text]{width:min(280px,100%)}
+li.q input[type=text]{width:min(240px,100%)}
+li.q input.wide{width:min(360px,100%);margin:4px 0 0}
 </style>
 <!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
 </head>
@@ -96,7 +97,7 @@ li.q input[type=text]{width:min(280px,100%)}
 <div class="card" id="result"><div>Твій результат</div><div id="score"></div>
 <div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
 <div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
-</div><script>const SECS=[];
+</div><script>const SECS=[{"type": "text", "n": 1, "title": "Complete the sentences", "task": "Complete the sentences with the words from the lesson. Change the form if necessary.", "bank": ["a Pavlovian response", "to coin", "to catalogue", "benign", "egregious", "reflexively", "to scoop up", "unwarranted", "to mediate"], "items": [{"t": "The word “doomscrolling” was [?] during the pandemic to describe endlessly reading bad news.", "a": [["coined"]]}, {"t": "Researchers have [?] over 400 examples of deceptive design on shopping websites.", "a": [["catalogued", "cataloged"]]}, {"t": "A small reminder to finish your order is fairly [?] — nobody really gets hurt.", "a": [["benign"]]}, {"t": "Charging customers for a “free” trial without any warning is an [?] breach of trust.", "a": [["egregious"]]}, {"t": "Most of us [?] click “Accept all” on cookie banners without reading a word.", "a": [["reflexively"]]}, {"t": "The app [?] thousands of phone numbers from its users’ address books.", "a": [["scooped up", "scoops up"]]}, {"t": "After one purchase, I started receiving [?] marketing emails every single day.", "a": [["unwarranted"]]}, {"t": "For many people, a screen now [?] almost every interaction with their bank.", "a": [["mediates"]]}, {"t": "The sound of a notification triggers [?]: we reach for our phones before we even think.", "a": [["a Pavlovian response"]]}]}, {"type": "replace", "n": 2, "title": "Replace the words in bold", "task": "Replace the words in bold with a word or phrase from the lesson.", "items": [{"t": "The fake-dust banner ad was <b>shockingly bad</b> — it tricked people into clicking.", "a": ["egregious"]}, {"t": "Harry Brignull <b>invented the expression</b> “dark patterns” in 2010.", "a": ["coined the term", "coined the phrase", "coined the expression"]}, {"t": "Some apps <b>quickly grab</b> huge amounts of personal data without asking.", "a": ["scoop up"]}, {"t": "Compared with fake discounts, a “Would you like a dessert?” pop-up seems pretty <b>harmless</b>.", "a": ["benign"]}, {"t": "Swiping on dating apps has become <b>an automatic, conditioned reaction</b> for many users.", "a": ["a Pavlovian response"]}, {"t": "I pressed “Buy now” <b>without thinking</b> — the button was right under my thumb.", "a": ["reflexively"]}, {"t": "The judge agreed that the extra charges were <b>not justified</b>.", "a": ["unwarranted"]}, {"t": "The website <b>collects and organises a list of</b> every complaint it receives.", "a": ["catalogues", "catalogs"]}, {"t": "Today, almost every purchase we make is <b>shaped</b> by an app or a screen.", "a": ["mediated"]}]}];
 const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
 function norm(s){
   s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
@@ -128,6 +129,10 @@ SECS.forEach((sec,si)=>{
       li.append(o,parts[1]||'',fix);
       fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
       li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='replace'){
+      const q=mk('span');q.innerHTML=it.t;li.append(q,mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;inp.classList.remove('ok1','bad1');};
     } else if(sec.type==='order'){
       li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
       fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
