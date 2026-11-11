@@ -62,6 +62,10 @@ h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
 .opt.wrong{border-color:var(--red);background:#fff1f1}
 li.q input.wide{width:min(420px,90%)}
 .scramble{font-style:italic;color:var(--muted)}
+.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid var(--ink);border-radius:10px;padding:12px 16px;margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}
+.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
+.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
+.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
 </style>
 <!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
 </head>
@@ -176,6 +180,8 @@ S.forEach((sec,si)=>{
     list.append(li);
   });
 });
+const WHY=[null,null,["Present simple: <b>he / she / it</b> (Tom, his sister) → дієслово <u>+s</u>; після -sh, -ch, -o → <u>+es</u> (finishes, watches, goes); приголосна + y → <u>-ies</u> (tries, studies); have → <u>has</u>.","I / you / we / they (his parents) → без -s.","Заперечення: <u>don't</u> (I / you / we / they) або <u>doesn't</u> (he / she / it) + дієслово без -s."],["Питання в present simple: (питальне слово) + <b>do / does</b> + підмет + дієслово?","<b>does</b> — з he / she / it (your sister, your best friend); <b>do</b> — з I / you / we / they."]];
+function showWhy(fix,ans,rules){fix.textContent='';const box=mk('div','why');box.append(mk('div','why-ans','Правильна відповідь: '+ans));const ul=mk('ul');rules.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
 const $=id=>document.getElementById(id);
 $('check').onclick=()=>{
   let total=0,max=0;
@@ -193,6 +199,7 @@ $('check').onclick=()=>{
       }
       li.dataset.done='1'; li.classList.add(ok?'ok':'bad');
       fix.textContent=ok?'':'✗ Правильно: '+right;
+      if(!ok&&WHY[si])showWhy(fix,right,WHY[si]);
       if(ok)sc++;
     });
     document.querySelector('#s'+si+' .secscore').textContent=sc+' / '+sec.items.length;
