@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dark patterns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+.slides .frame{position:relative;aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid #DDD3C3;background:#F3EEE4;margin:10px 0 14px}
+.slides iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.openlink{font-weight:600;color:var(--ink);text-decoration:none;border-bottom:1.5px solid currentColor}
+.explain p{text-align:left}
+li.q .word{font-size:16px}
+li.q select{max-width:100%}
+li.q input[type=text]{width:min(280px,100%)}
+</style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
+</head>
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><span class="logo-slot" aria-hidden="true">logo</span><span class="brand-name">Your Digital Workbook</span></a><nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/business-b2-c1">← All B2–C1 lessons</a><a href="/">All levels</a></nav><!-- /site-nav -->
+
+<h1>Dark patterns</h1><p class="sub">Business English · How design tricks you — Black Friday edition</p>
+<div class="card slides"><h2><span class="num">▶</span>Lesson slides</h2><p class="task">Go through the slides from our lesson, then do the exercises below.</p><div class="frame"><iframe src="https://drive.google.com/file/d/1neJJFOUnnwFEgtMHiyL0WZTvKcdFiB6E/preview" title="Lesson slides: Dark patterns" loading="lazy" allowfullscreen></iframe></div><a class="openlink" href="https://drive.google.com/file/d/1neJJFOUnnwFEgtMHiyL0WZTvKcdFiB6E/view" target="_blank" rel="noopener">Open the slides in a new tab ↗</a></div>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>The article: design that works against you</h2>\n<p>Picture the scene. It is late November, and you have finally decided to cancel the streaming service you signed up for on a whim during last year’s Black Friday sales. Joining took a single tap. Leaving, it turns out, is another matter entirely: the option is buried three menus deep, and when you eventually track it down, you are greeted by a guilt-inducing message asking whether you really want to “lose everything you love”. You have not stumbled upon a badly designed website. You have run into a dark pattern.</p>\n<p>The term was coined in 2010 by the London-based UX designer Harry Brignull to describe interfaces that appear to have been deliberately engineered to steer people into decisions that are not in their best interest — but very much in the company’s. Crucially, dark patterns are rarely accidents. Every extra click, pre-ticked box and barely visible “No thanks” link has typically survived rounds of testing precisely because it nudges a measurable share of users in the “right” direction. Far from being the exception, such tactics have become the norm: a European Commission study found that 97% of the most popular websites and apps used at least one of them.</p>\n<p>Why do companies persist with tactics that so obviously irritate their customers? The short answer is that, at least in the short term, they pay off. A cancellation process that drags on for ten minutes will inevitably retain some subscribers who simply give up; a ticking countdown will tip some hesitant shoppers into buying. Black Friday is a case in point: when one price-tracking firm monitored more than 2,600 products during the 2025 sales, it found that roughly a third of the advertised “deals” had in fact been cheaper weeks earlier.</p>\n<p>The long-term picture, however, looks rather different. Customers who feel they have been played tend not to forget it — and, increasingly, neither do regulators. In September 2025, Amazon agreed to pay $2.5 billion to settle a case brought by the US Federal Trade Commission over its Prime sign-up and cancellation process, while the EU has begun to clamp down on manipulative interfaces through its Digital Services Act. All of which raises an uncomfortable question: when the business asks for “a bit more urgency”, where does persuasion end and deception begin? A growing number argue for a simple test — if leaving is harder than joining, something has gone wrong.</p>"}, {"type": "text", "n": 1, "title": "Find it in the article", "task": "Find a word or phrase in the article that means…", "items": [{"t": "on impulse, without planning → [?]", "a": [["on a whim"]]}, {"t": "to find after a long search → [?]", "a": [["track down", "tracked down", "track it down", "to track down"]]}, {"t": "to guide in a particular direction → [?]", "a": [["steer", "to steer"]]}, {"t": "to bring the results you wanted → [?]", "a": [["pay off", "pays off", "to pay off"]]}, {"t": "a typical example of what was just said → [?]", "a": [["a case in point", "case in point"]]}, {"t": "to take strict action to stop something → [?]", "a": [["clamp down on", "clamp down", "to clamp down on"]]}]}, {"type": "match", "n": 2, "title": "Name the trick", "task": "Match each example to the type of dark pattern. Two types are not used.", "items": [["“Only 2 left! Ends in 04:59” — and the timer restarts when you reload.", "Fake urgency"], ["Signing up takes one click; cancelling takes six pages and a call.", "Roach motel"], ["The “No” button says: “No thanks, I don’t care about my health.”", "Confirmshaming"], ["Travel insurance appears in your cart, but you never added it.", "Sneak into basket"], ["“Yes, send me partner offers” is already ticked for you.", "Pre-checked boxes"], ["The price is €29 on the product page and €41 at the last step.", "Hidden costs"]], "pool": ["Confirmshaming", "Roach motel", "Hidden costs", "Fake urgency", "Sneak into basket", "Pre-checked boxes", "Disguised ads", "Nagging"]}, {"type": "match", "n": 3, "title": "Words from the video", "task": "Match the words from the video with their meanings.", "items": [["to coin (a term)", "to invent a new word or phrase"], ["to catalogue", "to collect and list examples systematically"], ["benign", "harmless; not serious"], ["egregious", "shockingly bad"], ["reflexively", "automatically, without thinking"], ["to scoop up", "to grab a lot of something quickly"], ["unwarranted", "not justified or not asked for"], ["to mediate", "to stand between two sides and shape how they connect"]], "pool": ["not justified or not asked for", "to invent a new word or phrase", "to grab a lot of something quickly", "harmless; not serious", "to stand between two sides and shape how they connect", "automatically, without thinking", "shockingly bad", "to collect and list examples systematically"]}, {"type": "text", "n": 4, "title": "Phrases from the video", "task": "Complete the sentences with the phrases from the box. Change the form if necessary.", "bank": ["a mess on purpose", "a Pavlovian response", "devilishly hard", "on the right side of the law", "a step too far", "settle a dispute", "surrender", "knowing full well"], "items": [{"t": "The checkout page wasn’t badly designed — it was [?].", "a": [["a mess on purpose"]]}, {"t": "Clicking “Accept all” has become [?]: we do it before reading.", "a": [["a pavlovian response"]]}, {"t": "The unsubscribe link was [?] to find; it was practically invisible.", "a": [["devilishly hard"]]}, {"t": "Most companies make sure they stay [?], however unethical their tactics.", "a": [["on the right side of the law"]]}, {"t": "Messaging everyone in my address book without asking was [?].", "a": [["a step too far"]]}, {"t": "Rather than go to trial, the company paid $13 million to [?].", "a": [["settle the dispute", "settle a dispute"]]}, {"t": "Many apps ask you to [?] your contact list “to find your friends”.", "a": [["surrender"]]}, {"t": "They made cancelling difficult, [?] that most users would give up.", "a": [["knowing full well"]]}]}, {"type": "text", "n": 5, "title": "Taking a stance", "task": "Complete the phrases for evaluating, challenging and conceding with one word from the box.", "bank": ["area", "balance", "boils", "coming", "fairness", "follow", "line", "stretch", "water"], "items": [{"t": "I’d draw the [?] at countdown timers that reset for every visitor.", "a": [["line"]]}, {"t": "It’s a grey [?], because the claim is technically true.", "a": [["area"]]}, {"t": "What it [?] down to is whether the customer can trust you.", "a": [["boils"]]}, {"t": "On [?], I’d say a $13 million fine was too small to matter.", "a": [["balance"]]}, {"t": "Calling every discount manipulation is a bit of a [?].", "a": [["stretch"]]}, {"t": "I see where you’re [?] from, but users do have a choice.", "a": [["coming"]]}, {"t": "In [?] to the company, the final price was shown before payment.", "a": [["fairness"]]}, {"t": "That argument doesn’t hold [?], because the timer resets for everyone.", "a": [["water"]]}, {"t": "Even if that’s true, it doesn’t [?] that designers are innocent.", "a": [["follow"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script>
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">Your Digital Workbook</div><p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div><div class="fcol"><h4>Contact</h4><a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a><a href="tel:+380989960039">+380 98 996 00 39</a><a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div><div class="fcol"><h4>Info</h4><a href="/terms">Terms &amp; Conditions</a></div></div><div class="fbottom"><span>© 2026 Liliia Labiak</span><span>English practice · A1–C1</span></div></footer><!-- /site-footer -->
+</body></html>
