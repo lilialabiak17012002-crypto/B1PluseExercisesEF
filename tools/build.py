@@ -27,6 +27,7 @@ LEVELS = [  # folder, code, name, colour class, section
     ('business-a2-b1', 'A2–B1', 'Pre-Intermediate to Intermediate', 'c-blue', BE),
     ('business-b1-b2', 'B1–B2', 'Intermediate to Upper Intermediate', 'c-butter', BE),
     ('business-b2-c1', 'B2–C1', 'Upper Intermediate to Advanced', 'c-blush', BE),
+    ('business-c1', 'C1', 'Advanced', 'c-peach', BE),
 ]
 SECTIONS = [(GE, 'English for life'), (BE, 'English for work')]
 STICKER = {GE: ('climb', 'Sticker: a student climbing a staircase of books'), BE: ('presentation', 'Sticker: a presentation at work')}
@@ -35,7 +36,7 @@ STICKERS = {'climb': 'Sticker: a student climbing a staircase of books', 'desk':
             'think': 'Sticker: a student thinking', 'notes': 'Sticker: a student planning with sticky notes',
             'interview': 'Sticker: a job interview', 'presentation': 'Sticker: a presentation at work'}
 LEVEL_STICKER = {'a1': 'friends', 'a2': 'climb', 'b1-1': 'notes', 'b1-2': 'books', 'b1-plus': 'think', 'b2': 'desk',
-                 'business-a2-b1': 'interview', 'business-b1-b2': 'presentation', 'business-b2-c1': 'think'}
+                 'business-a2-b1': 'interview', 'business-b1-b2': 'presentation', 'business-b2-c1': 'think', 'business-c1': 'desk'}
 
 def level_sticker(folder):
     f = LEVEL_STICKER.get(folder)
