@@ -23,3 +23,11 @@
 .ab-deck .k{grid-area:k;font:500 13px var(--sans);color:var(--muted)}
 .ab-deck a{grid-area:a;font:600 14px var(--sans);color:var(--ink);text-decoration:none;border-bottom:1.5px solid currentColor}
 @media (max-width:700px){.ab-hero{padding:34px 22px 80px}.ab-sticker{width:150px;right:16px;bottom:-22px}.ab-decks{grid-template-columns:1fr}}
+.ab-boards{display:grid;grid-template-columns:1fr;gap:18px}
+.ab-board{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.ab-board a{display:block;background:#F3EEE4}
+.ab-board img{display:block;width:100%;height:auto}
+.ab-board a:hover img{opacity:.92}
+.ab-board figcaption{display:flex;flex-direction:column;gap:2px;padding:14px 18px 16px}
+.ab-board .t{font:600 20px/1.2 var(--serif)}
+.ab-board .k{font:500 13px var(--sans);color:var(--muted)}

@@ -210,7 +210,12 @@ SAMPLES = [  # (embed url, open url, title, what the lesson is)
     ('https://docs.google.com/presentation/d/1DIDEdrSsQT737e5FaEch6jHX0seynu5D_uCoHoca5tI/embed?start=false&amp;loop=false',
      'https://docs.google.com/presentation/d/1DIDEdrSsQT737e5FaEch6jHX0seynu5D_uCoHoca5tI/view', 'Stormy weather', 'B2 · Weather and the future'),
     ('https://drive.google.com/file/d/1IoqHKn8GzjfEexCiuueTWF6IiSc2xjp3/preview',
-     'https://drive.google.com/file/d/1IoqHKn8GzjfEexCiuueTWF6IiSc2xjp3/view', 'Your RAM Is Wasted on You', 'Tech & AI news'),
+     'https://drive.google.com/file/d/1IoqHKn8GzjfEexCiuueTWF6IiSc2xjp3/view', 'Your RAM Is Wasted on You', 'C1 · Tech & AI news'),
+]
+BOARDS = [  # image file in img/lessons, title, level and what's inside
+    ('survive-the-drive-b1', 'Survive the Drive', 'B1 · Vocabulary, speaking, reading and listening'),
+    ('the-necklace-b2', 'The Necklace', 'B2 · A short story: reading, listening and discussion'),
+    ('the-way-we-used-to-sleep-b2', 'The way we used to sleep', 'B2 · Grammar (used to, be used to, get used to), reading and speaking'),
 ]
 FACTS = [('5', 'years of teaching'), ('100+', 'students prepared for job interviews'), ('A0–C1', 'all levels, from complete beginners'), ('3', 'directions: General, Business and IT English')]
 about_body = (
@@ -238,6 +243,14 @@ about_body = (
               f'<figcaption><span class="t">{H.escape(t)}</span><span class="k">{H.escape(k)}</span>'
               f'<a href="{o}" target="_blank" rel="noopener">Open ↗</a></figcaption></figure>'
               for e, o, t, k in SAMPLES) +
+    '</div></section>\n'
+    '<section class="section"><div class="section-head"><span class="pill">Inside a lesson</span><h2>Reading, grammar and speaking</h2></div>'
+    '<p class="ab-note">This is what a lesson board looks like: every lesson combines new language with reading, listening and lots of speaking. Click a picture to see it in full size.</p>'
+    '<div class="ab-boards">'
+    + ''.join(f'<figure class="ab-board"><a href="/img/lessons/{f}.jpg" target="_blank" rel="noopener">'
+              f'<img src="/img/lessons/{f}-small.jpg" alt="Lesson board: {H.escape(t)}" loading="lazy"></a>'
+              f'<figcaption><span class="t">{H.escape(t)}</span><span class="k">{H.escape(k)}</span></figcaption></figure>'
+              for f, t, k in BOARDS) +
     '</div></section>')
 open('about.html', 'w').write(page(f'About me · {SITE_NAME}', about_body, '<link rel="stylesheet" href="/about.css">\n'))
 
