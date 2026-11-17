@@ -13,8 +13,7 @@ body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans)}
 .site-header{border-bottom:1px solid var(--line);background:var(--cream)}
 .site-header .hwrap{max-width:1080px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .site-header .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
-.site-header .logo-slot{width:40px;height:40px;border-radius:50%;border:1.5px solid #D9CDB8;display:flex;align-items:center;justify-content:center;
-  font:600 9px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#A39787}
+.site-header .logo-slot{width:48px;height:48px;display:block;flex:none}
 .site-header .brand-name{font:600 22px/1 var(--serif);letter-spacing:.01em}
 .site-header .hnav{display:flex;gap:22px}
 .site-header .hnav a{font:500 14px var(--sans);color:var(--ink);text-decoration:none;padding:6px 0;border-bottom:1.5px solid transparent}
@@ -52,4 +51,4 @@ mark{background:linear-gradient(transparent 12%,var(--butter) 12%,var(--butter) 
 
 /* header links never wrap; tighter on phones */
 .site-header .hnav a{white-space:nowrap}
-@media (max-width:420px){.site-header .hnav{gap:10px}.site-header .hnav a{font-size:13px}.site-header .brand-name{font-size:17px}.site-header .logo-slot{display:none}}
+@media (max-width:420px){.site-header .hnav{gap:10px}.site-header .hnav a{font-size:13px}.site-header .brand-name{font-size:17px}.site-header .logo-slot{width:32px;height:32px}.site-header .brand{gap:8px}}

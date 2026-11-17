@@ -61,9 +61,13 @@ def plural_uroky(n):
     return f'{n} lesson' if n == 1 else f'{n} lessons'
 
 
+ICONS = ('<link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/img/icon-32.png">'
+         '<link rel="apple-touch-icon" href="/img/icon-180.png">')
+
+
 def header_html():
     return (f'<header class="site-header"><div class="hwrap">'
-            f'<a class="brand" href="/"><span class="logo-slot" aria-hidden="true">logo</span>'
+            f'<a class="brand" href="/"><img class="logo-slot" src="/img/logo.png" width="48" height="48" alt="">'
             f'<span class="brand-name">{SITE_NAME}</span></a>'
             f'<nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav>'
             f'</div></header>')
@@ -86,7 +90,7 @@ def footer_html():
 def page(title, body, head=''):
     return (f'<!DOCTYPE html>\n<html lang="en"><head>\n<meta charset="utf-8">\n'
             f'<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>{title}</title>\n'
-            f'{FONTS}\n<link rel="stylesheet" href="/chrome.css">\n<link rel="stylesheet" href="/site.css">\n{head}'
+            f'{FONTS}\n{ICONS}\n<link rel="stylesheet" href="/chrome.css">\n<link rel="stylesheet" href="/site.css">\n{head}'
             f'</head>\n<body>\n{header_html()}\n<main class="wrap">\n{body}\n</main>\n{footer_html()}\n</body></html>\n')
 
 
@@ -307,7 +311,7 @@ for folder, code, name, cls, section in LEVELS:
         if f.endswith('index.html'): continue
         s = HEADMARK.sub('', MARK.sub('', open(f).read()))
         assert s.count('<body><div class="wrap">') == 1 and s.count('</head>') == 1 and s.count('</body>') == 1, f
-        s = s.replace('</head>', f'<!-- site-head -->{FONTS}<link rel="stylesheet" href="/chrome.css">'
+        s = s.replace('</head>', f'<!-- site-head -->{FONTS}{ICONS}<link rel="stylesheet" href="/chrome.css">'
                                  f'<link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->\n</head>', 1)
         s = s.replace('<body><div class="wrap">',
                       f'<body>\n<!-- site-header -->{header_html()}<!-- /site-header -->\n<div class="wrap">\n'
