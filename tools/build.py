@@ -65,7 +65,7 @@ def header_html():
     return (f'<header class="site-header"><div class="hwrap">'
             f'<a class="brand" href="/"><span class="logo-slot" aria-hidden="true">logo</span>'
             f'<span class="brand-name">{SITE_NAME}</span></a>'
-            f'<nav class="hnav"><a href="/#levels">Levels</a><a href="/about">About me</a><a href="#contacts">Contact</a></nav>'
+            f'<nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav>'
             f'</div></header>')
 
 
@@ -78,7 +78,6 @@ def footer_html():
             '<a href="tel:+380989960039">+380 98 996 00 39</a>'
             '<a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div>'
             '<div class="fcol"><h4>Info</h4>'
-            '<a href="/about">About me</a>'
             '<a href="/terms">Terms &amp; Conditions</a></div>'
             '</div><div class="fbottom"><span>© 2026 Liliia Labiak</span>'
             '<span>English practice · A1–C1</span></div></footer>')
@@ -230,7 +229,7 @@ about_body = (
     '<h1>Hi, I\'m Liliia</h1>'
     '<p class="ab-sub">I\'m an English teacher with 5 years of experience. I teach General, Business and IT English, '
     'from complete beginners (A0) to advanced (C1), and I have helped more than 100 people get ready for job interviews in English.</p>'
-    '<a class="ab-cta" href="https://t.me/Lilia_labiak">Write to me on Telegram →</a></div>'
+    '<a class="ab-cta" href="https://t.me/Lilia_labiak">Text me on Telegram →</a></div>'
     '<figure class="ab-photo"><img src="/img/liliia.jpg" alt="Liliia Labiak, English teacher" width="720" height="900">'
     '<img class="ab-sticker" src="/img/stickers/interview.png" alt="Sticker: a job interview" loading="lazy"></figure></section>\n'
     '<section class="section"><div class="ab-facts">'
@@ -265,7 +264,7 @@ about_body = (
               f'<figcaption><span class="t">{H.escape(t)}</span><span class="k">{H.escape(k)}</span></figcaption></figure>'
               for f, t, k in STUDENTS) +
     '</div></section>')
-open('about.html', 'w').write(page(f'About me · {SITE_NAME}', about_body, '<link rel="stylesheet" href="/about.css">\n'))
+open('about.html', 'w').write(page(f'About me · {SITE_NAME}', about_body, '<meta name="robots" content="noindex, nofollow">\n<link rel="stylesheet" href="/about.css">\n'))
 
 # ---------- terms page ----------
 terms_body = (
