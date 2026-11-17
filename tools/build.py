@@ -217,11 +217,11 @@ BOARDS = [  # image file in img/lessons, title, level and what's inside
     ('the-necklace-b2', 'The Necklace', 'B2 · A short story: reading, listening and discussion'),
     ('the-way-we-used-to-sleep-b2', 'The way we used to sleep', 'B2 · Grammar (used to, be used to, get used to), reading and speaking'),
 ]
-STUDENTS = [  # photo in img/students, caption, small line
-    ('group', 'Study with friends', 'Small group lessons and speaking practice'),
-    ('interview', 'Prepare for interviews', 'Mock job interviews in English'),
+STUDENTS = [  # photo in img/students (all cropped to 4:3), caption, small line
     ('group-lesson', 'Learn together', 'A group lesson: Lost in the jungle'),
+    ('interview', 'Prepare for interviews', 'Mock job interviews in English'),
     ('pets', 'Study with pets', 'Cats are always welcome at my lessons'),
+    ('traveling', 'Study while traveling', 'English goes with you everywhere'),
 ]
 FACTS = [('5', 'years of teaching'), ('100+', 'students prepared for job interviews'), ('A0–C1', 'all levels, from complete beginners'), ('3', 'directions: General, Business and IT English')]
 about_body = (
