@@ -225,7 +225,8 @@ about_body = (
     '<p class="ab-sub">I\'m an English teacher with 5 years of experience. I teach General, Business and IT English, '
     'from complete beginners (A0) to advanced (C1), and I have helped more than 100 people get ready for job interviews in English.</p>'
     '<a class="ab-cta" href="https://t.me/Lilia_labiak">Write to me on Telegram →</a></div>'
-    '<img class="ab-sticker" src="/img/stickers/interview.png" alt="Sticker: a job interview" loading="lazy"></section>\n'
+    '<figure class="ab-photo"><img src="/img/liliia.jpg" alt="Liliia Labiak, English teacher" width="720" height="900">'
+    '<img class="ab-sticker" src="/img/stickers/interview.png" alt="Sticker: a job interview" loading="lazy"></figure></section>\n'
     '<section class="section"><div class="ab-facts">'
     + ''.join(f'<div class="ab-fact"><span class="n">{n}</span><span class="t">{t}</span></div>' for n, t in FACTS) +
     '</div></section>\n'
