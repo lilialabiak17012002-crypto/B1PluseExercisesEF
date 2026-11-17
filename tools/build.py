@@ -204,10 +204,13 @@ home_body = ('<section class="hero"><div class="hero-text"><span class="pill pil
 open('index.html', 'w').write(page(SITE_NAME, home_body))
 
 # ---------- about page ----------
-SAMPLES = [  # Google Slides id, title, what the lesson is
-    ('1mdYE7iZ7zsnFljDIFEP3pi6CTjbKsdykm4xlp-G0IVM', 'Tech pet peeves', 'Speaking class · B1–B2'),
-    ('1IfjwmIBKsXW5GK_ZRTphdYWvKCBF-fdoiEeUL06iyyc', 'The power of social media', 'Speaking class · B1–B2'),
-    ('1kveHTjrHUtIYA9RkJkpytlSD3-LAWYYhnjzfNV9q5KQ', 'The other side of fame', 'Speaking class · B2'),
+SAMPLES = [  # (embed url, open url, title, what the lesson is)
+    ('https://docs.google.com/presentation/d/19TMewG2A5rG4Q1t2ErUFBR7-QPD-stbqkpYmHFQB6-g/embed?start=false&amp;loop=false',
+     'https://docs.google.com/presentation/d/19TMewG2A5rG4Q1t2ErUFBR7-QPD-stbqkpYmHFQB6-g/view', 'Dark Patterns', 'B1 · Everyday tech'),
+    ('https://docs.google.com/presentation/d/1DIDEdrSsQT737e5FaEch6jHX0seynu5D_uCoHoca5tI/embed?start=false&amp;loop=false',
+     'https://docs.google.com/presentation/d/1DIDEdrSsQT737e5FaEch6jHX0seynu5D_uCoHoca5tI/view', 'Stormy weather', 'B2 · Weather and the future'),
+    ('https://drive.google.com/file/d/1IoqHKn8GzjfEexCiuueTWF6IiSc2xjp3/preview',
+     'https://drive.google.com/file/d/1IoqHKn8GzjfEexCiuueTWF6IiSc2xjp3/view', 'Your RAM Is Wasted on You', 'Tech & AI news'),
 ]
 FACTS = [('5', 'years of teaching'), ('100+', 'students prepared for job interviews'), ('A0–C1', 'all levels, from complete beginners'), ('3', 'directions: General, Business and IT English')]
 about_body = (
@@ -227,14 +230,14 @@ about_body = (
     '<div class="ab-col c-butter"><h3>Business English</h3><p>Meetings, emails, presentations, negotiations and job interviews.</p></div>'
     '<div class="ab-col c-blush"><h3>IT English</h3><p>English for developers, QA and other IT specialists: stand-ups, tickets, technical interviews.</p></div>'
     '</div></section>\n'
-    '<section class="section"><div class="section-head"><span class="pill">Examples</span><h2>Speaking classes</h2></div>'
-    '<p class="ab-note">Discussion lessons built around a topic: warm-up, new vocabulary, a video or article and lots of speaking. Click through the slides.</p>'
+    '<section class="section"><div class="section-head"><span class="pill">Examples</span><h2>Lessons I made</h2></div>'
+    '<p class="ab-note">Every lesson is built around a real topic: a warm-up, new vocabulary, a video or an article, grammar in context and lots of speaking. Click through the slides.</p>'
     '<div class="ab-decks">'
-    + ''.join(f'<figure class="ab-deck"><div class="frame"><iframe src="https://docs.google.com/presentation/d/{i}/embed?start=false&amp;loop=false" '
+    + ''.join(f'<figure class="ab-deck"><div class="frame"><iframe src="{e}" '
               f'title="Lesson slides: {H.escape(t)}" loading="lazy" allowfullscreen></iframe></div>'
               f'<figcaption><span class="t">{H.escape(t)}</span><span class="k">{H.escape(k)}</span>'
-              f'<a href="https://docs.google.com/presentation/d/{i}/view" target="_blank" rel="noopener">Open ↗</a></figcaption></figure>'
-              for i, t, k in SAMPLES) +
+              f'<a href="{o}" target="_blank" rel="noopener">Open ↗</a></figcaption></figure>'
+              for e, o, t, k in SAMPLES) +
     '</div></section>')
 open('about.html', 'w').write(page(f'About me · {SITE_NAME}', about_body, '<link rel="stylesheet" href="/about.css">\n'))
 
