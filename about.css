@@ -40,3 +40,5 @@
 .ab-person figcaption{display:flex;flex-direction:column;gap:2px;padding:14px 18px 16px}
 .ab-person .t{font:600 22px/1.2 var(--serif)}
 .ab-person .k{font:500 13px var(--sans);color:var(--muted)}
+.ab-video{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:10px;max-width:900px}
+.ab-video video{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:14px;background:#000}

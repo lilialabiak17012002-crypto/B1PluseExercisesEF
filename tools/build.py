@@ -232,6 +232,9 @@ about_body = (
     '<a class="ab-cta" href="https://t.me/Lilia_labiak">Text me on Telegram →</a></div>'
     '<figure class="ab-photo"><img src="/img/liliia.jpg" alt="Liliia Labiak, English teacher" width="720" height="900">'
     '<img class="ab-sticker" src="/img/stickers/interview.png" alt="Sticker: a job interview" loading="lazy"></figure></section>\n'
+    '<section class="section"><div class="section-head"><span class="pill">Video</span><h2>A peek into my lessons</h2></div>'
+    '<div class="ab-video"><video controls playsinline preload="metadata" poster="/img/lesson-promo-poster.jpg">'
+    '<source src="/video/lesson-promo.mp4" type="video/mp4">Your browser can\'t play this video.</video></div></section>\n'
     '<section class="section"><div class="ab-facts">'
     + ''.join(f'<div class="ab-fact"><span class="n">{n}</span><span class="t">{t}</span></div>' for n, t in FACTS) +
     '</div></section>\n'
