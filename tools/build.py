@@ -209,8 +209,8 @@ SAMPLES = [  # (embed url, open url, title, what the lesson is)
      'https://docs.google.com/presentation/d/19TMewG2A5rG4Q1t2ErUFBR7-QPD-stbqkpYmHFQB6-g/view', 'Dark Patterns', 'B1 · Everyday tech'),
     ('https://docs.google.com/presentation/d/1DIDEdrSsQT737e5FaEch6jHX0seynu5D_uCoHoca5tI/embed?start=false&amp;loop=false',
      'https://docs.google.com/presentation/d/1DIDEdrSsQT737e5FaEch6jHX0seynu5D_uCoHoca5tI/view', 'Stormy weather', 'B2 · Weather and the future'),
-    ('https://drive.google.com/file/d/1IoqHKn8GzjfEexCiuueTWF6IiSc2xjp3/preview',
-     'https://drive.google.com/file/d/1IoqHKn8GzjfEexCiuueTWF6IiSc2xjp3/view', 'Your RAM Is Wasted on You', 'C1 · Tech & AI news'),
+    ('https://docs.google.com/presentation/d/1ktZh2WhCIwmI9KqfHuwIgL32U68G0_jHiQCcgT3sL8o/embed?start=false&amp;loop=false',
+     'https://docs.google.com/presentation/d/1ktZh2WhCIwmI9KqfHuwIgL32U68G0_jHiQCcgT3sL8o/view', 'Your RAM Is Wasted on You', 'C1 · Tech & AI news'),
 ]
 BOARDS = [  # image file in img/lessons, title, level and what's inside
     ('survive-the-drive-b1', 'Survive the Drive', 'B1 · Vocabulary, speaking, reading and listening'),
