@@ -222,27 +222,38 @@ STUDENTS = [  # photo in img/students (all cropped to 4:3), caption, small line
     ('pets', 'Study with pets', 'Cats are always welcome at my lessons'),
     ('traveling', 'Study while traveling', 'English goes with you everywhere'),
 ]
-FACTS = [('5', 'years of teaching'), ('100+', 'students prepared for job interviews'), ('A0–C1', 'all levels, from complete beginners'), ('3', 'directions: General, Business and IT English')]
+FACTS = [  # big value, label
+    ('5 years', 'teaching English to adults'),
+    ('100+', 'tech specialists prepared for job interviews and client calls'),
+    ('A0–C1', 'General, Business and IT English'),
+    ('MA · TESOL', "Master's in Germanic languages, TESOL certificate (Arizona State University)"),
+]
 about_body = (
     '<a class="back" href="/">← Home</a>\n'
     '<section class="ab-hero"><div class="ab-text"><span class="pill pill-light">About me</span>'
     '<h1>Hi, I\'m Liliia</h1>'
-    '<p class="ab-sub">I\'m an English teacher with 5 years of experience. I teach General, Business and IT English, '
-    'from complete beginners (A0) to advanced (C1), and I have helped more than 100 people get ready for job interviews in English.</p>'
+    '<p class="ab-sub">I\'m an English teacher with 5 years of experience. I teach adults General, Business and IT English, '
+    'from complete beginners (A0) to advanced (C1). I have worked for a British company, and in the last year alone I have helped '
+    'more than 100 tech specialists get ready for job interviews and calls with clients.</p>'
     '<a class="ab-cta" href="https://t.me/Lilia_labiak">Text me on Telegram →</a></div>'
     '<figure class="ab-photo"><img src="/img/liliia.jpg" alt="Liliia Labiak, English teacher" width="720" height="900">'
     '<img class="ab-sticker" src="/img/stickers/interview.png" alt="Sticker: a job interview" loading="lazy"></figure></section>\n'
+    '<div class="ab-strip">'
+    + ''.join(f'<div class="ab-stat"><span class="n">{H.escape(n)}</span><span class="t">{H.escape(t)}</span></div>' for n, t in FACTS) +
+    '</div>\n'
     '<section class="section"><div class="section-head"><span class="pill">Video</span><h2>A peek into my lessons</h2></div>'
     '<div class="ab-video"><video controls playsinline preload="metadata" poster="/img/lesson-promo-poster.jpg">'
     '<source src="/video/lesson-promo.mp4" type="video/mp4">Your browser can\'t play this video.</video></div></section>\n'
-    '<section class="section"><div class="ab-facts">'
-    + ''.join(f'<div class="ab-fact"><span class="n">{n}</span><span class="t">{t}</span></div>' for n, t in FACTS) +
-    '</div></section>\n'
     '<section class="section"><div class="section-head"><span class="pill">What I teach</span><h2>My lessons</h2></div>'
     '<div class="ab-cols">'
     '<div class="ab-col c-blue"><h3>General English</h3><p>Speaking, grammar, vocabulary and reading for everyday life and travel, A0–C1.</p></div>'
     '<div class="ab-col c-butter"><h3>Business English</h3><p>Meetings, emails, presentations, negotiations and job interviews.</p></div>'
     '<div class="ab-col c-blush"><h3>IT English</h3><p>English for developers, QA and other IT specialists: stand-ups, tickets, technical interviews.</p></div>'
+    '</div>'
+    '<div class="ab-how">'
+    '<div class="ab-how-item"><span class="i">01</span><h3>Lessons on Miro</h3><p>We work on an online whiteboard: all the materials of every lesson stay in one place, so you can always go back to them.</p></div>'
+    '<div class="ab-how-item"><span class="i">02</span><h3>Made for you</h3><p>I prepare every lesson for you: your level, your goals and the topics you really need at work and in life.</p></div>'
+    '<div class="ab-how-item"><span class="i">03</span><h3>Interactive homework</h3><p>Homework is on <a href="/">my own practice platform</a>: you check your answers at once and see why a mistake is a mistake.</p></div>'
     '</div></section>\n'
     '<section class="section"><div class="section-head"><span class="pill">Examples</span><h2>Lessons I made</h2></div>'
     '<p class="ab-note">Every lesson is built around a real topic: a warm-up, new vocabulary, a video or an article, grammar in context and lots of speaking. Click through the slides.</p>'
