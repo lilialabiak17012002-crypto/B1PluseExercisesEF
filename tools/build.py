@@ -217,6 +217,12 @@ BOARDS = [  # image file in img/lessons, title, level and what's inside
     ('the-necklace-b2', 'The Necklace', 'B2 · A short story: reading, listening and discussion'),
     ('the-way-we-used-to-sleep-b2', 'The way we used to sleep', 'B2 · Grammar (used to, be used to, get used to), reading and speaking'),
 ]
+STUDENTS = [  # photo in img/students, caption, small line
+    ('group', 'Study with friends', 'Small group lessons and speaking practice'),
+    ('interview', 'Prepare for interviews', 'Mock job interviews in English'),
+    ('group-lesson', 'Learn together', 'A group lesson: Lost in the jungle'),
+    ('pets', 'Study with pets', 'Cats are always welcome at my lessons'),
+]
 FACTS = [('5', 'years of teaching'), ('100+', 'students prepared for job interviews'), ('A0–C1', 'all levels, from complete beginners'), ('3', 'directions: General, Business and IT English')]
 about_body = (
     '<a class="back" href="/">← Home</a>\n'
@@ -252,6 +258,12 @@ about_body = (
               f'<img src="/img/lessons/{f}-small.jpg" alt="Lesson board: {H.escape(t)}" loading="lazy"></a>'
               f'<figcaption><span class="t">{H.escape(t)}</span><span class="k">{H.escape(k)}</span></figcaption></figure>'
               for f, t, k in BOARDS) +
+    '</div></section>\n'
+    '<section class="section"><div class="section-head"><span class="pill">Real lessons</span><h2>With my students</h2></div>'
+    '<div class="ab-people">'
+    + ''.join(f'<figure class="ab-person"><img src="/img/students/{f}.jpg" alt="{H.escape(t)}: {H.escape(k)}" loading="lazy">'
+              f'<figcaption><span class="t">{H.escape(t)}</span><span class="k">{H.escape(k)}</span></figcaption></figure>'
+              for f, t, k in STUDENTS) +
     '</div></section>')
 open('about.html', 'w').write(page(f'About me · {SITE_NAME}', about_body, '<link rel="stylesheet" href="/about.css">\n'))
 

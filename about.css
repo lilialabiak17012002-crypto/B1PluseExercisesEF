@@ -33,3 +33,9 @@
 .ab-board figcaption{display:flex;flex-direction:column;gap:2px;padding:14px 18px 16px}
 .ab-board .t{font:600 20px/1.2 var(--serif)}
 .ab-board .k{font:500 13px var(--sans);color:var(--muted)}
+.ab-people{columns:2 320px;column-gap:18px}
+.ab-person{margin:0 0 18px;break-inside:avoid;background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.ab-person img{display:block;width:100%;height:auto}
+.ab-person figcaption{display:flex;flex-direction:column;gap:2px;padding:14px 18px 16px}
+.ab-person .t{font:600 22px/1.2 var(--serif)}
+.ab-person .k{font:500 13px var(--sans);color:var(--muted)}
