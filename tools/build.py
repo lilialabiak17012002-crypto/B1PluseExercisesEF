@@ -202,7 +202,7 @@ home_body = ('<section class="hero"><div class="hero-text"><span class="pill pil
                          for i, (sec, h) in enumerate(SECTIONS)))
 open('index.html', 'w').write(page(SITE_NAME, home_body))
 
-# ---------- about page ----------
+# ---------- about page: link-only, at /meet-liliia (not in the menu, noindex) ----------
 SAMPLES = [  # (embed url, open url, title, what the lesson is)
     ('https://docs.google.com/presentation/d/19TMewG2A5rG4Q1t2ErUFBR7-QPD-stbqkpYmHFQB6-g/embed?start=false&amp;loop=false',
      'https://docs.google.com/presentation/d/19TMewG2A5rG4Q1t2ErUFBR7-QPD-stbqkpYmHFQB6-g/view', 'Dark Patterns', 'B1 · Everyday tech'),
@@ -267,7 +267,7 @@ about_body = (
               f'<figcaption><span class="t">{H.escape(t)}</span><span class="k">{H.escape(k)}</span></figcaption></figure>'
               for f, t, k in STUDENTS) +
     '</div></section>')
-open('about.html', 'w').write(page(f'About me · {SITE_NAME}', about_body, '<meta name="robots" content="noindex, nofollow">\n<link rel="stylesheet" href="/about.css">\n'))
+open('meet-liliia.html', 'w').write(page(f'Meet Liliia · {SITE_NAME}', about_body, '<meta name="robots" content="noindex, nofollow">\n<link rel="stylesheet" href="/about.css">\n'))
 
 # ---------- terms page ----------
 terms_body = (
