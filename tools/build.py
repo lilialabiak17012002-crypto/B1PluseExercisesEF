@@ -65,7 +65,7 @@ def header_html():
     return (f'<header class="site-header"><div class="hwrap">'
             f'<a class="brand" href="/"><span class="logo-slot" aria-hidden="true">logo</span>'
             f'<span class="brand-name">{SITE_NAME}</span></a>'
-            f'<nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav>'
+            f'<nav class="hnav"><a href="/#levels">Levels</a><a href="/about">About me</a><a href="#contacts">Contact</a></nav>'
             f'</div></header>')
 
 
@@ -78,15 +78,16 @@ def footer_html():
             '<a href="tel:+380989960039">+380 98 996 00 39</a>'
             '<a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div>'
             '<div class="fcol"><h4>Info</h4>'
+            '<a href="/about">About me</a>'
             '<a href="/terms">Terms &amp; Conditions</a></div>'
             '</div><div class="fbottom"><span>© 2026 Liliia Labiak</span>'
             '<span>English practice · A1–C1</span></div></footer>')
 
 
-def page(title, body):
+def page(title, body, head=''):
     return (f'<!DOCTYPE html>\n<html lang="en"><head>\n<meta charset="utf-8">\n'
             f'<meta name="viewport" content="width=device-width, initial-scale=1">\n<title>{title}</title>\n'
-            f'{FONTS}\n<link rel="stylesheet" href="/chrome.css">\n<link rel="stylesheet" href="/site.css">\n'
+            f'{FONTS}\n<link rel="stylesheet" href="/chrome.css">\n<link rel="stylesheet" href="/site.css">\n{head}'
             f'</head>\n<body>\n{header_html()}\n<main class="wrap">\n{body}\n</main>\n{footer_html()}\n</body></html>\n')
 
 
@@ -201,6 +202,41 @@ home_body = ('<section class="hero"><div class="hero-text"><span class="pill pil
                          f'<h2>{h}</h2>{sticker(sec)}</div>\n<div class="tiles">\n' + '\n'.join(tiles[sec]) + '\n</div></section>'
                          for i, (sec, h) in enumerate(SECTIONS)))
 open('index.html', 'w').write(page(SITE_NAME, home_body))
+
+# ---------- about page ----------
+SAMPLES = [  # Google Slides id, title, what the lesson is
+    ('1mdYE7iZ7zsnFljDIFEP3pi6CTjbKsdykm4xlp-G0IVM', 'Tech pet peeves', 'Speaking class · B1–B2'),
+    ('1IfjwmIBKsXW5GK_ZRTphdYWvKCBF-fdoiEeUL06iyyc', 'The power of social media', 'Speaking class · B1–B2'),
+    ('1kveHTjrHUtIYA9RkJkpytlSD3-LAWYYhnjzfNV9q5KQ', 'The other side of fame', 'Speaking class · B2'),
+]
+FACTS = [('5', 'years of teaching'), ('100+', 'students prepared for job interviews'), ('A0–C1', 'all levels, from complete beginners'), ('3', 'directions: General, Business and IT English')]
+about_body = (
+    '<a class="back" href="/">← Home</a>\n'
+    '<section class="ab-hero"><div class="ab-text"><span class="pill pill-light">About me</span>'
+    '<h1>Hi, I\'m Liliia</h1>'
+    '<p class="ab-sub">I\'m an English teacher with 5 years of experience. I teach General, Business and IT English, '
+    'from complete beginners (A0) to advanced (C1), and I have helped more than 100 people get ready for job interviews in English.</p>'
+    '<a class="ab-cta" href="https://t.me/Lilia_labiak">Write to me on Telegram →</a></div>'
+    '<img class="ab-sticker" src="/img/stickers/interview.png" alt="Sticker: a job interview" loading="lazy"></section>\n'
+    '<section class="section"><div class="ab-facts">'
+    + ''.join(f'<div class="ab-fact"><span class="n">{n}</span><span class="t">{t}</span></div>' for n, t in FACTS) +
+    '</div></section>\n'
+    '<section class="section"><div class="section-head"><span class="pill">What I teach</span><h2>My lessons</h2></div>'
+    '<div class="ab-cols">'
+    '<div class="ab-col c-blue"><h3>General English</h3><p>Speaking, grammar, vocabulary and reading for everyday life and travel, A0–C1.</p></div>'
+    '<div class="ab-col c-butter"><h3>Business English</h3><p>Meetings, emails, presentations, negotiations and job interviews.</p></div>'
+    '<div class="ab-col c-blush"><h3>IT English</h3><p>English for developers, QA and other IT specialists: stand-ups, tickets, technical interviews.</p></div>'
+    '</div></section>\n'
+    '<section class="section"><div class="section-head"><span class="pill">Examples</span><h2>Speaking classes</h2></div>'
+    '<p class="ab-note">Discussion lessons built around a topic: warm-up, new vocabulary, a video or article and lots of speaking. Click through the slides.</p>'
+    '<div class="ab-decks">'
+    + ''.join(f'<figure class="ab-deck"><div class="frame"><iframe src="https://docs.google.com/presentation/d/{i}/embed?start=false&amp;loop=false" '
+              f'title="Lesson slides: {H.escape(t)}" loading="lazy" allowfullscreen></iframe></div>'
+              f'<figcaption><span class="t">{H.escape(t)}</span><span class="k">{H.escape(k)}</span>'
+              f'<a href="https://docs.google.com/presentation/d/{i}/view" target="_blank" rel="noopener">Open ↗</a></figcaption></figure>'
+              for i, t, k in SAMPLES) +
+    '</div></section>')
+open('about.html', 'w').write(page(f'About me · {SITE_NAME}', about_body, '<link rel="stylesheet" href="/about.css">\n'))
 
 # ---------- terms page ----------
 terms_body = (
