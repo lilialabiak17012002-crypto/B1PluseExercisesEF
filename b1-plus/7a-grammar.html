@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="uk"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>7A Take your cash · Grammar: Phrasal verbs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid var(--ink);border-radius:10px;padding:12px 16px;margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}
+.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
+.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
+.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+li.q.bad .fix.empty{color:var(--muted);font-style:italic}
+</style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/img/icon-32.png"><link rel="apple-touch-icon" href="/img/icon-180.png"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
+</head>
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><img class="logo-slot" src="/img/logo.png" width="48" height="48" alt=""><span class="brand-name">Your Digital Workbook</span></a><nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/b1-plus">← All B1+ lessons</a><a href="/">All levels</a></nav><!-- /site-nav -->
+
+<h1>7A Take your cash · Grammar: Phrasal verbs</h1><p class="sub">English File Intermediate Plus · File 7</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Перевірити</button></div></div>
+<div class="card" id="result"><div>Твій результат</div><div id="score"></div>
+<div class="shot">📸 Зроби скріншот і надішли вчительці.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Спробувати ще раз</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Phrasal verbs</h2>\n<table><tr><th>Тип</th><th>Правило</th><th>Приклад</th></tr>\n<tr><td><b>1. Без додатка</b></td><td>дієслово й частку не розділяємо</td><td><span class='ex'>I get up at 6.00. The plane took off late.</span></td></tr>\n<tr><td><b>2. З додатком, роздільні</b></td><td>іменник — до або після частки; <b>займенник — завжди посередині</b></td><td><span class='ex'>Fill in this form. / Fill this form in.<br>Fill <b>it</b> in. ✓ &nbsp;<s>Fill in it.</s> ✗</span></td></tr>\n<tr><td><b>3. З додатком, нероздільні</b></td><td>додаток завжди після частки</td><td><span class='ex'>I take after my father. I take after <b>him</b>.<br>I'm looking for <b>it</b>.</span></td></tr>\n<tr><td><b>Дві частки</b></td><td>ніколи не розділяємо</td><td><span class='ex'>I don't get on with him. I'm looking forward to it.</span></td></tr></table>\n<p>Роздільні (тип 2): <span class='ex'>turn on/off/up/down, switch on/off, put away/up, take out/back/off, throw away, give away, pick up, send back, set up, try on, pay back, call back</span><br>Нероздільні (тип 3): <span class='ex'>look for, look after, take after, get on with, go out with, move in with, ask for, look forward to</span></p>\n<p><b style='color:#e5484d'>❗ Займенник it / them — між дієсловом і часткою:</b> <span class='ex'>I switched it off. ✓ &nbsp;<s>I switched off it.</s> ✗</span></p>"}, {"type": "text", "n": 1, "title": "Which verb?", "task": "Complete the phrasal verbs in the conversations with a verb from the box.", "bank": ["be", "call", "get", "give", "put", "run", "take"], "items": [{"t": "A: What would you do if a big dog ran towards you? B: I'd [?] away. I'm really scared of dogs.", "a": [["run"]], "why": ["run away = escape."]}, {"t": "A: What shall we do with our old washing machine? B: They'll [?] it away when they bring the new one.", "a": [["take"]], "why": ["take away = remove it."]}, {"t": "A: Are you going out? B: Yes, but I'll [?] back in an hour.", "a": [["be"]], "why": ["be back = return."]}, {"t": "A: How long will the car be in the garage? B: We'll [?] it back on Friday.", "a": [["get"]], "why": ["get back = receive again."]}, {"t": "A: Do you know where my blue shirt is? B: Yes – I [?] it away in your wardrobe.", "a": [["put"]], "why": ["put away = put in its place."]}, {"t": "A: Can I speak to Grace, please? B: She isn't in. Can you [?] back later?", "a": [["call"]], "why": ["call back = phone again."]}, {"t": "A: Can I borrow your keys? I can't find mine. B: Yes, but remember to [?] them back.", "a": [["give"]], "why": ["give back = return to the owner."]}, {"t": "A: Is your girlfriend at home? B: No, she'll [?] away until Sunday night.", "a": [["be"]], "why": ["be away = not at home."]}]}, {"type": "text", "n": 2, "title": "take + particle", "task": "Complete the conversations with a phrasal verb with take (take after, take apart, take off, take on, take out, take over, take up).", "items": [{"t": "A: Come in and [?] your coat. Would you like a coffee?", "a": [["take off"]], "why": ["take off = remove clothes."]}, {"t": "A: How many job vacancies are there? B: They want to [?] 20 new employees.", "a": [["take on"]], "why": ["take on = employ."]}, {"t": "A: How are you planning to get fit? B: I'm going to [?] aerobics.", "a": [["take up"]], "why": ["take up = start a hobby."]}, {"t": "A: Who are you most similar to in your family? B: I [?] my gran. We even look the same.", "a": [["take after"]], "why": ["take after = be similar to an older relative."]}, {"t": "A: What are you doing for your husband's birthday? B: I'm going to [?] him [?] for dinner.", "a": [["take"], ["out"]], "why": ["take sb out = invite sb to a restaurant; the object goes in the middle."]}, {"t": "A: Why are you worried about your job? B: I've heard that a bigger company is trying to [?] ours.", "a": [["take over"]], "why": ["take over = get control of a company."]}, {"t": "A: Which terminal are you flying from? B: I'm not sure. Domestic flights [?] from Terminal 3, don't they?", "a": [["take off"]], "why": ["take off = (a plane) leave the ground."]}, {"t": "A: Why isn't this clock working? B: No idea. Let's [?] it [?] and look inside.", "a": [["take"], ["apart"]], "why": ["take apart = separate into pieces; it goes in the middle."]}]}, {"type": "text", "n": 3, "title": "Word order", "task": "Complete the sentences with the words in brackets in the correct order.", "items": [{"t": "My boyfriend [me picked up] from the station when I arrived.", "a": [["picked me up"]], "why": ["Pronoun between verb and particle → <u>picked me up</u>."]}, {"t": "I've bought a home cinema system, but I don't know how to [up it set].", "a": [["set it up"]], "why": ["Separable → <u>set it up</u>."]}, {"t": "Shall I get the bill, or have you just [for it asked]?", "a": [["asked for it"]], "why": ["ask for is inseparable → <u>asked for it</u>."]}, {"t": "Your music is too loud. Can you [down it turn], please?", "a": [["turn it down"]], "why": ["Separable → <u>turn it down</u>."]}, {"t": "I can't find my car keys. Can you help me [for them look]?", "a": [["look for them"]], "why": ["look for is inseparable → <u>look for them</u>."]}, {"t": "I'm really busy. Can you [back call me] later?", "a": [["call me back"]], "why": ["Separable → <u>call me back</u>."]}, {"t": "We're going to a concert tonight. We're really [forward it looking to].", "a": [["looking forward to it"]], "why": ["Two particles, never separated → <u>looking forward to it</u>."]}, {"t": "I've bought a new picture. Can you help me [it put up]?", "a": [["put it up"]], "why": ["Separable → <u>put it up</u>."]}]}, {"type": "text", "n": 4, "title": "Use a pronoun", "task": "Rewrite the « » phrases using a pronoun. Change the word order if necessary.", "items": [{"t": "I don't «get on with my boyfriend's mother». → [?]", "a": [["get on with her"]], "why": ["Inseparable → <u>get on with her</u>."]}, {"t": "Do you mind if I «switch on the lights»? → [?]", "a": [["switch them on"]], "why": ["Separable, pronoun in the middle → <u>switch them on</u>."]}, {"t": "Please can you «take out the rubbish»? → [?]", "a": [["take it out"]], "why": ["Separable → <u>take it out</u>."]}, {"t": "He's «going out with my friend's sister». → [?]", "a": [["going out with her"]], "why": ["Inseparable → <u>going out with her</u>."]}, {"t": "I'd «send back that steak» – it's burnt. → [?]", "a": [["send it back"]], "why": ["Separable → <u>send it back</u>."]}, {"t": "I've been «looking after my friend's children». → [?]", "a": [["looking after them"]], "why": ["Inseparable → <u>looking after them</u>."]}, {"t": "Can you «ask for the bill»? → [?]", "a": [["ask for it"]], "why": ["Inseparable → <u>ask for it</u>."]}, {"t": "Why don't you «try on those shorts»? → [?]", "a": [["try them on"]], "why": ["Separable → <u>try them on</u>."]}, {"t": "Alice is going to «move in with her boyfriend» next month. → [?]", "a": [["move in with him"]], "why": ["Two particles → <u>move in with him</u>."]}, {"t": "I'm going to «throw away all my old magazines». → [?]", "a": [["throw them all away", "throw them away"]], "why": ["Separable → <u>throw them (all) away</u>."]}]}, {"type": "text", "n": 5, "title": "My life", "task": "Complete the text with the phrasal verbs from the box. If there is an object in brackets, put it in the correct position.", "bank": ["get on with", "grew up", "look after", "look for", "move back", "move in with", "pay off", "settle down", "take after", "went out with"], "items": [{"t": "I was born in Bristol in the south-west of England, and that's where I [?].", "a": [["grew up"]], "why": ["grow up = spend your childhood."]}, {"t": "I'm closest to my dad, and everyone says I [him] because we have the same sense of humour.", "a": [["take after him"]], "why": ["Inseparable → <u>take after him</u>."]}, {"t": "I'm very fond of my mum and my brother and sister and I [them] very well.", "a": [["get on with them"]], "why": ["Inseparable → <u>get on with them</u>."]}, {"t": "My sister has two young children, and I sometimes [them] so that she and my brother-in-law can go out in the evening.", "a": [["look after them"]], "why": ["Inseparable → <u>look after them</u>."]}, {"t": "In my first year at university I made three wonderful friends. In my second year, I [them] – we lived in a lovely old house.", "a": [["moved in with them"]], "why": ["Past + inseparable → <u>moved in with them</u>."]}, {"t": "I took out a student loan while I was at university, and I'm hoping to [it] before I retire!", "a": [["pay it off"]], "why": ["Separable → <u>pay it off</u>."]}, {"t": "When I finished university, I [a job] in Exeter and I was lucky enough to find one very quickly.", "a": [["looked for a job"]], "why": ["Inseparable → <u>looked for a job</u>."]}, {"t": "I met my husband at work, and I [him] for about three years before we got married.", "a": [["went out with him"]], "why": ["Inseparable → <u>went out with him</u>."]}, {"t": "We decided to [?] together in Exeter because it's a great place to live and raise a family.", "a": [["settle down"]], "why": ["settle down = start a quiet life in one place."]}, {"t": "I often visit my friends and family in Bristol, but I don't think I'll ever [?] there.", "a": [["move back"]], "why": ["move back = return to live."]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— вибери —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Правильно: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Правильно: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Правильно: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Правильно: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const WHY_LANG='en';
+function showWhy(li){const fix=li.querySelector('.fix');const ans=fix.textContent.replace(/^✗ Правильно:\s*/,'');fix.textContent='';
+  const box=mk('div','why');box.append(mk('div','why-ans',(WHY_LANG==='en'?'Correct answer: ':'Правильна відповідь: ')+ans));
+  const ul=mk('ul');li._why.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');const _empty=!ok&&![...li.querySelectorAll('input')].some(i=>i.value.trim())&&![...li.querySelectorAll('select')].some(x=>x.value)&&!li.querySelector('.opt.wrong');if(_empty){const fx=li.querySelector('.fix');fx.textContent=(WHY_LANG==='en'?'No answer. Try again!':'Немає відповіді. Спробуй ще раз!');fx.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}else if(!ok&&li._why)showWhy(li);if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li.querySelector('.fix').classList.remove('empty');li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script>
+<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->
+
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">Your Digital Workbook</div><p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div><div class="fcol"><h4>Contact</h4><a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a><a href="tel:+380989960039">+380 98 996 00 39</a><a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div><div class="fcol"><h4>Info</h4><a href="/terms">Terms &amp; Conditions</a></div></div><div class="fbottom"><span>© 2026 Liliia Labiak</span><span>English practice · A1–C1</span></div></footer><!-- /site-footer -->
+</body></html>
