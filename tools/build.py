@@ -317,7 +317,7 @@ for folder, code, name, cls, section in LEVELS:
                       f'<body>\n<!-- site-header -->{header_html()}<!-- /site-header -->\n<div class="wrap">\n'
                       f'<!-- site-nav --><nav class="sitenav"><a href="/{folder}">← All {code} lessons</a>'
                       f'<a href="/">All levels</a></nav><!-- /site-nav -->\n', 1)
-        if re.search(r'"?bank"?\s*:\s*\[', s):
+        if re.search(r'"?(?:bank|pics)"?\s*:\s*[\[{]', s):
             s = s.replace('</body>', '\n<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->\n</body>', 1)
         s = s.replace('</body>', f'\n<!-- site-footer -->{footer_html()}<!-- /site-footer -->\n</body>', 1)
         open(f, 'w').write(s)
