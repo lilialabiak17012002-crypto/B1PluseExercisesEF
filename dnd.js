@@ -8,7 +8,7 @@
   // accepted answers per gap: {a:[[..],[..]]} or legacy array item whose last element is the answer list
   const answersOf=it=>Array.isArray(it)?(Array.isArray(it[it.length-1])?[it[it.length-1]]:null):(Array.isArray(it.a)?(it.a.length&&!Array.isArray(it.a[0])?[it.a]:it.a):null);
   const css=`
-.bank.sticky{position:sticky;top:0;z-index:5;background:var(--paper,#fff);margin:10px -22px 6px;padding:10px 22px;border-bottom:1px solid transparent;transition:box-shadow .15s,border-color .15s}
+.bank.sticky{position:-webkit-sticky;position:sticky;top:0;z-index:5;background:var(--paper,#fff);margin:10px -22px 6px;padding:10px 22px;border-bottom:1px solid transparent;transition:box-shadow .15s,border-color .15s}
 .bank.sticky.stuck{box-shadow:0 6px 12px -8px rgba(0,0,0,.25);border-color:var(--line,#eee)}
 .bank.dnd span{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;padding:6px 16px;font-weight:700;
   color:var(--tx);border:2px solid var(--bd);background-color:var(--bg);
