@@ -304,7 +304,7 @@ terms_body = (
 open('terms.html', 'w').write(page(f'Terms & Conditions · {SITE_NAME}', terms_body))
 
 # ---------- lesson pages: theme, header, nav, footer ----------
-MARK = re.compile(r'\n?<!-- site-(?:nav|header|footer) -->.*?<!-- /site-(?:nav|header|footer) -->\n?', re.S)
+MARK = re.compile(r'\n?<!-- site-(?:nav|header|footer|dnd) -->.*?<!-- /site-(?:nav|header|footer|dnd) -->\n?', re.S)
 HEADMARK = re.compile(r'<!-- site-head -->.*?<!-- /site-head -->\n', re.S)
 for folder, code, name, cls, section in LEVELS:
     for f in glob.glob(f'{folder}/*.html'):
@@ -317,6 +317,8 @@ for folder, code, name, cls, section in LEVELS:
                       f'<body>\n<!-- site-header -->{header_html()}<!-- /site-header -->\n<div class="wrap">\n'
                       f'<!-- site-nav --><nav class="sitenav"><a href="/{folder}">← All {code} lessons</a>'
                       f'<a href="/">All levels</a></nav><!-- /site-nav -->\n', 1)
+        if re.search(r'"?bank"?\s*:\s*\[', s):
+            s = s.replace('</body>', '\n<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->\n</body>', 1)
         s = s.replace('</body>', f'\n<!-- site-footer -->{footer_html()}<!-- /site-footer -->\n</body>', 1)
         open(f, 'w').write(s)
 print('ok')

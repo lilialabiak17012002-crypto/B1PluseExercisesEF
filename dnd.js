@@ -1,7 +1,12 @@
 // Word bank: sticky bank for every exercise with a bank, plus drag-and-drop / tap-to-place
 // for gap-fill exercises whose answers are bank words used as they are.
 (function(){
-  if(typeof SECS==='undefined')return;
+  const LIST=typeof SECS!=='undefined'?SECS:(typeof S!=='undefined'&&Array.isArray(S)?S:null);
+  if(!LIST)return;
+  const secsEl=document.getElementById('secs');
+  const cardOf=si=>secsEl?secsEl.children[si]:document.getElementById('s'+si);
+  // accepted answers per gap: {a:[[..],[..]]} or legacy array item whose last element is the answer list
+  const answersOf=it=>Array.isArray(it)?(Array.isArray(it[it.length-1])?[it[it.length-1]]:null):(Array.isArray(it.a)?(it.a.length&&!Array.isArray(it.a[0])?[it.a]:it.a):null);
   const css=`
 .bank.sticky{position:sticky;top:0;z-index:5;background:var(--paper,#fff);margin:10px -22px 6px;padding:10px 22px;border-bottom:1px solid transparent;transition:box-shadow .15s,border-color .15s}
 .bank.sticky.stuck{box-shadow:0 6px 12px -8px rgba(0,0,0,.25);border-color:var(--line,#eee)}
@@ -27,9 +32,8 @@ li.q input.slot.bad1{border:2px solid var(--red,#c0392b);background:#fff1f1;box-
 `;
   const st=document.createElement('style');st.textContent=css;document.head.append(st);
   const N=typeof norm==='function'?norm:(s=>s.toLowerCase().trim());
-  const cards=document.getElementById('secs').children;
-  SECS.forEach((sec,si)=>{
-    if(!sec.bank)return;const card=cards[si];if(!card)return;
+  LIST.forEach((sec,si)=>{
+    if(!sec.bank)return;const card=cardOf(si);if(!card)return;
     const bank=card.querySelector('.bank');if(!bank)return;
     bank.classList.add('sticky');
     // sticky shadow only while it is actually stuck
@@ -37,13 +41,13 @@ li.q input.slot.bad1{border:2px solid var(--red,#c0392b);background:#fff1f1;box-
     new IntersectionObserver(([e])=>bank.classList.toggle('stuck',!e.isIntersecting&&e.boundingClientRect.top<0)).observe(sentinel);
     if(sec.type==='match'||sec.type==='choice'||sec.type==='order')return;
     const words=sec.bank.map(N);
-    const ok=sec.items.every(it=>Array.isArray(it.a)&&it.a.every(acc=>acc.some(a=>words.includes(N(a)))));
+    const ok=sec.items.every(it=>{const A=answersOf(it);return A&&A.every(acc=>acc.some(a=>words.includes(N(a))));});
     if(!ok)return;
     const slots=[...card.querySelectorAll('li.q input')];
     if(!slots.length)return;
     bank.classList.add('dnd');
     const tip=document.createElement('p');tip.className='bank-tip';
-    tip.textContent=(typeof WHY_LANG!=='undefined'&&WHY_LANG!=='en')?'Перетягни слово в пропуск або натисни на слово, а потім на пропуск.':'Drag a word into a gap, or tap a word and then a gap.';
+    tip.textContent=(typeof WHY_LANG!=='undefined'?WHY_LANG!=='en':/^\/a[12]\//.test(location.pathname))?'Перетягни слово в пропуск або натисни на слово, а потім на пропуск.':'Drag a word into a gap, or tap a word and then a gap.';
     bank.after(tip);
     const chips=[...bank.querySelectorAll('span')];
     const PAL=[['#EBC9A2','#FCF3EA','#8A4B0B','#E0913A'],['#E6BCD0','#FBF0F5','#8E3557','#C94F7C'],['#BFD8B8','#F2F8EF','#3F6B21','#3E9150'],
@@ -82,7 +86,7 @@ li.q input.slot.bad1{border:2px solid var(--red,#c0392b);background:#fff1f1;box-
         addEventListener('pointermove',move);addEventListener('pointerup',up);addEventListener('pointercancel',up);
       });
     });
-    const again=document.getElementById('again');if(again)again.addEventListener('click',()=>{unpick();refresh();});
+    const again=document.getElementById('again');if(again)again.addEventListener('click',()=>{unpick();slots.forEach(s=>s.readOnly=true);refresh();});
     const check=document.getElementById('check');if(check)check.addEventListener('click',unpick);
   });
 })();
