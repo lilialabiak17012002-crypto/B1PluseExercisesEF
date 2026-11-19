@@ -48,7 +48,6 @@ def sticker(sec):
 COVER_CYCLE = ['c-blue', 'c-butter', 'c-blush', 'c-sand']
 
 DESC_OVERRIDE = {
-    'b1-plus/will-shall-going-to': 'Future forms: will / won\'t, shall, be going to · was / were going to',
     'a2/revise-present-simple-continuous': 'Revision: present simple and present continuous',
 }
 
