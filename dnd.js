@@ -28,13 +28,22 @@ li.q input.slot.over,li.q input.slot.target{border-color:#5A62C9;background:#F3F
 li.q input.slot.over{transform:scale(1.06)}
 li.q input.slot.ok1{border:2px solid var(--green,#2e8b57);background:#effaf4;box-shadow:none;color:inherit}
 ol.pics{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;padding:4px 0}
-@media (max-width:560px){ol.pics{grid-template-columns:1fr 1fr;gap:10px}ol.pics img.pic{width:72px;height:72px}ol.pics li.q{padding:10px 6px}}
+
 ol.pics li.q{border:1px solid var(--line,#E8E1D4);border-radius:18px;padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;line-height:1.3;background:var(--paper,#fff);text-align:center}
 ol.pics li.q::before{display:none}
 ol.pics li.q:last-child{border-bottom:1px solid var(--line,#E8E1D4)}
 ol.pics img.pic{width:96px;height:96px;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none}
 ol.pics li.q input.slot{width:100%;max-width:150px;margin:0}
 ol.pics .fix{margin:0;font-size:14px}
+ol.pics .cap{font-size:13.5px;line-height:1.35;color:var(--muted,#6b7280);flex:1}
+ol.pics.has-caps{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+@media (max-width:560px){
+  ol.pics,ol.pics.has-caps{grid-template-columns:1fr 1fr;gap:10px}
+  ol.pics img.pic{width:72px;height:72px}ol.pics li.q{padding:10px 6px}ol.pics .cap{font-size:12.5px}
+  .bank.sticky.dnd{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:12px}
+  .bank.sticky.dnd::-webkit-scrollbar{display:none}
+  .bank.sticky.dnd span{flex:none;touch-action:pan-x}
+}
 li.q input.slot.bad1{border:2px solid var(--red,#c0392b);background:#fff1f1;box-shadow:none;color:inherit}
 .dnd-ghost{position:fixed;z-index:1000;pointer-events:none;background:var(--fill);border:2px solid var(--fill);color:#fff;border-radius:999px;padding:6px 16px;font:700 14px var(--sans,sans-serif);box-shadow:0 12px 24px -6px var(--fill);transform:translate(-50%,-60%) rotate(-3deg)}
 `;
@@ -99,20 +108,22 @@ li.q input.slot.bad1{border:2px solid var(--red,#c0392b);background:#fff1f1;box-
     // picture matching: a match exercise with sec.pics = {word: image url}
     if(sec.type==='match'&&sec.pics&&Array.isArray(sec.items[0])){
       const ol=card.querySelector('ol');if(!ol)return;
-      const words=sec.items.map(it=>it[0]);
+      const pw=sec.pw||0;const words=sec.items.map(it=>it[pw]);
+      const picOf=i=>Array.isArray(sec.pics)?sec.pics[i]:sec.pics[words[i]];
       const bank=mkEl('div','bank');words.slice().sort((a,b)=>a.localeCompare(b)).forEach(w=>bank.append(mkEl('span','',w)));
-      ol.before(bank);sticky(bank);ol.classList.add('pics');
+      ol.before(bank);sticky(bank);ol.classList.add('pics');if(sec.caps)ol.classList.add('has-caps');
       const slots=[];
       [...ol.querySelectorAll('li.q')].forEach((li,i)=>{
         const w=words[i];const sel=li.querySelector('select');
         [...li.children].forEach(ch=>{if(!ch.classList.contains('fix'))ch.style.display='none';});
-        const img=mkEl('img','pic');img.src=sec.pics[w];img.alt='';img.loading='lazy';img.draggable=false;
+        const img=mkEl('img','pic');img.src=picOf(i);img.alt='';img.loading='lazy';img.draggable=false;
         const inp=mkEl('input');inp.type='text';inp.autocomplete='off';inp._sel=sel;
-        li.prepend(img,inp);slots.push(inp);
+        const cap=sec.caps&&sec.caps[i]?mkEl('div','cap',sec.caps[i]):null;
+        li.prepend(...[img,cap,inp].filter(Boolean));slots.push(inp);
         li.style.cursor='pointer';li.addEventListener('click',e=>{if(e.target!==inp&&!e.target.closest('.fix'))inp.click();});
       });
       wire(bank,slots,UA?'Перетягни слово під картинку або натисни на слово, а потім на картинку.':'Drag a word under the picture, or tap a word and then a picture.',
-        (inp,w)=>{const it=sec.items.find(x=>x[0]===w);inp._sel.value=it?it[1]:'';});
+        (inp,w)=>{const it=sec.items.find(x=>x[pw]===w);inp._sel.value=it?it[1]:'';});
       const check=$id('check');if(check)check.addEventListener('click',()=>{
         [...ol.querySelectorAll('li.q')].forEach((li,i)=>{const inp=slots[i];const ok=li.classList.contains('ok');
           inp.classList.add(ok?'ok1':'bad1');
