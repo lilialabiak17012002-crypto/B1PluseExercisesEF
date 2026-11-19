@@ -52,7 +52,7 @@ DESC_OVERRIDE = {
     'a2/revise-present-simple-continuous': 'Revision: present simple and present continuous',
 }
 
-GROUPED = {'b1-1': 'Unit', 'b1-2': 'File', 'a1': 'File'}  # one card per sub-unit (1A, 1B…) with Vocabulary / Grammar; value = heading word
+GROUPED = {'b1-1': 'Unit', 'b1-2': 'File', 'a1': 'File', 'b1-plus': 'File'}  # one card per sub-unit (1A, 1B…) with Vocabulary / Grammar; value = heading word
 UNIT_RE = re.compile(r'^(\d+[A-Z])\s+(?:(.+?)\s+·\s+)?(Vocabulary|Grammar|Additional Grammar)\s*:\s*(.*)$')
 KIND_ORDER = {'Vocabulary': 0, 'Grammar': 1, 'Additional Grammar': 2}
 
