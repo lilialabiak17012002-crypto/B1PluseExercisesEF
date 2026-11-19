@@ -5,24 +5,25 @@
   const css=`
 .bank.sticky{position:sticky;top:0;z-index:5;background:var(--paper,#fff);margin:10px -22px 6px;padding:10px 22px;border-bottom:1px solid transparent;transition:box-shadow .15s,border-color .15s}
 .bank.sticky.stuck{box-shadow:0 6px 12px -8px rgba(0,0,0,.25);border-color:var(--line,#eee)}
-.bank.dnd span{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;padding:5px 14px 4px 10px;
-  background:linear-gradient(#FFF6D6,#F6E39E);border:1px solid #E2C55A;border-bottom:3px solid #C9A93E;
-  box-shadow:0 2px 5px rgba(91,74,18,.18);transition:opacity .15s,transform .1s,box-shadow .1s}
-.bank.dnd span::before{content:'⋮⋮';letter-spacing:-3px;margin-right:7px;opacity:.45;font-weight:700}
-.bank.dnd span:hover{transform:translateY(-2px);box-shadow:0 5px 10px rgba(91,74,18,.22)}
-.bank.dnd span:active{transform:translateY(1px);border-bottom-width:1px;margin-top:2px;box-shadow:0 1px 2px rgba(91,74,18,.2);cursor:grabbing}
-.bank.dnd span.sel{outline:2.5px solid #22304A;outline-offset:2px}
-.bank.dnd span.used{opacity:.4;box-shadow:none;border-bottom-width:1px;margin-top:2px;background:#FBF3D8}
+.bank.dnd span{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;padding:6px 16px;font-weight:700;
+  color:var(--tx);border:2px solid var(--bd);background-color:var(--bg);
+  background-image:linear-gradient(var(--fill),var(--fill));background-repeat:no-repeat;background-position:50% 100%;background-size:100% 0%;
+  box-shadow:0 2px 0 var(--bd),0 3px 8px rgba(34,48,74,.08);
+  transition:background-size .35s ease,color .25s,box-shadow .25s,transform .15s,opacity .15s}
+.bank.dnd span:hover,.bank.dnd span.sel{background-size:100% 100%;color:#fff;border-color:var(--fill);transform:translateY(-2px);box-shadow:0 8px 18px -4px var(--fill)}
+.bank.dnd span:active{transform:translateY(0);cursor:grabbing}
+.bank.dnd span.sel{outline:2px solid var(--fill);outline-offset:3px}
+.bank.dnd span.used{opacity:.4;box-shadow:none}
+.bank.dnd span.used:hover{background-size:100% 0%;color:var(--tx);border-color:var(--bd);transform:none}
 .bank-tip{font-size:13px;color:#8a7f70;margin:-2px 0 6px}
-li.q input.slot{cursor:pointer;caret-color:transparent;text-align:center;width:130px;height:34px;box-sizing:border-box;padding:3px 14px;margin:2px 4px;
-  border-radius:999px;border:2px dashed #CDBF9F;background:#FFFDF6;font-weight:600;font-size:14px;color:#5B4A12;vertical-align:middle}
-li.q input.slot.filled{border:1px solid #E2C55A;border-bottom:3px solid #C9A93E;background:linear-gradient(#FFF6D6,#F6E39E);box-shadow:0 2px 5px rgba(91,74,18,.18)}
-li.q input.slot.over,li.q input.slot.target{border-color:#22304A;background:#F4F7FC}
+li.q input.slot{cursor:pointer;caret-color:transparent;text-align:center;width:130px;height:36px;box-sizing:border-box;padding:3px 14px;margin:2px 4px;
+  border-radius:999px;border:2px dashed #C9D3E3;background:#FAFBFE;font-weight:700;font-size:14px;color:#22304A;vertical-align:middle;transition:transform .15s}
+li.q input.slot.filled{border:2px solid var(--bd);background:var(--bg);color:var(--tx);box-shadow:0 2px 0 var(--bd)}
+li.q input.slot.over,li.q input.slot.target{border-color:#5A62C9;background:#F3F3FC}
 li.q input.slot.over{transform:scale(1.06)}
 li.q input.slot.ok1{border:2px solid var(--green,#2e8b57);background:#effaf4;box-shadow:none;color:inherit}
 li.q input.slot.bad1{border:2px solid var(--red,#c0392b);background:#fff1f1;box-shadow:none;color:inherit}
-li.q.bad input.slot.bad1:placeholder-shown{border-style:dashed}
-.dnd-ghost{position:fixed;z-index:1000;pointer-events:none;background:linear-gradient(#FFF6D6,#F6E39E);border:1px solid #E2C55A;border-bottom:3px solid #C9A93E;color:#5B4A12;border-radius:999px;padding:5px 14px 4px;font:600 14px var(--sans,sans-serif);box-shadow:0 10px 22px rgba(0,0,0,.25);transform:translate(-50%,-60%) rotate(-3deg)}
+.dnd-ghost{position:fixed;z-index:1000;pointer-events:none;background:var(--fill);border:2px solid var(--fill);color:#fff;border-radius:999px;padding:6px 16px;font:700 14px var(--sans,sans-serif);box-shadow:0 12px 24px -6px var(--fill);transform:translate(-50%,-60%) rotate(-3deg)}
 `;
   const st=document.createElement('style');st.textContent=css;document.head.append(st);
   const N=typeof norm==='function'?norm:(s=>s.toLowerCase().trim());
@@ -45,9 +46,14 @@ li.q.bad input.slot.bad1:placeholder-shown{border-style:dashed}
     tip.textContent=(typeof WHY_LANG!=='undefined'&&WHY_LANG!=='en')?'Перетягни слово в пропуск або натисни на слово, а потім на пропуск.':'Drag a word into a gap, or tap a word and then a gap.';
     bank.after(tip);
     const chips=[...bank.querySelectorAll('span')];
+    const PAL=[['#EBC9A2','#FCF3EA','#8A4B0B','#E0913A'],['#E6BCD0','#FBF0F5','#8E3557','#C94F7C'],['#BFD8B8','#F2F8EF','#3F6B21','#3E9150'],
+      ['#C3D3F2','#F3F5FD','#4B4CA0','#5A62C9'],['#EDC1BD','#FCF1EF','#8C3A22','#C2553E'],['#D8C4EC','#F8F2FC','#6B3A8C','#8E5BC2'],['#A9D7E0','#EFF8FA','#0E6B5C','#1F8F86']];
+    const colorOf={};
+    const paint=(el,w)=>{const c=colorOf[w];['--bd','--bg','--tx','--fill'].forEach((v,k)=>c?el.style.setProperty(v,c[k]):el.style.removeProperty(v));};
+    chips.forEach((c,i)=>{colorOf[c.textContent]=PAL[i%PAL.length];paint(c,c.textContent);});
     let picked=null;
     const done=inp=>!!inp.closest('li.q').dataset.done;
-    const refresh=()=>{const used={};slots.forEach(s=>{s.classList.toggle('filled',!!s.value);if(s.value)used[s.value]=(used[s.value]||0)+1;});
+    const refresh=()=>{const used={};slots.forEach(s=>{s.classList.toggle('filled',!!s.value);paint(s,s.value);if(s.value)used[s.value]=(used[s.value]||0)+1;});
       chips.forEach(c=>{const w=c.textContent;c.classList.toggle('used',!!used[w]);});};
     const place=(inp,w)=>{if(done(inp))return;inp.value=w;refresh();};
     const unpick=()=>{if(picked)picked.classList.remove('sel');picked=null;slots.forEach(s=>s.classList.remove('target'));};
@@ -62,7 +68,7 @@ li.q.bad input.slot.bad1:placeholder-shown{border-style:dashed}
         if(e.button>0)return;e.preventDefault();
         const x0=e.clientX,y0=e.clientY;let ghost=null,over=null;
         const move=ev=>{
-          if(!ghost&&Math.hypot(ev.clientX-x0,ev.clientY-y0)>6){ghost=document.createElement('div');ghost.className='dnd-ghost';ghost.textContent=c.textContent;document.body.append(ghost);unpick();}
+          if(!ghost&&Math.hypot(ev.clientX-x0,ev.clientY-y0)>6){ghost=document.createElement('div');ghost.className='dnd-ghost';ghost.textContent=c.textContent;paint(ghost,c.textContent);document.body.append(ghost);unpick();}
           if(!ghost)return;ghost.style.left=ev.clientX+'px';ghost.style.top=ev.clientY+'px';
           const el=document.elementFromPoint(ev.clientX,ev.clientY);const t=el&&slots.includes(el)&&!done(el)?el:null;
           if(t!==over){over&&over.classList.remove('over');over=t;over&&over.classList.add('over');}
