@@ -32,14 +32,14 @@ ol.pics{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));g
 ol.pics li.q{border:1px solid var(--line,#E8E1D4);border-radius:18px;padding:14px 10px 12px;display:flex;flex-direction:column;align-items:center;gap:10px;line-height:1.3;background:var(--paper,#fff);text-align:center}
 ol.pics li.q::before{display:none}
 ol.pics li.q:last-child{border-bottom:1px solid var(--line,#E8E1D4)}
-ol.pics img.pic{width:96px;height:96px;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none}
+ol.pics img.pic{width:auto;max-width:100%;height:96px;object-fit:contain;user-select:none;-webkit-user-drag:none;pointer-events:none}
 ol.pics li.q input.slot{width:100%;max-width:150px;margin:0}
 ol.pics .fix{margin:0;font-size:14px}
 ol.pics .cap{font-size:13.5px;line-height:1.35;color:var(--muted,#6b7280);flex:1}
 ol.pics.has-caps{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
 @media (max-width:560px){
   ol.pics,ol.pics.has-caps{grid-template-columns:1fr 1fr;gap:10px}
-  ol.pics img.pic{width:72px;height:72px}ol.pics li.q{padding:10px 6px}ol.pics .cap{font-size:12.5px}
+  ol.pics img.pic{width:auto;height:72px}ol.pics li.q{padding:10px 6px}ol.pics .cap{font-size:12.5px}
   .bank.sticky.dnd{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:12px}
   .bank.sticky.dnd::-webkit-scrollbar{display:none}
   .bank.sticky.dnd span{flex:none;touch-action:pan-x}
