@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3.2 Business emails</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid var(--ink);border-radius:10px;padding:12px 16px;margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}
+.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
+.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
+.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+li.q.bad .fix.empty{color:var(--muted);font-style:italic}
+</style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/img/icon-32.png"><link rel="apple-touch-icon" href="/img/icon-180.png"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
+</head>
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><img class="logo-slot" src="/img/logo.png" width="48" height="48" alt=""><span class="brand-name">Your Digital Workbook</span></a><nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/business-a2-b1">← All A2–B1 lessons</a><a href="/">All levels</a></nav><!-- /site-nav -->
+
+<h1>3.2 Business emails</h1><p class="sub">Business English Pre-Intermediate · Unit 3</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Check</button></div></div>
+<div class="card" id="result"><div>Your result</div><div id="score"></div>
+<div class="shot">📸 Take a screenshot and send it to your teacher.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Try again</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Business emails</h2>\n<table><tr><th></th><th>Formal</th><th>Informal</th></tr>\n<tr><td><b>Starting</b></td><td><span class='ex'>Dear Sir/Madam, • To Whom It May Concern, • Dear Mr Jones,</span></td><td><span class='ex'>Hi Sam, • Hi there! • How's it going?</span></td></tr>\n<tr><td><b>Ending</b></td><td><span class='ex'>Yours faithfully, • Yours sincerely, • With best wishes, • Kind regards, • Many thanks,</span></td><td><span class='ex'>Catch you later, • See you soon! • Cheers, • Love,</span></td></tr></table>\n<h3>Who are you writing to?</h3>\n<table><tr><th>Situation</th><th>Start</th><th>End</th></tr>\n<tr><td>You don't know the name (one person)</td><td><span class='ex'>Dear Sir, / Dear Madam, / Dear Sir/Madam,</span></td><td><span class='ex'>Yours faithfully,</span></td></tr>\n<tr><td>The email may be read by many people you don't know</td><td><span class='ex'>To Whom It May Concern,</span></td><td><span class='ex'>Yours faithfully,</span></td></tr>\n<tr><td>You know the name, but you haven't met</td><td><span class='ex'>Dear Mr. + family name / Dear Ms. + family name</span></td><td><span class='ex'>Yours sincerely,</span></td></tr>\n<tr><td>You know the person well</td><td><span class='ex'>Hi Sam,</span></td><td><span class='ex'>Cheers, / See you soon!</span></td></tr></table>\n<h3>Reasons for writing: I am writing to…</h3>\n<table><tr><th>Asking for something</th><th>Giving something</th></tr>\n<tr><td><span class='ex'>inquire about… • apply for… • request…</span></td><td><span class='ex'>inform you… • notify you… • tell you… • offer you…</span></td></tr></table>\n<h3>Useful phrases</h3>\n<table><tr><th>Formal phrase</th><th>Meaning</th></tr>\n<tr><td><span class='ex'>I'm writing to inquire about…</span></td><td>I want to ask about…</td></tr>\n<tr><td><span class='ex'>I'm writing with regard to your recent email.</span></td><td>I'm answering your email.</td></tr>\n<tr><td><span class='ex'>Your company was recommended to me.</span></td><td>Someone told me about your company.</td></tr>\n<tr><td><span class='ex'>I would be grateful if you could meet with me.</span></td><td>Can we meet?</td></tr>\n<tr><td><span class='ex'>at your convenience</span></td><td>when it is good for you</td></tr>\n<tr><td><span class='ex'>I'm afraid I am unavailable…</span></td><td>Sorry, I can't…</td></tr>\n<tr><td><span class='ex'>due to previous commitments</span></td><td>because I'm already busy</td></tr>\n<tr><td><span class='ex'>I hope to hear from you in the near future. / I look forward to hearing from you.</span></td><td>Please write back soon.</td></tr></table>\n<p><b style='color:#e5484d'>❗ look forward to + -ing:</b> <span class='ex'>I look forward to hearing from you. ✓ &nbsp;<s>I look forward to hear from you.</s> ✗</span></p>\n<p><b style='color:#e5484d'>❗ at your convenience:</b> <span class='ex'>at your convenience ✓ &nbsp;<s>in your convenience</s> ✗</span></p>\n<p><b style='color:#e5484d'>❗ your (possessive) / you're (= you are):</b> <span class='ex'>your company ✓ &nbsp;<s>you're company</s> ✗</span></p>\n<p><b style='color:#e5484d'>❗ Check the spelling:</b> <span class='ex'>grateful, sincerely, writing, afraid ✓ &nbsp;<s>greatful, sincrely, writng, afriad</s> ✗</span></p>"}, {"type": "choice", "n": 1, "title": "Formal or informal?", "task": "Is the phrase formal or informal?", "items": [{"t": "Dear Sir/Madam,", "o": ["formal", "informal"], "c": 0}, {"t": "Hi there!", "o": ["formal", "informal"], "c": 1}, {"t": "Yours faithfully,", "o": ["formal", "informal"], "c": 0}, {"t": "Catch you later,", "o": ["formal", "informal"], "c": 1}, {"t": "To Whom It May Concern,", "o": ["formal", "informal"], "c": 0}, {"t": "Cheers,", "o": ["formal", "informal"], "c": 1}, {"t": "Kind regards,", "o": ["formal", "informal"], "c": 0}, {"t": "How's it going?", "o": ["formal", "informal"], "c": 1}, {"t": "Yours sincerely,", "o": ["formal", "informal"], "c": 0}, {"t": "See you soon!", "o": ["formal", "informal"], "c": 1}]}, {"type": "choice", "n": 2, "title": "Know the rules", "task": "Choose the correct option.", "items": [{"t": "Double-check you have spelled the person's name ___.", "o": ["incorrectly", "correctly"], "c": 1, "why": ["Always check the name is spelled <u>correctly</u>."]}, {"t": "If you have met the person or have written to them lots of times before, it is usually OK to write in ___ English.", "o": ["formal", "informal"], "c": 1, "why": ["You know the person → <u>informal</u> is OK."]}, {"t": "If you have not met the person or are not sure of your relationship, use ___ English.", "o": ["formal", "informal"], "c": 0, "why": ["Not sure → use <u>formal</u> English."]}, {"t": "You are writing to a man you have never met in a formal situation (you don't know his name). Start with Dear ___,", "o": ["Sir", "Mr."], "c": 0, "why": ["No name → <u>Dear Sir,</u> (Mr. needs a family name)."]}, {"t": "You are writing to a woman you have never met in a formal situation (you don't know her name). Start with Dear ___,", "o": ["Mrs.", "Madam"], "c": 1, "why": ["No name → <u>Dear Madam,</u>"]}, {"t": "Use Dear ___ + her family name if you are writing to a woman in a formal situation.", "o": ["Ms.", "Lady"], "c": 0, "why": ["<u>Ms.</u> + family name is safe for every woman."]}, {"t": "Use Dear ___ + his family name if you are writing to a man in a formal situation.", "o": ["Sir", "Mr."], "c": 1, "why": ["<u>Mr.</u> + family name (Dear Mr. Jones)."]}, {"t": "You started with Dear Sir/Madam. End with ___", "o": ["Yours faithfully,", "Yours sincerely,"], "c": 0, "why": ["No name → <u>Yours faithfully,</u>"]}, {"t": "You started with Dear Mr. Jones. End with ___", "o": ["Yours faithfully,", "Yours sincerely,"], "c": 1, "why": ["You know the name → <u>Yours sincerely,</u>"]}]}, {"type": "choice", "n": 3, "title": "Reasons for writing", "task": "Choose the correct verb.", "items": [{"t": "I am writing to ___ a brochure of your latest products.", "o": ["inform", "request", "ask"], "c": 1, "why": ["Asking for something, with no preposition → <u>request</u> a brochure."]}, {"t": "I am writing to ___ for the position of Senior Manager which was recently advertised online.", "o": ["apply", "request", "tell"], "c": 0, "why": ["<u>apply for</u> a position."]}, {"t": "I am writing to ___ you of my intention to visit Vienna.", "o": ["inquire", "notify", "apply"], "c": 1, "why": ["Giving information → <u>notify</u> you of…"]}, {"t": "I am writing to ___ about the price of your recently advertised software.", "o": ["tell", "inquire", "offer"], "c": 1, "why": ["Asking → <u>inquire about</u>."]}, {"t": "I am writing to ___ you about our new range of healthcare products coming out this year.", "o": ["inform", "offer", "request"], "c": 0, "why": ["Giving information → <u>inform</u> you about…"]}, {"t": "I am writing to ___ a meeting with you next Thursday.", "o": ["ask", "notify", "request"], "c": 2, "why": ["Asking for something, no preposition → <u>request</u> a meeting."]}, {"t": "I am writing to ___ you a 20% discount on your next order.", "o": ["offer", "inquire", "apply"], "c": 0, "why": ["Giving something → <u>offer</u> you a discount."]}]}, {"type": "text", "n": 4, "title": "Useful phrases", "task": "Complete the emails with words from the box.", "bank": ["afraid", "at", "inquire", "meet", "near", "previous", "recommended", "regard"], "items": [{"t": "Dear Mr. Jackson, I'm writing to [?] about the cost of creating a website.", "a": [["inquire"]], "why": ["writing to + infinitive → <u>inquire</u>."]}, {"t": "Your company was [?] to me by a colleague.", "a": [["recommended"]], "why": ["Passive: was + past participle → <u>recommended</u>."]}, {"t": "I would be grateful if you could [?] with me as soon as possible to discuss this.", "a": [["meet"]], "why": ["could + infinitive → <u>meet</u>."]}, {"t": "I hope to hear from you in the [?] future. Yours sincerely, Joshua Wright", "a": [["near"]], "why": ["in the <u>near</u> future = soon."]}, {"t": "Dear Mr. Wright, I'm writing with [?] to your recent email about our website services.", "a": [["regard"]], "why": ["Fixed phrase: with <u>regard</u> to."]}, {"t": "I would be delighted to meet with you [?] your convenience…", "a": [["at"]], "why": ["Fixed phrase: <u>at</u> your convenience."]}, {"t": "…although I'm [?] I am unavailable this week due to [?] commitments.", "a": [["afraid"], ["previous"]], "why": ["I'm <u>afraid</u> = polite 'sorry'; due to <u>previous</u> commitments."]}]}, {"type": "text", "n": 5, "title": "Correcting mistakes (1)", "task": "Each sentence from Edward's email has one mistake (in brackets). Write the correct version.", "items": [{"t": "Dear [Mr, Murray],", "a": [["Mr. Murray", "Mr Murray"]], "why": ["No comma after the title → <u>Mr. Murray</u>."]}, {"t": "I'm [writng] to inquire about the new range of computers in your recent brochure.", "a": [["writing"]], "why": ["Spelling → <u>writing</u>."]}, {"t": "[We'are] considering replacing our current range of laptops with more up to date models.", "a": [["We are", "We're"]], "why": ["<u>We are</u> or <u>We're</u> — not both."]}, {"t": "I [had] also be interested to know about the services you provide for Internet security.", "a": [["would"]], "why": ["Polite form → I <u>would</u> also be interested."]}, {"t": "I would also be interested to [know. About] the services you provide.", "a": [["know about"]], "why": ["One sentence, no full stop → <u>know about</u>."]}, {"t": "I would be [greatful] if we could schedule a call later this week.", "a": [["grateful"]], "why": ["Spelling → <u>grateful</u>."]}, {"t": "…if we could schedule a call later this week [in] your convenience.", "a": [["at"]], "why": ["<u>at</u> your convenience."]}, {"t": "Unfortunately, I'm [afriad] I'm away next week in Germany.", "a": [["afraid"]], "why": ["Spelling → <u>afraid</u>."]}, {"t": "I look forward to [hear] from you in the near future.", "a": [["hearing"]], "why": ["look forward to + -ing → <u>hearing</u>."]}, {"t": "Yours [sincrely], Edward Rathbone", "a": [["sincerely"]], "why": ["Spelling → <u>sincerely</u>."]}]}, {"type": "text", "n": 6, "title": "Correcting mistakes (2)", "task": "Read Roman's email to Mr. Sandberg. Each sentence has one mistake (in brackets). Write the correct version.", "items": [{"t": "I am writing to [infrom] you that our new range of software is now available.", "a": [["inform"]], "why": ["Spelling → <u>inform</u>."]}, {"t": "I think [you're] company will find that our new products are easy to use, easy to afford and effective.", "a": [["your"]], "why": ["Possessive → <u>your</u> company (you're = you are)."]}, {"t": "I would [being] happy to arrange a visit.", "a": [["be"]], "why": ["would + infinitive → would <u>be</u>."]}, {"t": "I would be happy to arrange [an] visit.", "a": [["a"]], "why": ["visit starts with a consonant sound → <u>a</u> visit."]}, {"t": "…to arrange a visit [in] your convenience…", "a": [["at"]], "why": ["<u>at</u> your convenience."]}, {"t": "…so I can present the new range to you [meself].", "a": [["myself"]], "why": ["Spelling → <u>myself</u>."]}, {"t": "I would also be happy to [ofer] you a 20% discount on any orders you make in the next 30 days.", "a": [["offer"]], "why": ["Spelling → <u>offer</u>."]}, {"t": "I would be very [greatful] for the opportunity to meet you again.", "a": [["grateful"]], "why": ["Spelling → <u>grateful</u>."]}, {"t": "…for the opportunity to meet [you with] again.", "a": [["with you"]], "why": ["meet <u>with you</u> — preposition before the object."]}, {"t": "With best [fishes], Roman Rankin", "a": [["wishes"]], "why": ["With best <u>wishes</u>."]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— choose —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Correct answer: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Correct answer: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Correct answer: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Correct answer: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const WHY_LANG='en';
+function showWhy(li){const fix=li.querySelector('.fix');const ans=fix.textContent.replace(/^✗ Correct answer:\s*/,'');fix.textContent='';
+  const box=mk('div','why');box.append(mk('div','why-ans',(WHY_LANG==='en'?'Correct answer: ':'Правильна відповідь: ')+ans));
+  const ul=mk('ul');li._why.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');const _empty=!ok&&![...li.querySelectorAll('input')].some(i=>i.value.trim())&&![...li.querySelectorAll('select')].some(x=>x.value)&&!li.querySelector('.opt.wrong');if(_empty){const fx=li.querySelector('.fix');fx.textContent=(WHY_LANG==='en'?'No answer. Try again!':'Немає відповіді. Спробуй ще раз!');fx.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}else if(!ok&&li._why)showWhy(li);if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li.querySelector('.fix').classList.remove('empty');li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script>
+<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->
+
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">Your Digital Workbook</div><p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div><div class="fcol"><h4>Contact</h4><a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a><a href="tel:+380989960039">+380 98 996 00 39</a><a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div><div class="fcol"><h4>Info</h4><a href="/terms">Terms &amp; Conditions</a></div></div><div class="fbottom"><span>© 2026 Liliia Labiak</span><span>English practice · A1–C1</span></div></footer><!-- /site-footer -->
+</body></html>

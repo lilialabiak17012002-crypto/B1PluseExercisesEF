@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4.3 I have a suggestion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid var(--ink);border-radius:10px;padding:12px 16px;margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}
+.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
+.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
+.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+li.q.bad .fix.empty{color:var(--muted);font-style:italic}
+</style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/img/icon-32.png"><link rel="apple-touch-icon" href="/img/icon-180.png"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
+</head>
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><img class="logo-slot" src="/img/logo.png" width="48" height="48" alt=""><span class="brand-name">Your Digital Workbook</span></a><nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/business-a2-b1">← All A2–B1 lessons</a><a href="/">All levels</a></nav><!-- /site-nav -->
+
+<h1>4.3 I have a suggestion</h1><p class="sub">Business English Pre-Intermediate · Unit 4</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Check</button></div></div>
+<div class="card" id="result"><div>Your result</div><div id="score"></div>
+<div class="shot">📸 Take a screenshot and send it to your teacher.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Try again</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>I have a suggestion</h2>\n<table><tr><th>Word / phrase</th><th>Meaning</th><th>Example</th></tr>\n<tr><td><b>advise</b> (v)</td><td>tell someone what you think is the best thing to do</td><td><span class='ex'>I would advise you to take a light suit.</span></td></tr>\n<tr><td><b>perhaps</b> (adv)</td><td>maybe — you think it's possible or a good idea, but you're not 100% sure</td><td><span class='ex'>Perhaps we should rent a car?</span></td></tr>\n<tr><td><b>recommendation</b> (n)</td><td>a strong suggestion, often based on experience</td><td><span class='ex'>It would be my recommendation that we fly out on Saturday.</span></td></tr>\n<tr><td><b>rule</b> (n)</td><td>a strong statement about what you can or cannot do</td><td><span class='ex'>There aren't really any rules.</span></td></tr>\n<tr><td><b>suggest</b> (v)</td><td>say something is a good idea or possible</td><td><span class='ex'>I would suggest taking some small gifts.</span></td></tr>\n<tr><td><b>warn</b> (v)</td><td>tell someone that something is dangerous or a bad idea</td><td><span class='ex'>I have to warn you, don't take alcohol.</span></td></tr>\n<tr><td><b>opinion</b> (n)</td><td>someone's thoughts about something, not always fact</td><td><span class='ex'>In my opinion, driving in Boston is easier.</span></td></tr>\n<tr><td><b>better</b> (adv)</td><td>a good option to choose</td><td><span class='ex'>You would do better to get a hotel in Sukhumvit.</span></td></tr>\n<tr><td><b>may as well</b> do something</td><td>do it because it's an option, but you aren't excited about it</td><td><span class='ex'>We may as well stay in a business hotel.</span></td></tr></table>\n<h3>Verb patterns</h3>\n<table><tr><th>Verb</th><th>Pattern</th><th>Example</th></tr>\n<tr><td><b>suggest</b></td><td>suggest + -ing • suggest (to sb) that sb + base form</td><td><span class='ex'>I suggest flying. • I suggested to him that he buy 500.</span></td></tr>\n<tr><td><b>advise</b></td><td>advise sb (not) to do • advise against + -ing</td><td><span class='ex'>I'd advise you not to go. • I advise against wearing a suit.</span></td></tr>\n<tr><td><b>warn</b></td><td>warn sb (not) to do • warn sb against + -ing</td><td><span class='ex'>She warned him not to open the door. • I warn you against talking about politics.</span></td></tr></table>\n<h3>Suggestions and rules</h3>\n<table><tr><th>Suggestions (you can choose)</th><th>Rules (you have no choice)</th></tr>\n<tr><td><span class='ex'>Why don't you…? • If I were you, I would… • You could… • You ought to… • You should… • Perhaps we should…</span></td><td><span class='ex'>You must… • You have to… • You mustn't… (it's not allowed)</span></td></tr></table>\n<p><span class='ex'>You <b>don't have to</b> = it's not necessary. • You <b>mustn't</b> = it's not allowed.</span></p>\n<p><b style='color:#e5484d'>❗ Modal verb + base form:</b> <span class='ex'>You ought to book early. ✓ &nbsp;<s>You ought to booking</s> ✗ • You can use… ✓ &nbsp;<s>You can used…</s> ✗</span></p>\n<p><b style='color:#e5484d'>❗ If I were you:</b> <span class='ex'>If I were you, I wouldn't… ✓ &nbsp;<s>If I weren't you…</s> ✗</span></p>\n<p><b style='color:#e5484d'>❗ Why don't you…?</b> <span class='ex'>Why don't you visit the zoo? ✓ &nbsp;<s>Why you don't visit…?</s> ✗</span></p>"}, {"type": "match", "n": 1, "title": "Vocabulary", "task": "Match the words with the definitions.", "items": [["advise", "tell someone what you think is the best thing to do in a situation"], ["perhaps", "you think something is possible or a good idea, but you are not 100% sure"], ["recommendation", "a strong suggestion about what to do, often based on experience"], ["rule", "a strong statement about what you can or cannot do"], ["suggest", "say something is a good idea or possible"], ["warn", "tell someone that something is dangerous or a bad idea"], ["opinion", "someone's thoughts about something, based on ideas and feelings, not fact"], ["better", "in a way that shows you think something is a good option to choose"], ["may as well", "do something because it's an option, but you aren't happy or excited about it"]], "pool": ["a strong statement about what you can or cannot do", "a strong suggestion about what to do, often based on experience", "do something because it's an option, but you aren't happy or excited about it", "in a way that shows you think something is a good option to choose", "say something is a good idea or possible", "someone's thoughts about something, based on ideas and feelings, not fact", "tell someone that something is dangerous or a bad idea", "tell someone what you think is the best thing to do in a situation", "you think something is possible or a good idea, but you are not 100% sure"]}, {"type": "choice", "n": 2, "title": "warn / advise / suggest", "task": "Choose the correct option.", "items": [{"t": "I would suggest that you ___ business class as you will be more comfortable.", "o": ["fly", "flying"], "c": 0, "why": ["suggest that + you + base form → <u>fly</u>."]}, {"t": "I'd advise you not ___ into Sophia's office right now. She's very busy.", "o": ["going", "to go"], "c": 1, "why": ["advise sb not + to → <u>to go</u>."]}, {"t": "I should warn you against ___ about politics during your business trip.", "o": ["talking", "talk"], "c": 0, "why": ["against + -ing → <u>talking</u>."]}, {"t": "I suggested ___ that he buy 500, not 1000.", "o": ["him", "to him"], "c": 1, "why": ["suggest <u>to</u> someone."]}, {"t": "Sandra warned ___ not to open the door because it is broken.", "o": ["to him", "him"], "c": 1, "why": ["warn + person (no to) → warned <u>him</u>."]}, {"t": "If you're traveling to Bangkok, I would advise against ___ a heavy suit.", "o": ["to wear", "wearing"], "c": 1, "why": ["against + -ing → <u>wearing</u>."]}]}, {"type": "text", "n": 3, "title": "Business travel", "task": "Complete the questions with words from the box.", "bank": ["advise", "better", "opinion", "rules", "suggest", "warn"], "items": [{"t": "In your [?], what is the best way to travel for business?", "a": [["opinion"]]}, {"t": "What [?] do you follow when doing business in other countries?", "a": [["rules"]]}, {"t": "What would you [?] to people who want to do business in your country?", "a": [["suggest"]]}, {"t": "What would you [?] someone about when doing business in your country so they don't get into trouble?", "a": [["warn"]]}, {"t": "If you are travelling less than 200 miles on business, is it [?] to go by train or car?", "a": [["better"]]}, {"t": "If someone asked you to [?] them about what to go and see in your country, what would you say?", "a": [["advise"]]}]}, {"type": "text", "n": 4, "title": "Emails before a trip", "task": "Complete the emails with words from the box.", "bank": ["advise", "better", "may as well", "opinion", "Perhaps", "recommendation", "rules", "suggest", "warn"], "items": [{"t": "Hi Andrew, when you're booking our hotel for Bangkok, you would do [?] to get one in the Sukhumvit area.", "a": [["better"]]}, {"t": "We [?] stay in a business hotel. Even if it's more expensive.", "a": [["may as well"]]}, {"t": "It's a relaxed place to do business and there aren't really any [?] I can give you. — Claire", "a": [["rules"]]}, {"t": "Hi Sylvia, it would be my [?] that we fly out on Saturday so that we have Sunday to prepare.", "a": [["recommendation"]]}, {"t": "[?] we should rent a car so we can drive to see our clients, rather than take taxis?", "a": [["Perhaps"]]}, {"t": "In my [?], driving around Boston is a lot easier than driving in New York City. — Ruth", "a": [["opinion"]]}, {"t": "Hi Darren, I would [?] you to take a light suit with you and several shirts and ties.", "a": [["advise"]]}, {"t": "I would [?] taking some small gifts for our clients out there.", "a": [["suggest"]]}, {"t": "I have to [?] you though, don't take alcohol. — Anwar", "a": [["warn"]]}]}, {"type": "text", "n": 5, "title": "Phrases for suggestions", "task": "Complete the phrases from the emails with one word in each gap.", "items": [{"t": "Perhaps we [?] rent a car?", "a": [["should"]], "why": ["Perhaps we <u>should</u> + base form."]}, {"t": "If you get the [?] to go out into the desert, [?] it.", "a": [["opportunity", "chance"], ["take"]], "why": ["get the <u>opportunity</u>… <u>take</u> it."]}, {"t": "It would [?] my recommendation that we fly out on Saturday.", "a": [["be"]], "why": ["would + base form → would <u>be</u>."]}, {"t": "I would dress in a formal style if I [?] you.", "a": [["were"]], "why": ["Fixed phrase: if I <u>were</u> you."]}, {"t": "It's not a good [?] to look like a tourist.", "a": [["idea"]], "why": ["It's not a good <u>idea</u> to…"]}, {"t": "I [?] advise you to take a light suit with you.", "a": [["would"]], "why": ["Polite advice → I <u>would</u> advise."]}, {"t": "I [?] [?] warn you though, don't take alcohol.", "a": [["have"], ["to"]], "why": ["I <u>have to</u> warn you."]}]}, {"type": "choice", "n": 6, "title": "Rule or suggestion?", "task": "Is it a rule or a suggestion?", "items": [{"t": "Why don't you travel earlier and give yourself time to rest before the presentation?", "o": ["rule", "suggestion"], "c": 1, "why": ["Why don't you…? → <u>suggestion</u>."]}, {"t": "If I were you, I would just take one bag so you don't have to carry too much.", "o": ["rule", "suggestion"], "c": 1, "why": ["If I were you… → <u>suggestion</u>."]}, {"t": "You have to take your passport with you when you travel to a foreign country.", "o": ["rule", "suggestion"], "c": 0, "why": ["have to → <u>rule</u>."]}, {"t": "You could travel by train, it will be quicker.", "o": ["rule", "suggestion"], "c": 1, "why": ["could → <u>suggestion</u>."]}, {"t": "You must follow the laws of the country you are visiting.", "o": ["rule", "suggestion"], "c": 0, "why": ["must → <u>rule</u>."]}]}, {"type": "text", "n": 7, "title": "Correct the mistakes", "task": "Each sentence has a mistake. Write the correct sentence.", "items": [{"t": "You ought to booking travel early to get the best price. → [?]", "a": [["You ought to book travel early to get the best price."]], "why": ["ought to + base form → <u>book</u>."]}, {"t": "You haven't to take warm clothes to the Middle East. → [?]", "a": [["You don't have to take warm clothes to the Middle East.", "You do not have to take warm clothes to the Middle East."]], "why": ["Not necessary → <u>You don't have to</u>."]}, {"t": "Why you don't visit the zoo while you are there? → [?]", "a": [["Why don't you visit the zoo while you are there?", "Why do not you visit the zoo while you are there?"]], "why": ["<u>Why don't you</u> + base form?"]}, {"t": "You mustn't use a seatbelt when you're in a car. → [?]", "a": [["You must use a seatbelt when you're in a car.", "You must use a seatbelt when you are in a car.", "You have to use a seatbelt when you're in a car.", "You have to use a seatbelt when you are in a car."]], "why": ["It's a rule to use it → <u>You must use</u>."]}, {"t": "You can used your company credit card while you are on the trip. → [?]", "a": [["You can use your company credit card while you are on the trip."]], "why": ["can + base form → <u>use</u>."]}, {"t": "If I weren't you, I wouldn't take any alcohol on the plane. → [?]", "a": [["If I were you, I wouldn't take any alcohol on the plane.", "If I were you, I would not take any alcohol on the plane."]], "why": ["Fixed phrase: <u>If I were you</u>."]}]}, {"type": "text", "n": 8, "title": "Say it another way", "task": "Rewrite the sentences using the word in brackets.", "items": [{"t": "I would check that your passport is up to date before flying if I were you. (ought to) → [?]", "a": [["You ought to check that your passport is up to date before flying.", "You ought to check your passport is up to date before flying."]], "why": ["<u>You ought to check</u>…"]}, {"t": "You should make sure you take two suits with you on your trip. (would) → [?]", "a": [["If I were you, I would take two suits with you on your trip.", "If I were you, I would make sure you take two suits with you on your trip.", "If I were you, I'd take two suits with you on your trip.", "If I were you, I would take two suits with you on your trip.", "I would take two suits with you on your trip if I were you."]], "why": ["<u>If I were you, I would</u> take…"]}, {"t": "Why don't you visit the Eiffel Tower while you're in Paris? (could) → [?]", "a": [["You could visit the Eiffel Tower while you're in Paris.", "You could visit the Eiffel Tower while you are in Paris."]], "why": ["<u>You could visit</u>…"]}, {"t": "I wouldn't take any warm clothes if I were you. It will be too hot there. (have) → [?]", "a": [["You don't have to take any warm clothes. It will be too hot there.", "You do not have to take any warm clothes. It will be too hot there.", "You don't have to take any warm clothes.", "You do not have to take any warm clothes."]], "why": ["<u>You don't have to take</u>…"]}, {"t": "You have to check you have your passport before you leave for the airport. (must) → [?]", "a": [["You must check you have your passport before you leave for the airport.", "You must check that you have your passport before you leave for the airport."]], "why": ["have to → <u>must</u>."]}, {"t": "You can borrow my suitcase for your trip if you want. (don't) → [?]", "a": [["Why don't you borrow my suitcase for the trip?", "Why do not you borrow my suitcase for the trip?", "Why don't you borrow my suitcase for your trip?", "Why do not you borrow my suitcase for your trip?"]], "why": ["<u>Why don't you borrow</u>…?"]}]}, {"type": "text", "n": 9, "title": "Questions about your country", "task": "Complete the questions. The first letter is given.", "items": [{"t": "What would you [a…] to travelers coming to your home country for the first time?", "a": [["advise", "suggest"]]}, {"t": "What would you [w…] first-time travelers to be careful about?", "a": [["warn"]]}, {"t": "What is the best country to live in outside of your home country in your [o…]?", "a": [["opinion"]]}, {"t": "If someone wanted to work in your industry, what [r…] would you give them?", "a": [["recommendation", "recommendations"]]}, {"t": "If someone asked you how to be successful in your industry, what would you [s…]?", "a": [["suggest", "say"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— choose —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Correct answer: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Correct answer: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Correct answer: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Correct answer: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const WHY_LANG='en';
+function showWhy(li){const fix=li.querySelector('.fix');const ans=fix.textContent.replace(/^✗ Correct answer:\s*/,'');fix.textContent='';
+  const box=mk('div','why');box.append(mk('div','why-ans',(WHY_LANG==='en'?'Correct answer: ':'Правильна відповідь: ')+ans));
+  const ul=mk('ul');li._why.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');const _empty=!ok&&![...li.querySelectorAll('input')].some(i=>i.value.trim())&&![...li.querySelectorAll('select')].some(x=>x.value)&&!li.querySelector('.opt.wrong');if(_empty){const fx=li.querySelector('.fix');fx.textContent=(WHY_LANG==='en'?'No answer. Try again!':'Немає відповіді. Спробуй ще раз!');fx.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}else if(!ok&&li._why)showWhy(li);if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li.querySelector('.fix').classList.remove('empty');li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script>
+<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->
+
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">Your Digital Workbook</div><p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div><div class="fcol"><h4>Contact</h4><a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a><a href="tel:+380989960039">+380 98 996 00 39</a><a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div><div class="fcol"><h4>Info</h4><a href="/terms">Terms &amp; Conditions</a></div></div><div class="fbottom"><span>© 2026 Liliia Labiak</span><span>English practice · A1–C1</span></div></footer><!-- /site-footer -->
+</body></html>

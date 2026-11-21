@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3.4 Banking and money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid var(--ink);border-radius:10px;padding:12px 16px;margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}
+.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
+.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
+.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+li.q.bad .fix.empty{color:var(--muted);font-style:italic}
+</style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/img/icon-32.png"><link rel="apple-touch-icon" href="/img/icon-180.png"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
+</head>
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><img class="logo-slot" src="/img/logo.png" width="48" height="48" alt=""><span class="brand-name">Your Digital Workbook</span></a><nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/business-a2-b1">← All A2–B1 lessons</a><a href="/">All levels</a></nav><!-- /site-nav -->
+
+<h1>3.4 Banking and money</h1><p class="sub">Business English Pre-Intermediate · Unit 3</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Check</button></div></div>
+<div class="card" id="result"><div>Your result</div><div id="score"></div>
+<div class="shot">📸 Take a screenshot and send it to your teacher.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Try again</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Banking and money</h2>\n<table><tr><th>Word / phrase</th><th>Meaning</th><th>Example</th></tr>\n<tr><td><b>access</b> (v)</td><td>be able to get something</td><td><span class='ex'>You can access your money at an ATM.</span></td></tr>\n<tr><td><b>adviser</b> (n)</td><td>a person who knows a lot about a subject and can help people</td><td><span class='ex'>Talk to an adviser face to face.</span></td></tr>\n<tr><td><b>branch</b> (n)</td><td>one of many shops or offices of a large company</td><td><span class='ex'>Visit the nearest branch of your bank.</span></td></tr>\n<tr><td><b>market</b> (n)</td><td>the demand for a product or service</td><td><span class='ex'>Small banks know the local markets better.</span></td></tr>\n<tr><td><b>payment</b> (n)</td><td>an amount of money you give for a product or service</td><td><span class='ex'>Checks are useful for large payments.</span></td></tr>\n<tr><td><b>profit</b> (n)</td><td>the money you have left after the costs have been paid</td><td><span class='ex'>Interest can change the profit you make.</span></td></tr>\n<tr><td><b>ATM</b> (n)</td><td>a machine where you get money without going into the bank</td><td><span class='ex'>Big banks have a lot more ATMs.</span></td></tr>\n<tr><td><b>charge</b> (n, v)</td><td>money you have to pay for a service</td><td><span class='ex'>What are the bank charges?</span></td></tr>\n<tr><td><b>set up</b> (phr v)</td><td>start something you plan to keep using</td><td><span class='ex'>It may cost money to set up your account.</span></td></tr>\n<tr><td><b>percentage</b> (n)</td><td>an amount as a part of 100</td><td><span class='ex'>What percentage will you pay back each month?</span></td></tr>\n<tr><td><b>fixed</b> (adj)</td><td>not changing</td><td><span class='ex'>a fixed rate of interest</span></td></tr>\n<tr><td><b>interest</b> (n)</td><td>money you pay on top of the amount you borrow</td><td><span class='ex'>If you take a loan, you will pay interest.</span></td></tr>\n<tr><td><b>check</b> (UK cheque) (n)</td><td>an official note from a bank you can use like money</td><td><span class='ex'>You can write a check.</span></td></tr>\n<tr><td><b>balance</b> (n)</td><td>the amount of money in your bank account</td><td><span class='ex'>Check your balance online.</span></td></tr></table>\n<h3>First conditional</h3>\n<table><tr><th>If clause</th><th>Main clause</th></tr>\n<tr><td><b>If + present simple</b></td><td><b>will / can / may / might / must + base form</b></td></tr>\n<tr><td><span class='ex'>If you choose a big bank,</span></td><td><span class='ex'>it will have more ATMs.</span></td></tr>\n<tr><td><span class='ex'>If you don't pay back the loan,</span></td><td><span class='ex'>you may get charged more money.</span></td></tr></table>\n<p>You can change the order — then no comma: <span class='ex'>You will pay a charge if you set up a business account.</span></p>\n<p><b style='color:#e5484d'>❗ No will after if:</b> <span class='ex'>If you choose fixed payments… ✓ &nbsp;<s>If you will choose…</s> ✗</span></p>\n<p><b style='color:#e5484d'>❗ can / may / will + base form:</b> <span class='ex'>you can read ✓ &nbsp;<s>you can reading</s> ✗ • you can make ✓ &nbsp;<s>you can made</s> ✗</span></p>"}, {"type": "match", "n": 1, "title": "Vocabulary", "task": "Match the words with the definitions.", "items": [["access", "be able to get something"], ["adviser", "a person who knows a lot about a subject and can help people"], ["branch", "a shop or an office which is one of many in a large company"], ["market", "the demand for a certain product or service"], ["payment", "an amount of money you give for a product or a service"], ["profit", "the amount of money you have left after the costs have been paid"]], "pool": ["a person who knows a lot about a subject and can help people", "a shop or an office which is one of many in a large company", "an amount of money you give for a product or a service", "be able to get something", "the amount of money you have left after the costs have been paid", "the demand for a certain product or service"]}, {"type": "text", "n": 2, "title": "Word families", "task": "Complete the sentences with a different form of the word in brackets.", "items": [{"t": "They make computers at the moment, but they are planning to [branch] into computer games too.", "a": [["branch out"]]}, {"t": "The website is only [access] if you have a special passcode.", "a": [["accessible"]]}, {"t": "We think that our products are going to be very [market] in Asia.", "a": [["marketable"]]}, {"t": "When I first started, my boss gave me a lot of [adviser] about working in the sales team.", "a": [["advice"]]}, {"t": "Our sales in the Middle East increased a lot over the summer, so we have had a very [profit] year.", "a": [["profitable"]]}, {"t": "My [payment] has increased almost 20% since I started at this company.", "a": [["pay"]]}]}, {"type": "text", "n": 3, "title": "Choosing a business bank account", "task": "Complete the article with words from the box.", "bank": ["access", "adviser", "branches", "markets", "payments", "profit"], "items": [{"t": "Large banks will, of course, have a lot more [?], and you will be easily able to [?] your money because they will have a lot more ATMs.", "a": [["branches"], ["access"]]}, {"t": "However, smaller banks are more likely to know the local [?] better and be able to give you useful advice.", "a": [["markets"]]}, {"t": "For a lot of business people, it is helpful to be able to talk to an [?] face to face.", "a": [["adviser", "advisor"]]}, {"t": "How much you pay can make a big difference to the [?] you make each month.", "a": [["profit"]]}, {"t": "Checks can be useful for small businesses that may need to make large [?].", "a": [["payments"]]}]}, {"type": "text", "n": 4, "title": "Banking words", "task": "Write the word. The first letters are given.", "items": [{"t": "a place where you can access your money without going into the bank → an [A…]", "a": [["ATM"]]}, {"t": "an amount of money that you have to pay for a service → a [ch…]", "a": [["charge"]]}, {"t": "start something that you plan to keep using (phr v) → [s… u…]", "a": [["set up"]]}, {"t": "the amount of something as a part of the whole, when the whole is 100 → [p…]", "a": [["percentage"]]}, {"t": "not changing → [f…]", "a": [["fixed"]]}, {"t": "the money you pay on top of the amount you borrow → [i…]", "a": [["interest"]]}, {"t": "an official note from a bank you can use like money → a [ch…]", "a": [["check", "cheque"]]}, {"t": "the amount of money in your bank account → [b…]", "a": [["balance"]]}]}, {"type": "text", "n": 5, "title": "Money and banking", "task": "Complete the sentences with words from the box.", "bank": ["ATM", "adviser", "balance", "branch", "interest", "markets", "profit", "set up"], "items": [{"t": "If you want to know how much money you have, you will need to check the [?] of your bank account.", "a": [["balance"]]}, {"t": "If you need help with your finances, it's a good idea to talk to an [?].", "a": [["adviser", "advisor"]]}, {"t": "If you need to talk to someone in person about your money, you should visit the nearest [?] of your bank.", "a": [["branch"]]}, {"t": "You can measure how successful your business is by looking at the amount of [?] you make each month.", "a": [["profit"]]}, {"t": "You don't have to go into a bank to get money out, you can just find an [?].", "a": [["ATM"]]}, {"t": "If you start a new business, you might need to [?] a bank account especially for it.", "a": [["set up", "open"]]}, {"t": "If you borrow money, you should look at the amount of [?] you have to pay in addition to paying back the loan.", "a": [["interest"]]}, {"t": "Before you start a business, it's important to know which [?] you will be selling into.", "a": [["markets"]]}]}, {"type": "text", "n": 6, "title": "First conditional", "task": "Complete the sentences with words from the box.", "bank": ["can", "check", "don't", "know", "loan", "take"], "items": [{"t": "If you [?] a loan from a bank, you will pay interest.", "a": [["take"]], "why": ["<u>take</u> a loan; if + present simple."]}, {"t": "If you pay back the [?] quickly, it might cost you less money.", "a": [["loan"]], "why": ["You pay back a <u>loan</u>."]}, {"t": "If you [?] pay back the loan, you may get charged more money.", "a": [["don't"]], "why": ["Negative present simple → <u>don't</u> pay back."]}, {"t": "If you use online banking, you can [?] your balance easily.", "a": [["check"]], "why": ["can + base form → can <u>check</u>."]}, {"t": "If you use a large bank, you [?] access lots of ATMs.", "a": [["can"]], "why": ["Main clause: <u>can</u> + base form."]}, {"t": "If you use a local bank, they might [?] about local markets.", "a": [["know"]], "why": ["might + base form → might <u>know</u>."]}]}, {"type": "text", "n": 7, "title": "Correct the mistakes", "task": "Each sentence has a mistake. Write the correct sentence.", "items": [{"t": "If you want to know about a bank, you can reading reviews online. → [?]", "a": [["If you want to know about a bank, you can read reviews online."]], "why": ["can + base form → <u>can read</u>."]}, {"t": "If you will choose fixed payments, the amount you pay don't change. → [?]", "a": [["If you choose fixed payments, the amount you pay won't change.", "If you choose fixed payments, the amount you pay will not change.", "If you choose fixed payments, the amount you pay doesn't change.", "If you choose fixed payments, the amount you pay does not change."]], "why": ["No will after if → <u>If you choose</u>; main clause → <u>won't change</u>."]}, {"t": "If you using an Internet bank, you may not be able to talk to someone in person. → [?]", "a": [["If you use an Internet bank, you may not be able to talk to someone in person."]], "why": ["If + present simple → <u>If you use</u>."]}, {"t": "If you have checks, you can safely made large payments. → [?]", "a": [["If you have checks, you can safely make large payments.", "If you have cheques, you can safely make large payments."]], "why": ["can + base form → <u>can safely make</u>."]}, {"t": "If you can have a bank account, your money will be safe. → [?]", "a": [["If you have a bank account, your money will be safe."]], "why": ["If + present simple → <u>If you have</u>."]}, {"t": "If you sold your products, the customer can pay into your bank account. → [?]", "a": [["If you sell your products, the customer can pay into your bank account."]], "why": ["If + present simple → <u>If you sell</u>."]}]}, {"type": "text", "n": 8, "title": "Bank rules", "task": "Complete the first conditional sentences with words from the box. There are more words than gaps.", "bank": ["be", "can", "can't", "don't", "has", "have to", "if", "may", "open", "pay", "pay back", "will", "won't", "write"], "items": [{"t": "If you [?] a bank account, you [?] need to complete a form with all of your information on it.", "a": [["open"], ["will", "may"]], "why": ["If + present simple (<u>open</u>), main clause <u>will</u> + base form."]}, {"t": "If you [?] pay back your loan on time, the bank [?] charge you.", "a": [["don't", "can't"], ["can", "will", "may"]], "why": ["If you <u>don't</u> pay back…, the bank <u>can</u> charge you."]}, {"t": "The amount of money you pay back [?] change if your loan [?] a fixed rate of interest.", "a": [["won't"], ["has"]], "why": ["Fixed rate → it <u>won't</u> change; if + present simple → your loan <u>has</u>."]}, {"t": "It will [?] easier to check your bank details [?] your bank has an app you can use on your phone.", "a": [["be"], ["if"]], "why": ["will + base form → will <u>be</u>; condition → <u>if</u>."]}, {"t": "If you [?] a loan more quickly, it [?] cost you less money depending on the agreement.", "a": [["pay back"], ["may", "will", "can"]], "why": ["You <u>pay back</u> a loan; not sure → it <u>may</u> cost less."]}, {"t": "You can [?] large sums of money safely if you [?] a check.", "a": [["pay"], ["write"]], "why": ["can + base form → <u>pay</u>; you <u>write</u> a check."]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— choose —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Correct answer: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Correct answer: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Correct answer: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Correct answer: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const WHY_LANG='en';
+function showWhy(li){const fix=li.querySelector('.fix');const ans=fix.textContent.replace(/^✗ Correct answer:\s*/,'');fix.textContent='';
+  const box=mk('div','why');box.append(mk('div','why-ans',(WHY_LANG==='en'?'Correct answer: ':'Правильна відповідь: ')+ans));
+  const ul=mk('ul');li._why.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');const _empty=!ok&&![...li.querySelectorAll('input')].some(i=>i.value.trim())&&![...li.querySelectorAll('select')].some(x=>x.value)&&!li.querySelector('.opt.wrong');if(_empty){const fx=li.querySelector('.fix');fx.textContent=(WHY_LANG==='en'?'No answer. Try again!':'Немає відповіді. Спробуй ще раз!');fx.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}else if(!ok&&li._why)showWhy(li);if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li.querySelector('.fix').classList.remove('empty');li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script>
+<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->
+
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">Your Digital Workbook</div><p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div><div class="fcol"><h4>Contact</h4><a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a><a href="tel:+380989960039">+380 98 996 00 39</a><a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div><div class="fcol"><h4>Info</h4><a href="/terms">Terms &amp; Conditions</a></div></div><div class="fbottom"><span>© 2026 Liliia Labiak</span><span>English practice · A1–C1</span></div></footer><!-- /site-footer -->
+</body></html>

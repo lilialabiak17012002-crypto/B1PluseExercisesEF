@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3.5 Past tenses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid var(--ink);border-radius:10px;padding:12px 16px;margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}
+.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
+.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
+.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+li.q.bad .fix.empty{color:var(--muted);font-style:italic}
+</style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/img/icon-32.png"><link rel="apple-touch-icon" href="/img/icon-180.png"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
+</head>
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><img class="logo-slot" src="/img/logo.png" width="48" height="48" alt=""><span class="brand-name">Your Digital Workbook</span></a><nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/business-a2-b1">← All A2–B1 lessons</a><a href="/">All levels</a></nav><!-- /site-nav -->
+
+<h1>3.5 Past tenses</h1><p class="sub">Business English Pre-Intermediate · Unit 3</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Check</button></div></div>
+<div class="card" id="result"><div>Your result</div><div id="score"></div>
+<div class="shot">📸 Take a screenshot and send it to your teacher.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Try again</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Past tenses</h2>\n<table><tr><th>Tense</th><th>Form</th><th>Example</th></tr>\n<tr><td><b>Past Simple</b></td><td>past form of the verb</td><td><span class='ex'>My manager entered.</span></td></tr>\n<tr><td><b>Past Continuous</b></td><td>was / were + -ing</td><td><span class='ex'>We were having a meeting.</span></td></tr>\n<tr><td><b>Past Perfect</b></td><td>had + past participle</td><td><span class='ex'>They had lost almost $10,000 in sales.</span></td></tr>\n<tr><td><b>Past Perfect Continuous</b></td><td>had + been + -ing</td><td><span class='ex'>They had been having problems with a customer.</span></td></tr></table>\n<h3>When do we use them?</h3>\n<table><tr><th>Tense</th><th>Use</th><th>Example</th></tr>\n<tr><td rowspan='3'><b>Past Simple</b></td><td>finished actions with a past time phrase (last year, two weeks ago, in 2019)</td><td><span class='ex'>I met Sheldon in Marseilles last month.</span></td></tr>\n<tr><td>finished actions we know are in the past (general knowledge)</td><td><span class='ex'>Bill Gates created Microsoft with Paul Allen.</span></td></tr>\n<tr><td>the main events of a story</td><td><span class='ex'>…when my manager called me.</span></td></tr>\n<tr><td rowspan='3'><b>Past Continuous</b></td><td>an action over a period of time in the past</td><td><span class='ex'>I was working on my presentation for hours yesterday.</span></td></tr>\n<tr><td>annoying past habits (with always, constantly)</td><td><span class='ex'>He was always shouting in meetings.</span></td></tr>\n<tr><td>the background of a story</td><td><span class='ex'>We were having dinner with clients when…</span></td></tr>\n<tr><td><b>Past Perfect</b></td><td>the earlier of two past actions (makes the order clear)</td><td><span class='ex'>I arrived late because I had woken up late.</span></td></tr>\n<tr><td><b>Past Perfect Continuous</b></td><td>an action over a period of time before another past event</td><td><span class='ex'>When I started at Flint Inc, I had been living in Belfast for two years.</span></td></tr></table>\n<h3>'d = had or would?</h3>\n<table><tr><th>'d + …</th><th>Meaning</th><th>Example</th></tr>\n<tr><td>past participle</td><td><b>had</b></td><td><span class='ex'>She'd started her new job. (= had started)</span></td></tr>\n<tr><td>base form</td><td><b>would</b></td><td><span class='ex'>I'd like to see him. (= would like)</span></td></tr></table>\n<p><b style='color:#e5484d'>❗ No continuous with stative verbs (like, love, want, need):</b> <span class='ex'>I wanted to finish. ✓ &nbsp;<s>I was wanting to finish.</s> ✗</span></p>\n<p><b style='color:#e5484d'>❗ A short, sudden action → Past Simple:</b> <span class='ex'>…the lights suddenly went out. ✓ &nbsp;<s>…the lights suddenly were going out.</s> ✗</span></p>"}, {"type": "choice", "n": 1, "title": "Past Simple or Past Continuous?", "task": "Choose the correct tense for each rule.", "items": [{"t": "We use the ___ for actions that happened over a period of time in the past.", "o": ["Past Simple", "Past Continuous"], "c": 1, "why": ["Period of time → <u>Past Continuous</u>."]}, {"t": "We use the ___ for actions completed in the past with a past time phrase (last year, two weeks ago).", "o": ["Past Simple", "Past Continuous"], "c": 0, "why": ["Finished + time phrase → <u>Past Simple</u>."]}, {"t": "We use the ___ for annoying habits in the past, often with always or constantly.", "o": ["Past Simple", "Past Continuous"], "c": 1, "why": ["always + -ing → <u>Past Continuous</u>."]}, {"t": "We use the ___ for actions we know from general knowledge are in the past.", "o": ["Past Simple", "Past Continuous"], "c": 0, "why": ["General knowledge → <u>Past Simple</u>."]}, {"t": "In a story, we use the ___ for the things that were happening in the background.", "o": ["Past Simple", "Past Continuous"], "c": 1, "why": ["Background → <u>Past Continuous</u>."]}, {"t": "In a story, we use the ___ for the events.", "o": ["Past Simple", "Past Continuous"], "c": 0, "why": ["Events → <u>Past Simple</u>."]}]}, {"type": "text", "n": 2, "title": "Error correction", "task": "Find and correct the mistake. If the sentence is correct, write it again.", "items": [{"t": "I was wanting to finish my presentation before I went home. → [?]", "a": [["I wanted to finish my presentation before I went home."]], "why": ["want is a stative verb → <u>I wanted</u>."]}, {"t": "While I was giving my presentation, there was a power cut. → [?]", "a": [["While I was giving my presentation, there was a power cut."]], "why": ["Correct: background (Past Continuous) + event (Past Simple)."]}, {"t": "The first time I was meeting Rafiq was two years ago in Milan. → [?]", "a": [["The first time I met Rafiq was two years ago in Milan."]], "why": ["Finished action + ago → <u>I met</u>."]}, {"t": "The CEO stood up in the meeting and told us that he left the company. → [?]", "a": [["The CEO stood up in the meeting and told us that he was leaving the company."]], "why": ["He hasn't left yet → <u>he was leaving</u>."]}, {"t": "When I arrived at the meeting, the rest of the team were talking about the next project. → [?]", "a": [["When I arrived at the meeting, the rest of the team were talking about the next project.", "When I arrived at the meeting, the rest of the team was talking about the next project."]], "why": ["Correct: background action → were talking."]}, {"t": "While I was giving my presentation, my manager was leaving to make a phone call. → [?]", "a": [["While I was giving my presentation, my manager left to make a phone call."]], "why": ["A short event → <u>left</u>."]}, {"t": "The taxi didn't arrive on time so we were getting to the meeting late. → [?]", "a": [["The taxi didn't arrive on time so we got to the meeting late.", "The taxi did not arrive on time so we got to the meeting late."]], "why": ["The result is an event → <u>we got</u>."]}, {"t": "I was loving your presentation yesterday, I thought it was brilliant. → [?]", "a": [["I loved your presentation yesterday, I thought it was brilliant.", "I loved your presentation yesterday. I thought it was brilliant."]], "why": ["love is a stative verb → <u>I loved</u>."]}, {"t": "My manager was arriving late to the meeting so it wasn't starting on time. → [?]", "a": [["My manager arrived late to the meeting so it didn't start on time.", "My manager arrived late to the meeting so it did not start on time."]], "why": ["Events → <u>arrived</u> … <u>didn't start</u>."]}, {"t": "Gerald said he wanted to talk to me after he had finished his report. → [?]", "a": [["Gerald said he wanted to talk to me after he had finished his report."]], "why": ["Correct: had finished = the earlier action."]}, {"t": "While we were talking about the new products in our morning meeting, the lights suddenly were going out. → [?]", "a": [["While we were talking about the new products in our morning meeting, the lights suddenly went out."]], "why": ["A sudden event → <u>went out</u>."]}]}, {"type": "text", "n": 3, "title": "Past Perfect or Past Perfect Continuous?", "task": "Complete the sentences with the Past Perfect or the Past Perfect Continuous of the verb in brackets.", "items": [{"t": "I didn't know how to answer his question in the meeting because I [not/listen].", "a": [["hadn't been listening", "had not been listening"]], "why": ["Over a period before another past event → <u>hadn't been listening</u>."]}, {"t": "When I started my first job in sales, I [not/have] any experience.", "a": [["hadn't had", "had not had"]], "why": ["have (= possess) is stative → Past Perfect: <u>hadn't had</u>."]}, {"t": "I needed to go home to get my passport because I [forget] it.", "a": [["had forgotten", "'d forgotten"]], "why": ["The earlier action → <u>had forgotten</u>."]}, {"t": "I was very tired when we arrived at the conference because we [travel] for nine hours.", "a": [["had been traveling", "had been travelling", "'d been traveling", "'d been travelling"]], "why": ["for nine hours → <u>had been traveling</u>."]}, {"t": "By the time I arrived at the office, my manager [?] already [go] home.", "a": [["had"], ["gone"]], "why": ["By the time… → <u>had</u> already <u>gone</u>."]}, {"t": "He [meet] the client at the station before they came to the meeting.", "a": [["had met", "'d met"]], "why": ["The earlier action → <u>had met</u>."]}]}, {"type": "text", "n": 4, "title": "Past Perfect or Past Simple?", "task": "Complete the sentences with the Past Perfect or the Past Simple of the verb in brackets.", "items": [{"t": "The team [prepare] a presentation which the directors [watch] during the meeting and then [discuss].", "a": [["had prepared"], ["watched"], ["discussed"]], "why": ["First the team <u>had prepared</u> it, then the directors <u>watched</u> and <u>discussed</u> it."]}, {"t": "We [go] to lunch after the meeting [finish] and [continue] to discuss the deal.", "a": [["went"], ["had finished"], ["continued"]], "why": ["The meeting <u>had finished</u> first; then we <u>went</u> and <u>continued</u>."]}, {"t": "I [not/bring] my laptop to work so I [not able] to finish my report.", "a": [["hadn't brought", "had not brought"], ["wasn't able", "was not able"]], "why": ["Earlier → <u>hadn't brought</u>; result → <u>wasn't able</u>."]}, {"t": "He [ask] if there were any questions before he [finish] his presentation.", "a": [["had asked", "asked"], ["finished"]], "why": ["Earlier → <u>had asked</u>; later → <u>finished</u>."]}, {"t": "I [introduce] myself to the clients as we [not/meet] before.", "a": [["introduced"], ["hadn't met", "had not met"]], "why": ["<u>introduced</u>; before that we <u>hadn't met</u>."]}, {"t": "By the time I [go] home, everyone else in the office [leave].", "a": [["went"], ["had left"]], "why": ["By the time I <u>went</u>, everyone <u>had left</u> (earlier)."]}]}, {"type": "choice", "n": 5, "title": "'d = had or would?", "task": "What does 'd mean in each sentence?", "items": [{"t": "If Pedro comes in to the office, I'd like to see him.", "o": ["had", "would"], "c": 1, "why": ["'d + base form (like) → <u>would</u>."]}, {"t": "I'd love to talk to you about the new products later.", "o": ["had", "would"], "c": 1, "why": ["'d + base form (love) → <u>would</u>."]}, {"t": "I'd not seen the new advert so I was quite surprised.", "o": ["had", "would"], "c": 0, "why": ["'d + past participle (seen) → <u>had</u>."]}, {"t": "He'd usually arrive late on Monday mornings because he traveled from Paris.", "o": ["had", "would"], "c": 1, "why": ["'d + base form (arrive) → <u>would</u>."]}, {"t": "She'd started her new job only six months after finishing university.", "o": ["had", "would"], "c": 0, "why": ["'d + past participle (started) → <u>had</u>."]}, {"t": "I can come in early on Tuesday to work on the report if you'd like.", "o": ["had", "would"], "c": 1, "why": ["'d + base form (like) → <u>would</u>."]}, {"t": "I'd not started the survey because I thought you wanted to talk about it first.", "o": ["had", "would"], "c": 0, "why": ["'d + past participle (started) → <u>had</u>."]}, {"t": "I was really happy to get the job because I'd always wanted to work there.", "o": ["had", "would"], "c": 0, "why": ["'d + past participle (wanted) → <u>had</u>."]}, {"t": "She said she'd completed her presentation last night.", "o": ["had", "would"], "c": 0, "why": ["'d + past participle (completed) → <u>had</u>."]}, {"t": "We'd love to hear what you have to say.", "o": ["had", "would"], "c": 1, "why": ["'d + base form (love) → <u>would</u>."]}, {"t": "I'd like to know what they think about our new products.", "o": ["had", "would"], "c": 1, "why": ["'d + base form (like) → <u>would</u>."]}, {"t": "He said he was coming back after he'd put his computer away.", "o": ["had", "would"], "c": 0, "why": ["after + 'd + past participle (put) → <u>had</u>."]}, {"t": "It'd be interesting to know what they think.", "o": ["had", "would"], "c": 1, "why": ["'d + base form (be) → <u>would</u>."]}]}, {"type": "text", "n": 6, "title": "The conference in Oslo: Part 1", "task": "Complete the story with words from the box.", "bank": ["'d had", "been", "been traveling", "had", "had to", "slept", "started", "were"], "items": [{"t": "Last year's conference in Oslo was very interesting. About two days before it [?], we checked into this beautiful hotel.", "a": [["started"]], "why": ["A past event → <u>started</u>."]}, {"t": "We [?] come all the way from Rio de Janeiro,", "a": [["had"]], "why": ["The earlier action → <u>had</u> come."]}, {"t": "so we had [?] for almost two days. We were all exhausted.", "a": [["been traveling", "been travelling"]], "why": ["for almost two days → had <u>been traveling</u>."]}, {"t": "We [?] some problems in Washington DC.", "a": [["'d had", "had had"]], "why": ["Earlier action → <u>'d had</u> (had + had)."]}, {"t": "The plane had [?] too full, so we'd [?] catch a later one.", "a": [["been"], ["had to"]], "why": ["had <u>been</u> too full; we'd <u>had to</u> catch…"]}, {"t": "Fortunately, the beds at the hotel in Oslo [?] really comfortable, so we all [?] really well on the first night.", "a": [["were"], ["slept"]], "why": ["Past Simple: the beds <u>were</u>…, we <u>slept</u>."]}]}, {"type": "text", "n": 7, "title": "The conference in Oslo: Part 2", "task": "Complete the story with the correct past tense of the verb in brackets. Sometimes you need a negative.", "items": [{"t": "On the first morning, I [have] breakfast with Juliana when Hans [join] us…", "a": [["was having"], ["joined"]], "why": ["Background → <u>was having</u>; event → <u>joined</u>."]}, {"t": "…and told us that the presentation we [prepare] before we left had been deleted from his computer.", "a": [["had prepared", "had been preparing"]], "why": ["Before we left → <u>had prepared</u>."]}, {"t": "So as soon as we [finish] breakfast, the three of us started creating the presentation all over again.", "a": [["finished", "had finished"]], "why": ["as soon as → <u>finished</u> / had finished."]}, {"t": "We were able to remember all of it, but we [?] still [work] until almost midnight that day.", "a": [["were"], ["working"]], "why": ["Over a period of time → <u>were</u> still <u>working</u>."]}, {"t": "We [plan] to take some time to look around Oslo instead of working.", "a": [["had been planning", "had planned"]], "why": ["Before that day → <u>had been planning</u> / had planned."]}, {"t": "When the conference started, we all [feel] really nervous, but the presentation went really well.", "a": [["felt", "were feeling"]], "why": ["<u>felt</u> / were feeling."]}, {"t": "After we finished, a few of our customers came over and said that they [?] really [enjoy] it.", "a": [["had"], ["enjoyed"]], "why": ["Reporting an earlier action → <u>had</u> really <u>enjoyed</u>."]}, {"t": "We [not/expect] to hear such good news.", "a": [["hadn't been expecting", "had not been expecting", "hadn't expected", "had not expected", "didn't expect", "did not expect"]], "why": ["Negative → <u>hadn't been expecting</u>."]}]}, {"type": "text", "n": 8, "title": "The missing $10,000", "task": "Complete the story with the correct past tense of the verb in brackets.", "items": [{"t": "Yesterday, while we [have] a meeting, Jim [walk] in and [tell] us that there was a problem with the sales figures for last month.", "a": [["were having"], ["walked"], ["told"]], "why": ["Background → <u>were having</u>; events → <u>walked</u>, <u>told</u>."]}, {"t": "Serena [not/be] happy because she [present] when he [come] in.", "a": [["wasn't", "was not"], ["had been presenting", "was presenting"], ["came"]], "why": ["<u>wasn't</u> happy; she <u>had been presenting</u> (for some time) when he <u>came</u> in."]}, {"t": "Serena said she would look when she [finish] the meeting.", "a": [["had finished", "finished"]], "why": ["<u>had finished</u> / finished."]}, {"t": "During the time she [complete] her presentation, we [wonder] what could have happened to the $10,000.", "a": [["was completing", "completed"], ["were wondering", "were all wondering", "wondered"]], "why": ["Two actions at the same time → <u>was completing</u>, <u>were wondering</u>."]}, {"t": "Later, we found out that Serena [not/put] enough zeros in the spreadsheet and there was actually no money missing at all!", "a": [["hadn't put", "had not put", "didn't put", "did not put"]], "why": ["The earlier action → <u>hadn't put</u>."]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— choose —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Correct answer: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Correct answer: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Correct answer: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Correct answer: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const WHY_LANG='en';
+function showWhy(li){const fix=li.querySelector('.fix');const ans=fix.textContent.replace(/^✗ Correct answer:\s*/,'');fix.textContent='';
+  const box=mk('div','why');box.append(mk('div','why-ans',(WHY_LANG==='en'?'Correct answer: ':'Правильна відповідь: ')+ans));
+  const ul=mk('ul');li._why.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');const _empty=!ok&&![...li.querySelectorAll('input')].some(i=>i.value.trim())&&![...li.querySelectorAll('select')].some(x=>x.value)&&!li.querySelector('.opt.wrong');if(_empty){const fx=li.querySelector('.fix');fx.textContent=(WHY_LANG==='en'?'No answer. Try again!':'Немає відповіді. Спробуй ще раз!');fx.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}else if(!ok&&li._why)showWhy(li);if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li.querySelector('.fix').classList.remove('empty');li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script>
+<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->
+
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">Your Digital Workbook</div><p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div><div class="fcol"><h4>Contact</h4><a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a><a href="tel:+380989960039">+380 98 996 00 39</a><a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div><div class="fcol"><h4>Info</h4><a href="/terms">Terms &amp; Conditions</a></div></div><div class="fbottom"><span>© 2026 Liliia Labiak</span><span>English practice · A1–C1</span></div></footer><!-- /site-footer -->
+</body></html>
