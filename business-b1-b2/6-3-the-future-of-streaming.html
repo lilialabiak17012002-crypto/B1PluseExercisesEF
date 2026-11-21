@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>6.3 The future of streaming</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid var(--ink);border-radius:10px;padding:12px 16px;margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}
+.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
+.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
+.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+li.q.bad .fix.empty{color:var(--muted);font-style:italic}
+</style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/img/icon-32.png"><link rel="apple-touch-icon" href="/img/icon-180.png"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
+</head>
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><img class="logo-slot" src="/img/logo.png" width="48" height="48" alt=""><span class="brand-name">Your Digital Workbook</span></a><nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/business-b1-b2">← All B1–B2 lessons</a><a href="/">All levels</a></nav><!-- /site-nav -->
+
+<h1>6.3 The future of streaming</h1><p class="sub">Business English Intermediate · Unit 6</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Check</button></div></div>
+<div class="card" id="result"><div>Your result</div><div id="score"></div>
+<div class="shot">📸 Take a screenshot and send it to your teacher.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Try again</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Streaming and relative clauses</h2>\n<table><tr><th>Word / phrase</th><th>Meaning</th></tr>\n<tr><td><b>household</b></td><td>people who live in one home</td></tr>\n<tr><td><b>ownership</b></td><td>owning something</td></tr>\n<tr><td><b>broadband</b></td><td>high-speed internet</td></tr>\n<tr><td><b>royalty</b></td><td>money paid to an artist or author for each sale</td></tr>\n<tr><td><b>a rush</b></td><td>hurrying to do something</td></tr>\n<tr><td><b>paying attention</b> • <b>viable</b> • <b>transition</b></td><td>noticing • able to work successfully • a change</td></tr>\n<tr><td><b>track</b> • <b>trivial</b> • <b>deep pockets</b> • <b>appetite</b></td><td>one song • unimportant • a lot of money • demand</td></tr></table>\n<p>Collocations: <span class='ex'>raise funding • value a business • bring new income • go out of business • make a loss • focus on growth</span></p>\n<p>More streaming words: <span class='ex'>programming • subscription • franchise (e.g. Marvel films) • exclusively • select • a fine • bypass (go around) • intend • binge-watching • commission (order new shows)</span></p>\n<h3>Relative clauses</h3>\n<table><tr><th>Type 1: necessary information</th><th>Type 2: extra information</th></tr>\n<tr><td><span class='ex'>the households <b>that</b> own a TV</span><br>No commas. You can use <b>that</b>. You can leave out who / which / that when it is the object: <span class='ex'>the brand (that) I wanted to buy</span></td><td><span class='ex'>Spotify<b>, which</b> is the sector leader<b>,</b> made a loss.</span><br>Use commas. Don't use <b>that</b>. Don't leave out who / which / where.</td></tr></table>\n<p><span class='ex'>who (people) • which / that (things) • where (places) • when (times) • why (reasons) • whose (possession)</span></p>\n<p><b style='color:#e5484d'>❗ No that after a comma:</b> <span class='ex'>This coffee, which Joanne bought, is good. ✓ &nbsp;<s>This coffee, that Joanne bought…</s> ✗</span></p>\n<p><b style='color:#e5484d'>❗ Don't leave out a subject pronoun:</b> <span class='ex'>I know a woman who works for KP Lewis. ✓ &nbsp;<s>I know a woman works for…</s> ✗</span></p>"}, {"type": "match", "n": 1, "title": "Key vocabulary", "task": "Match the words with the definitions.", "items": [["a household", "a person or group of people who live in one place"], ["ownership", "the state of possessing something"], ["broadband", "a system used for high-speed internet access"], ["royalty", "a percentage of the money from a sale paid to the creator"], ["a rush", "hurrying to do something"]], "pool": ["a percentage of the money from a sale paid to the creator", "a person or group of people who live in one place", "a system used for high-speed internet access", "hurrying to do something", "the state of possessing something"]}, {"type": "choice", "n": 2, "title": "The future of streaming", "task": "Read the sentence from the article and the statement. True or false?", "items": [{"t": "\"Streamers are ready to fight for our attention… because consumers want it.\" → Business people invest in streaming because people will want it in the future.", "o": ["True", "False"], "c": 1}, {"t": "\"For kids especially, their TV experience is on a tablet.\" → Kids prefer to watch TV on a television.", "o": ["True", "False"], "c": 1}, {"t": "\"Technology is the reason for the rise of streaming.\" → Streaming became popular because of technology.", "o": ["True", "False"], "c": 0}, {"t": "\"…the average $0.007 per stream royalty which Spotify pays to artists.\" → Musicians earn a lot of money with streaming.", "o": ["True", "False"], "c": 1}, {"t": "\"Unless you have deep pockets, it is extremely difficult.\" → Streaming services need a lot of funding to be successful.", "o": ["True", "False"], "c": 0}, {"t": "\"The sector shows no signs of slowing.\" → The streaming business has not slowed down yet.", "o": ["True", "False"], "c": 0}]}, {"type": "text", "n": 3, "title": "Find the words", "task": "Complete the sentences from the article with words from the box.", "bank": ["appetite", "deep pockets", "paying attention", "track", "transition", "trivial", "viable"], "items": [{"t": "Streaming is becoming popular just like satellite TV did. And investors are [?].", "a": [["paying attention"]]}, {"t": "Portable devices and faster internet mean that it is a [?] option.", "a": [["viable"]]}, {"t": "For artists, the [?] to this new distribution model has been difficult.", "a": [["transition"]]}, {"t": "Musicians complained of the $0.99 per [?] price on iTunes.", "a": [["track"]]}, {"t": "He believes this is a [?] detail because Spotify is focusing on growth.", "a": [["trivial"]]}, {"t": "Unless you have [?], it is extremely difficult.", "a": [["deep pockets"]]}, {"t": "The [?] among consumers has not been satisfied yet.", "a": [["appetite"]]}]}, {"type": "match", "n": 4, "title": "Collocations", "task": "Match the verbs with the words to make phrases from the text.", "items": [["raise", "funding"], ["value", "a business"], ["bring", "new income"], ["go", "out of business"], ["make", "a loss"], ["focus on", "growth"]], "pool": ["a business", "a loss", "funding", "growth", "new income", "out of business"]}, {"type": "order", "n": 5, "title": "Type 1 relative clauses", "task": "Put the parts in the correct order.", "items": [{"t": "who lent me / is here. / The guy / his laptop", "a": ["The guy who lent me his laptop is here."]}, {"t": "the pen / I borrowed / That's / which / from you.", "a": ["That's the pen which I borrowed from you."]}, {"t": "the day / That was / I / first met the boss. / when", "a": ["That was the day when I first met the boss."]}, {"t": "a businessman / Steve Jobs / died in 2011. / was / who", "a": ["Steve Jobs was a businessman who died in 2011."]}, {"t": "That's / for. / the guy / company / whose / I work", "a": ["That's the guy whose company I work for."]}, {"t": "where / room service. / She has never stayed / a hotel / at / you can order", "a": ["She has never stayed at a hotel where you can order room service."]}]}, {"type": "text", "n": 6, "title": "Type 2 relative clauses", "task": "Join the sentences with who, which, where or when. Use commas.", "items": [{"t": "She comes from Tehran. + Tehran is the capital of Iran. → [?]", "a": [["She comes from Tehran, which is the capital of Iran."]], "why": ["Extra information → <u>, which</u> is…"]}, {"t": "Derek is a lawyer. + This is a well-paid job. → [?]", "a": [["Derek is a lawyer, which is a well-paid job."]], "why": ["<u>, which</u> is a well-paid job."]}, {"t": "She worked for Toyota in 2007. + She lived in Japan then. → [?]", "a": [["She worked for Toyota in 2007, when she lived in Japan."]], "why": ["A time → <u>, when</u>…"]}, {"t": "The camera costs over 1000 dollars. + This is a waste of money. → [?]", "a": [["The camera costs over 1000 dollars, which is a waste of money."]], "why": ["<u>, which</u> is a waste of money."]}, {"t": "Nelson Mandela died in 2013. + He was president of South Africa. → [?]", "a": [["Nelson Mandela, who was president of South Africa, died in 2013."]], "why": ["A person → <u>, who</u>…, in the middle."]}, {"t": "Barclays Bank is one of the world's biggest banks. + I have an account there. → [?]", "a": [["Barclays Bank, where I have an account, is one of the world's biggest banks."]], "why": ["A place → <u>, where</u>…"]}]}, {"type": "text", "n": 7, "title": "Opinions on streaming", "task": "Complete the opinions with words from the box.", "bank": ["binge-watching", "bypass", "commission", "exclusively", "fine", "franchise", "intend", "programming", "select", "subscription"], "items": [{"t": "Netflix is the best. I think they have the best [?]", "a": [["programming"]]}, {"t": "and I'm happy to pay for the [?].", "a": [["subscription"]]}, {"t": "I love watching movies from the Marvel [?]", "a": [["franchise"]]}, {"t": "and they are available [?] on Disney+.", "a": [["exclusively"]]}, {"t": "I used to enjoy going to the shop to [?] the movies I wanted to see.", "a": [["select"]]}, {"t": "If you forgot to take them back, you would have to pay a [?].", "a": [["fine"]]}, {"t": "Sometimes movies [?] the movie theater completely and go straight online.", "a": [["bypass"]]}, {"t": "I always [?] to go to the movie theater, but it's so expensive.", "a": [["intend"]]}, {"t": "I was wasting a huge amount of time [?] all of these shows.", "a": [["binge-watching"]]}, {"t": "I wish the companies would [?] more high quality shows.", "a": [["commission"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— choose —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Correct answer: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Correct answer: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Correct answer: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Correct answer: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const WHY_LANG='en';
+function showWhy(li){const fix=li.querySelector('.fix');const ans=fix.textContent.replace(/^✗ Correct answer:\s*/,'');fix.textContent='';
+  const box=mk('div','why');box.append(mk('div','why-ans',(WHY_LANG==='en'?'Correct answer: ':'Правильна відповідь: ')+ans));
+  const ul=mk('ul');li._why.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');const _empty=!ok&&![...li.querySelectorAll('input')].some(i=>i.value.trim())&&![...li.querySelectorAll('select')].some(x=>x.value)&&!li.querySelector('.opt.wrong');if(_empty){const fx=li.querySelector('.fix');fx.textContent=(WHY_LANG==='en'?'No answer. Try again!':'Немає відповіді. Спробуй ще раз!');fx.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}else if(!ok&&li._why)showWhy(li);if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li.querySelector('.fix').classList.remove('empty');li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script>
+<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->
+
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">Your Digital Workbook</div><p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div><div class="fcol"><h4>Contact</h4><a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a><a href="tel:+380989960039">+380 98 996 00 39</a><a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div><div class="fcol"><h4>Info</h4><a href="/terms">Terms &amp; Conditions</a></div></div><div class="fbottom"><span>© 2026 Liliia Labiak</span><span>English practice · A1–C1</span></div></footer><!-- /site-footer -->
+</body></html>
