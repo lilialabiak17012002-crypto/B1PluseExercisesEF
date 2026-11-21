@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>4.1 Ethics and conduct</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid var(--ink);border-radius:10px;padding:12px 16px;margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}
+.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
+.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
+.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+li.q.bad .fix.empty{color:var(--muted);font-style:italic}
+</style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/img/icon-32.png"><link rel="apple-touch-icon" href="/img/icon-180.png"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
+</head>
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><img class="logo-slot" src="/img/logo.png" width="48" height="48" alt=""><span class="brand-name">Your Digital Workbook</span></a><nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/business-b1-b2">← All B1–B2 lessons</a><a href="/">All levels</a></nav><!-- /site-nav -->
+
+<h1>4.1 Ethics and conduct</h1><p class="sub">Business English Intermediate · Unit 4</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Check</button></div></div>
+<div class="card" id="result"><div>Your result</div><div id="score"></div>
+<div class="shot">📸 Take a screenshot and send it to your teacher.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Try again</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Business ethics</h2>\n<p><b>ethics</b> = the rules a company uses to decide how it behaves. <span class='ex'>ethical (adj) • unethical (adj) • ethically (adv)</span></p>\n<table><tr><th>Word</th><th>Meaning</th><th>Example</th></tr>\n<tr><td><b>principle</b> (n)</td><td>a personal rule about what you will and won't do</td><td><span class='ex'>a code of ethics with clear principles</span></td></tr>\n<tr><td><b>conduct</b> (v, n)</td><td>behave / behavior</td><td><span class='ex'>how employees conduct themselves</span></td></tr>\n<tr><td><b>corruption</b> (n)</td><td>dishonest, illegal behavior to make money</td><td><span class='ex'>what it does to prevent corruption</span></td></tr>\n<tr><td><b>guideline</b> (n)</td><td>an instruction that helps you decide what to do</td><td><span class='ex'>setting out the guidelines</span></td></tr>\n<tr><td><b>regulate</b> (v)</td><td>control using rules</td><td><span class='ex'>regulate working practices</span></td></tr>\n<tr><td><b>moral</b> (adj)</td><td>about right and wrong</td><td><span class='ex'>the moral view of the company</span></td></tr>\n<tr><td><b>restrict</b> (v)</td><td>control how much is allowed</td><td><span class='ex'>not there to restrict its employees</span></td></tr>\n<tr><td><b>comply</b> (with) (v)</td><td>follow a rule</td><td><span class='ex'>comply with the code</span></td></tr></table>\n<table><tr><th>Word</th><th>Meaning</th></tr>\n<tr><td><b>packaging</b></td><td>material that products are put in to keep them safe</td></tr>\n<tr><td><b>sustainable</b></td><td>not harming the environment</td></tr>\n<tr><td><b>supply chain</b></td><td>the people and companies between the producer and the customer</td></tr>\n<tr><td><b>diversity</b></td><td>including people from different backgrounds</td></tr>\n<tr><td><b>minority</b></td><td>a small group within a larger group</td></tr>\n<tr><td><b>renewable</b></td><td>able to be replaced, not used up (energy)</td></tr>\n<tr><td><b>infrastructure</b></td><td>roads, transport and systems a country needs</td></tr></table>\n<h3>Chairing meetings</h3>\n<p><span class='ex'><b>a necessity</b> (something you must have) • <b>convinced</b> (sure) • <b>deviate</b> from (move away from) • <b>exclusive</b> (only for some) • <b>primarily</b> (mainly) • <b>participation</b> • <b>vital</b> (= essential) • <b>reconsider</b> (= think again) • <b>voice</b> your opinion (= express) • <b>additional</b> (= extra) • <b>embarrassing</b> (= uncomfortable) • <b>run</b> a business (= manage) • <b>rare</b> (= uncommon)</span></p>\n<p><b style='color:#e5484d'>❗ comply WITH:</b> <span class='ex'>comply with the rules ✓ &nbsp;<s>comply the rules</s> ✗</span></p>"}, {"type": "choice", "n": 1, "title": "ethics", "task": "Choose the correct form.", "items": [{"t": "She was fired from her job because of the ___ way she had treated the customers.", "o": ["ethical", "unethical", "ethically"], "c": 1, "why": ["A negative reason → <u>unethical</u>."]}, {"t": "Simon is respected by his colleagues and always behaves ___ in his work.", "o": ["ethical", "ethically", "ethics"], "c": 1, "why": ["behaves + adverb → <u>ethically</u>."]}, {"t": "The company experiments on animals, so I stopped buying their products for ___ reasons.", "o": ["ethical", "ethically", "unethical"], "c": 0, "why": ["Adjective before 'reasons' → <u>ethical</u>."]}]}, {"type": "text", "n": 2, "title": "Business and ethics", "task": "Complete the sentences from the article with words from the box.", "bank": ["comply", "conduct", "corruption", "guidelines", "moral", "principles", "regulate", "restrict"], "items": [{"t": "A code of ethics is essentially [?] that cover all the relationships within that business:", "a": [["principles"]]}, {"t": "how employees should [?] themselves and behave with each other,", "a": [["conduct"]]}, {"t": "and what the company does to prevent [?].", "a": [["corruption"]]}, {"t": "A clear document setting out the [?] communicates", "a": [["guidelines"]]}, {"t": "the [?] view of the company.", "a": [["moral"]]}, {"t": "It also helps the company to [?] the working practices of its staff.", "a": [["regulate"]]}, {"t": "A good code of ethics is not there to [?] its employees, but to make sure everyone is treated equally.", "a": [["restrict"]]}, {"t": "You can do a number of things that encourage all staff to [?] with the code.", "a": [["comply"]]}]}, {"type": "match", "n": 3, "title": "Responsible business", "task": "Match the words with the definitions.", "items": [["packaging", "the material products are put in to keep them safe during transport"], ["sustainable", "using products and energy which do not harm the environment"], ["supply chain", "the series of companies taking a product from the producer to the customer"], ["diversity", "the inclusion of people from different religious, cultural and racial backgrounds"], ["minority", "a small group of people who are part of a larger group"], ["renewable", "able to be replaced without it all being used"], ["infrastructure", "the roads, transport and systems needed to make a country function"]], "pool": ["a small group of people who are part of a larger group", "able to be replaced without it all being used", "the inclusion of people from different religious, cultural and racial backgrounds", "the material products are put in to keep them safe during transport", "the roads, transport and systems needed to make a country function", "the series of companies taking a product from the producer to the customer", "using products and energy which do not harm the environment"]}, {"type": "text", "n": 4, "title": "Our company", "task": "Complete the sentences with words from the box.", "bank": ["Diversity", "infrastructure", "minority", "packaging", "renewable", "supply chain", "sustainable"], "items": [{"t": "Most of the people working for our company are from Asia, but there's a [?] from Europe.", "a": [["minority"]]}, {"t": "One of our suppliers has gone out of business, which is causing problems in our [?].", "a": [["supply chain"]]}, {"t": "All of our products are produced using [?] energy sources.", "a": [["renewable"]]}, {"t": "The government has invested a lot in the [?] in our country, which has reduced the cost of transport.", "a": [["infrastructure"]]}, {"t": "We're using a new kind of [?] for our products which will protect them and use 70% less materials.", "a": [["packaging"]]}, {"t": "[?] is very important in our company as we have views from people from a variety of backgrounds.", "a": [["Diversity"]]}, {"t": "We can't continue to use this type of wood as there's a limited amount of it, so it's not [?].", "a": [["sustainable"]]}]}, {"type": "text", "n": 5, "title": "From the company handbook", "task": "Complete the text with the correct form of a word from the box.", "bank": ["comply", "conduct", "diversity", "ethical", "guideline", "minority", "packaging", "regulate", "supply chain", "sustainable"], "items": [{"t": "As a company, we follow strict [?]", "a": [["guidelines"]]}, {"t": "when it comes to behaving [?].", "a": [["ethically"]]}, {"t": "It's important that all of our employees read the handbook and [?] with the rules at all times.", "a": [["comply"]]}, {"t": "All of our employees represent the company, so their proper [?] is essential.", "a": [["conduct"]]}, {"t": "We actively encourage [?] in our staff", "a": [["diversity"]]}, {"t": "and have employees from a wide variety of backgrounds, cultures and [?].", "a": [["minorities"]]}, {"t": "We make sure that all of the [?] for our products", "a": [["packaging"]]}, {"t": "is made from [?] sources.", "a": [["sustainable"]]}, {"t": "We carefully [?] where our products are coming from", "a": [["regulate"]]}, {"t": "along the entire [?], from farmers to the store.", "a": [["supply chain"]]}]}, {"type": "text", "n": 6, "title": "Chairing meetings", "task": "Complete the sentences. Use the first letter or the word in brackets (a synonym).", "items": [{"t": "On our trip to the US, hiring a car will be an absolute [n…] as we won't be able to get anywhere without one.", "a": [["necessity"]]}, {"t": "I'm not really [c…] that going by car is a good idea.", "a": [["convinced"]]}, {"t": "It's very important that you don't [d…] from your schedules.", "a": [["deviate"]]}, {"t": "This is an [e…] offer on our website which is only available to our members.", "a": [["exclusive"]]}, {"t": "We need to focus [p…] on increasing our sales, but after that, we also need to think about new products.", "a": [["primarily"]]}, {"t": "She's quite quiet, so her [p…] in meetings isn't really obvious.", "a": [["participation"]]}, {"t": "The meeting starts at 9 am sharp and it's [essential] you arrive on time.", "a": [["vital"]]}, {"t": "Justin thinks we need to [think again] our marketing strategy.", "a": [["reconsider"]]}, {"t": "If you want to [express] your opinion, feel free to come and see me.", "a": [["voice"]]}, {"t": "The CEO wants to ask some [extra] questions about our plans for next year.", "a": [["additional"]]}, {"t": "I couldn't get the computer to work during my presentation and it was really quite [uncomfortable].", "a": [["embarrassing"]]}, {"t": "He has a business to [manage], so he doesn't always have time to read every email.", "a": [["run"]]}, {"t": "A manager who is so efficient and caring is very [uncommon] in my experience.", "a": [["rare"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— choose —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Correct answer: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Correct answer: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Correct answer: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Correct answer: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const WHY_LANG='en';
+function showWhy(li){const fix=li.querySelector('.fix');const ans=fix.textContent.replace(/^✗ Correct answer:\s*/,'');fix.textContent='';
+  const box=mk('div','why');box.append(mk('div','why-ans',(WHY_LANG==='en'?'Correct answer: ':'Правильна відповідь: ')+ans));
+  const ul=mk('ul');li._why.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');const _empty=!ok&&![...li.querySelectorAll('input')].some(i=>i.value.trim())&&![...li.querySelectorAll('select')].some(x=>x.value)&&!li.querySelector('.opt.wrong');if(_empty){const fx=li.querySelector('.fix');fx.textContent=(WHY_LANG==='en'?'No answer. Try again!':'Немає відповіді. Спробуй ще раз!');fx.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}else if(!ok&&li._why)showWhy(li);if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li.querySelector('.fix').classList.remove('empty');li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script>
+<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->
+
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">Your Digital Workbook</div><p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div><div class="fcol"><h4>Contact</h4><a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a><a href="tel:+380989960039">+380 98 996 00 39</a><a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div><div class="fcol"><h4>Info</h4><a href="/terms">Terms &amp; Conditions</a></div></div><div class="fbottom"><span>© 2026 Liliia Labiak</span><span>English practice · A1–C1</span></div></footer><!-- /site-footer -->
+</body></html>
