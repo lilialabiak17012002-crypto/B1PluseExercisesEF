@@ -23,6 +23,8 @@
 - Colloquial English, Practical English, Functional language.
 - Review, Revise and Check, Can you remember…
 - Завдання типу «напиши про себе».
+- Вправи на розуміння тексту/відео з уроку (що означають числа, true/false/not given, питання до статті,
+  «який абзац», заголовки до абзаців тощо). Домашнє — тільки на слова й граматику уроку, не на зміст тексту.
 
 ## 3. Структура і назви
 - Кожен урок книжки (1A, 1B…) — дві сторінки: Vocabulary і Grammar.
