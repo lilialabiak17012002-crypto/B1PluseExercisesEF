@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1.9 Networking</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#4f7cff;--green:#22a06b;--red:#e5484d;--ink:#1e2433;--muted:#6b7280;--bg:#f6f7fb;}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,sans-serif;color:var(--ink);background:var(--bg);}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+h1{font-size:28px;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 20px;font-size:15px}
+.card{background:#fff;border-radius:18px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:16px}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.pill{border-radius:999px;padding:4px 12px;font-size:14px;font-weight:600}
+.pill.to{background:#eaf0ff;color:var(--blue)}.pill.ing{background:#e6f6ee;color:var(--green)}.pill.sh{background:#fff3e0;color:#d9822b}
+label.name{display:block;font-weight:600;margin-bottom:6px}
+input[type=text]{font:inherit;border:2px solid #dfe3ea;border-radius:10px;padding:8px 12px;outline:none;transition:border-color .15s}
+input[type=text]:focus{border-color:var(--blue)}
+#name{width:100%;max-width:340px}
+ol{margin:0;padding:0;list-style:none;counter-reset:q}
+li.q{counter-increment:q;padding:14px 0;border-bottom:1px dashed #e5e7eb;line-height:2.1;font-size:17px}
+li.q:last-child{border-bottom:none}
+li.q::before{content:counter(q) ".";font-weight:600;color:var(--muted);margin-right:8px;display:inline-block;min-width:26px}
+li.q input{width:190px;padding:4px 10px;margin:0 4px}
+.hint{color:var(--muted);font-style:italic}
+li.q.ok input{border-color:var(--green);background:#effaf4}
+li.q.bad input{border-color:var(--red);background:#fff1f1}
+.fix{display:none;margin-left:34px;font-size:15px;line-height:1.5}
+li.q.bad .fix{display:block;color:var(--red)}
+li.q.ok .fix.both{display:block;color:var(--green)}
+.btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:12px 22px;cursor:pointer}
+.primary{background:var(--blue);color:#fff}.primary:disabled{opacity:.5;cursor:default}
+.ghost{background:#eef0f5;color:var(--ink)}
+#result{display:none;text-align:center}
+#score{font-size:44px;font-weight:700;margin:4px 0}
+#status{font-size:15px;margin-top:6px}
+.err{color:var(--red);font-size:14px;margin-top:6px;display:none}
+#teacher{display:none}
+#teacher h2{margin:0 0 12px;font-size:20px}
+.att{border:1px solid #e5e7eb;border-radius:12px;padding:10px 14px;margin-bottom:8px}
+.att summary{cursor:pointer;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.att .s{font-weight:700}
+.att ul{margin:8px 0 2px;padding-left:18px;font-size:14px}
+.att .when{color:var(--muted);font-size:13px}
+.rule{color:var(--muted);font-size:13px;display:block}
+.shot{font-size:15px;color:var(--muted);margin-top:8px}
+
+h2{font-size:20px;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.num{background:var(--blue);color:#fff;border-radius:10px;width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:16px}
+.task{color:var(--muted);margin:0 0 6px;font-size:15px}
+.bank{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.bank span{background:#f2f6ff;color:var(--blue);border-radius:999px;padding:3px 12px;font-size:14px;font-weight:600}
+.secscore{margin-left:auto;font-size:14px;font-weight:600;color:var(--muted)}
+.opts{display:inline-flex;gap:6px;flex-wrap:wrap;vertical-align:middle;margin:0 4px}
+.opt{font:inherit;font-size:15px;font-weight:500;border:2px solid #dfe3ea;background:#fff;border-radius:10px;padding:3px 12px;cursor:pointer;color:var(--ink)}
+.opt.sel{border-color:var(--blue);background:#eaf0ff}
+.opt.right{border-color:var(--green);background:#effaf4}
+.opt.wrong{border-color:var(--red);background:#fff1f1}
+li.q input{width:170px} li.q input.wide{width:min(460px,92%)}
+li.q select{font:inherit;font-size:16px;border:2px solid #dfe3ea;border-radius:10px;padding:4px 8px;margin-left:8px;background:#fff;color:var(--ink)}
+li.q.ok select{border-color:var(--green);background:#effaf4} li.q.bad select{border-color:var(--red);background:#fff1f1}
+li.q input.ok1{border-color:var(--green);background:#effaf4} li.q input.bad1{border-color:var(--red);background:#fff1f1}
+.word{font-weight:600;font-size:18px}
+.explain{background:#f2f6ff;border-left:5px solid var(--blue)}
+.explain h2{margin-bottom:10px}
+.explain p{margin:6px 0;font-size:15.5px;line-height:1.55}
+.explain table{border-collapse:collapse;width:100%;margin:8px 0 10px;font-size:15px}
+.explain td,.explain th{border:1px solid #d6def5;padding:7px 10px;text-align:left;vertical-align:top;background:#fff}
+.explain th{background:#e3eaff}
+.explain .ex{color:var(--blue);font-style:italic}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-right:6px}
+.tag.ps{background:#e6f6ee;color:var(--green)} .tag.pc{background:#eaf0ff;color:var(--blue)}
+.why{background:#F7F4EE;border:1px solid #E4DCCD;border-left:4px solid var(--ink);border-radius:10px;padding:12px 16px;margin:10px 0 4px;color:var(--ink);font-size:15.5px;line-height:1.6}
+.why-ans{color:var(--green);font-weight:700;margin-bottom:4px}
+.why ul{margin:0;padding-left:18px}.why li{margin:2px 0}.why li::marker{content:'▸  ';color:var(--muted)}
+.why u{text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+li.q.bad .fix.empty{color:var(--muted);font-style:italic}
+</style>
+<!-- site-head --><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="icon" href="/favicon.ico" sizes="any"><link rel="icon" type="image/png" href="/img/icon-32.png"><link rel="apple-touch-icon" href="/img/icon-180.png"><link rel="stylesheet" href="/chrome.css"><link rel="stylesheet" href="/lesson-theme.css"><!-- /site-head -->
+</head>
+<body>
+<!-- site-header --><header class="site-header"><div class="hwrap"><a class="brand" href="/"><img class="logo-slot" src="/img/logo.png" width="48" height="48" alt=""><span class="brand-name">Your Digital Workbook</span></a><nav class="hnav"><a href="/#levels">Levels</a><a href="#contacts">Contact</a></nav></div></header><!-- /site-header -->
+<div class="wrap">
+<!-- site-nav --><nav class="sitenav"><a href="/business-b2-c1">← All B2–C1 lessons</a><a href="/">All levels</a></nav><!-- /site-nav -->
+
+<h1>1.9 Networking</h1><p class="sub">Business English Upper-Intermediate · Part I</p>
+<div id="secs"></div>
+<div class="card"><div class="btns"><button class="primary" id="check">Check</button></div></div>
+<div class="card" id="result"><div>Your result</div><div id="score"></div>
+<div class="shot">📸 Take a screenshot and send it to your teacher.</div>
+<div class="btns" style="justify-content:center;margin-top:14px"><button class="ghost" id="again">Try again</button></div></div>
+</div><script>const SECS=[{"type": "explain", "html": "<h2><span class='num'>i</span>Networking: idioms and expressions</h2>\n<table><tr><th>Word / phrase</th><th>Meaning</th></tr>\n<tr><td><b>movers and shakers</b></td><td>influential people driving change and innovation in an industry</td></tr>\n<tr><td><b>talk your ear off</b></td><td>talk excessively or for too long</td></tr>\n<tr><td><b>industry trends</b></td><td>patterns or developments shaping the direction of a business field</td></tr>\n<tr><td><b>burn the midnight oil</b></td><td>work late into the night or early morning hours</td></tr>\n<tr><td><b>all hands on deck</b></td><td>everyone is needed to contribute, often in a challenging situation</td></tr>\n<tr><td><b>elevator pitch</b></td><td>a short, compelling introduction of yourself or your idea</td></tr>\n<tr><td><b>all ears</b></td><td>fully attentive to what someone is saying</td></tr>\n<tr><td><b>roll-out</b></td><td>the launch of a new product, service, or initiative</td></tr>\n<tr><td><b>give it to you straight</b></td><td>provide information in a direct and honest manner</td></tr>\n<tr><td><b>out-of-the-box thinking</b></td><td>creative and unconventional brainstorming</td></tr>\n<tr><td><b>nail down a time</b></td><td>firmly decide on a specific time</td></tr>\n</table>\n"}, {"type": "explain", "html": "<h2><span class='num'>i</span>Passive causative</h2>\n<p>We use the <b>passive causative</b> when someone else does something for us (often because we pay them).</p>\n<table><tr><th>Structure</th><th>Example</th></tr>\n<tr><td><b>have / get</b> + object + <b>past participle</b></td><td><span class='ex'>I get my hair cut by the barber.<br>He had his car fixed by the mechanic.<br>You'll need to get your accounts verified.</span></td></tr>\n</table>\n<p><i>have</i> is slightly more formal than <i>get</i>. The verb <i>have/get</i> changes tense: <span class='ex'>I'm getting / I got / I'll get my nails done.</span></p>\n<p><b style='color:#e5484d'>❗ If someone else did it:</b> <span class='ex'>I cut my hair at the barber's. ✗ → I had my hair cut at the barber's. ✓</span></p>\n"}, {"type": "match", "n": 1, "title": "Idioms and expressions", "task": "Match the idioms and expressions with the definitions.", "items": [["movers and shakers", "influential people driving change and innovation in an industry"], ["talk your ear off", "talk excessively or for too long"], ["industry trends", "patterns or developments shaping the direction of a business field"], ["burn the midnight oil", "work late into the night or early morning hours"], ["all hands on deck", "everyone is needed to contribute, often in a challenging situation"], ["elevator pitch", "a short, compelling introduction of yourself or your idea"], ["all ears", "fully attentive to what someone is saying"], ["roll-out", "the launch of a new product, service, or initiative"], ["give it to you straight", "provide information in a direct and honest manner"], ["out-of-the-box thinking", "creative and unconventional brainstorming"], ["nail down a time", "firmly decide on a specific time"]], "pool": ["a short, compelling introduction of yourself or your idea", "creative and unconventional brainstorming", "everyone is needed to contribute, often in a challenging situation", "firmly decide on a specific time", "fully attentive to what someone is saying", "influential people driving change and innovation in an industry", "patterns or developments shaping the direction of a business field", "provide information in a direct and honest manner", "talk excessively or for too long", "the launch of a new product, service, or initiative", "work late into the night or early morning hours"]}, {"type": "text", "n": 2, "title": "At a networking event", "task": "Complete the sentences with words from the box.", "bank": ["all ears", "all hands on deck", "burn the midnight oil", "elevator pitch", "give it to you straight", "industry trends", "movers and shakers", "nail down a time", "out-of-the-box thinking", "roll-out", "talk your ear off"], "items": [{"t": "It seems all the [?] are here tonight – the most influential people in the industry.", "a": [["movers and shakers"]]}, {"t": "Be careful with Tom – once he starts talking about his project, he'll [?].", "a": [["talk your ear off"]]}, {"t": "We need to keep up with the latest [?] if we want to stay competitive.", "a": [["industry trends"]]}, {"t": "The deadline is tomorrow, so we'll have to [?] tonight.", "a": [["burn the midnight oil"]]}, {"t": "We've just received a huge order, so it's [?] this week.", "a": [["all hands on deck"]]}, {"t": "Prepare a 30-second [?] so you can introduce your business quickly.", "a": [["elevator pitch"]]}, {"t": "Tell me about your idea – I'm [?].", "a": [["all ears"]]}, {"t": "We'll need some external help with the [?] of the new product.", "a": [["roll-out"]]}, {"t": "I'll [?]: your proposal is too expensive.", "a": [["give it to you straight"]]}, {"t": "This problem needs some [?] – the usual solutions don't work.", "a": [["out-of-the-box thinking"]]}, {"t": "Let's [?] for our next meeting. Is Tuesday at 10 okay?", "a": [["nail down a time"]]}]}, {"type": "text", "n": 3, "title": "Passive causative", "task": "Use the passive causative to complete the sentences.", "items": [{"t": "Sarah will [get/hair/wash] by the hairdresser.", "a": [["get her hair washed"]], "why": ["have/get + object + past participle → <u>get her hair washed</u>."]}, {"t": "They are all [get/nails/do] at the moment.", "a": [["getting their nails done"]], "why": ["Present continuous of get + object + V3 → <u>getting their nails done</u>."]}, {"t": "My friend wants to [get/tattoo/do] when we go on vacation.", "a": [["get a tattoo done", "get her tattoo done", "get his tattoo done", "get their tattoo done"]], "why": ["get + object + V3 → <u>get a tattoo done</u>."]}, {"t": "Holly needs to [have/letter/translate] before she is allowed to apply for a visa.", "a": [["have a letter translated", "have her letter translated", "have the letter translated"]], "why": ["have + object + V3 → <u>have a letter translated</u>."]}, {"t": "David had to [have/car/mend] by a mechanic.", "a": [["have his car mended", "have the car mended"]], "why": ["have + object + V3 → <u>have his car mended</u>."]}, {"t": "My niece is [have/wedding dress/design] by a famous stylist.", "a": [["having her wedding dress designed"]], "why": ["is + having + object + V3 → <u>having her wedding dress designed</u>."]}, {"t": "They were very hungry and decided to [get/food/deliver].", "a": [["get food delivered", "get their food delivered", "get some food delivered"]], "why": ["get + object + V3 → <u>get food delivered</u>."]}, {"t": "She needs to [get/eyes/test] by the optician.", "a": [["get her eyes tested"]], "why": ["get + object + V3 → <u>get her eyes tested</u>."]}]}, {"type": "text", "n": 4, "title": "The power of networking", "task": "Complete the sentences with words from the box.", "bank": ["camaraderie", "central tenets", "fiscal", "forge into", "fostering", "grapple", "imperative", "inner sanctum", "necessary evil", "rapport", "spotlight"], "items": [{"t": "Professional networking can often be viewed as a [?] – an annoying but essential element of building a career.", "a": [["necessary evil"]]}, {"t": "Networking can help an entrepreneur craft a distinctive image, [?] credibility and brand recognition.", "a": [["fostering"]]}, {"t": "At conferences, business owners have the opportunity to [?] their business.", "a": [["spotlight"]]}, {"t": "People are more likely to work with someone with whom they can build [?].", "a": [["rapport"]]}, {"t": "A person's reputation is often considered one of the [?] of success.", "a": [["central tenets"]]}, {"t": "Social media is one of the fastest ways to grow your [?].", "a": [["inner sanctum"]]}, {"t": "Many business leaders [?] with feelings of loneliness.", "a": [["grapple"]]}, {"t": "Connecting with others gives you emotional support and [?].", "a": [["camaraderie"]]}, {"t": "You can learn from others and avoid [?] false steps.", "a": [["fiscal"]]}, {"t": "Feeling supported enables us to [?] unexplored realms.", "a": [["forge into"]]}, {"t": "Networking is [?], not just because it leads to new opportunities.", "a": [["imperative"]]}]}];
+const show={"have not":"haven't","has not":"hasn't","was not":"wasn't","were not":"weren't","did not":"didn't","is not":"isn't","are not":"aren't","does not":"doesn't","do not":"don't","am not":"'m not"};
+function norm(s){
+  s=' '+s.toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:]/g,' ')+' ';
+  s=s.replace(/can't/g,'can not').replace(/cannot/g,'can not').replace(/shan't/g,'shall not').replace(/won't/g,'will not').replace(/n't/g,' not').replace(/'s /g,' is ').replace(/'m /g,' am ').replace(/'re /g,' are ').replace(/'ve /g,' have ');
+  s=s.replace(/'ll /g,' will ').replace(/'ve /g,' have ').replace(/'m /g,' am ').replace(/'re /g,' are ');
+  return s.replace(/\s+/g,' ').trim();
+}
+function normL(s){s=norm(s.replace(/-/g,' ')).replace(/\bper cent\b/g,'percent').replace(/\band\b/g,' ').replace(/^a /,'one ');return s.replace(/\s+/g,' ').trim();}
+const pretty=a=>{for(const k in show)a=a.replace(k,show[k]);return a;};
+const mk=(t,c,txt)=>{const e=document.createElement(t);if(c)e.className=c;if(txt!=null)e.textContent=txt;return e;};
+const wrap=document.getElementById('secs'); const checks=[];
+SECS.forEach((sec,si)=>{
+  const card=mk('div','card'+(sec.type==='explain'?' explain':''));
+  if(sec.type==='explain'){card.innerHTML=sec.html;wrap.append(card);return;}
+  const h=mk('h2');h.append(mk('span','num',String(sec.n)),sec.title);const sc=mk('span','secscore');h.append(sc);card.append(h);
+  card.append(mk('p','task',sec.task));
+  if(sec.bank){const b=mk('div','bank');sec.bank.forEach(w=>b.append(mk('span','',w)));card.append(b);}
+  const ol=mk('ol');card.append(ol);wrap.append(card);
+  const fns=[];
+  sec.items.forEach(it=>{
+    const li=mk('li','q');ol.append(li);const fix=mk('div','fix');const _iw=Array.isArray(it)?(sec.whys||[])[sec.items.indexOf(it)]:it.why;li._why=(_iw&&_iw.length)?_iw:((sec.why&&sec.why.length)?sec.why:null);
+    if(sec.type==='match'){
+      li.append(mk('span','word',it[0]));const s=mk('select');s.append(new Option('— choose —',''));
+      sec.pool.slice().sort((a,b)=>a.localeCompare(b)).forEach(p=>s.append(new Option(p,p)));li.append(s,fix);
+      fns.push(()=>{const ok=s.value===it[1];s.disabled=true;fix.textContent=ok?'':'✗ Correct answer: '+it[1];return [li,ok];});
+      li._reset=()=>{s.value='';s.disabled=false;};
+    } else if(sec.type==='choice'){
+      const parts=it.t.split('___');let pick=-1;li.append(parts[0]);
+      const o=mk('span','opts');it.o.forEach((w,k)=>{const b=mk('button','opt',w);b.type='button';b.onclick=()=>{if(li.dataset.done)return;pick=k;o.querySelectorAll('.opt').forEach(x=>x.classList.remove('sel'));b.classList.add('sel');};o.append(b);});
+      li.append(o,parts[1]||'',fix);
+      fns.push(()=>{const ok=pick===it.c;o.querySelectorAll('.opt').forEach((b,k)=>{b.classList.remove('sel');if(k===it.c)b.classList.add('right');else if(k===pick)b.classList.add('wrong');});fix.textContent=ok?'':'✗ Correct answer: '+it.o[it.c];return [li,ok];});
+      li._reset=()=>{pick=-1;o.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel','right','wrong'));};
+    } else if(sec.type==='order'){
+      li.append(mk('span','hint',it.t),mk('br'));const inp=mk('input','wide');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;li.append(inp,fix);
+      fns.push(()=>{const ok=it.a.some(a=>norm(a)===norm(inp.value));inp.readOnly=true;fix.textContent=ok?'':'✗ Correct answer: '+it.a[0];return [li,ok];});
+      li._reset=()=>{inp.value='';inp.readOnly=false;};
+    } else {
+      const segs=it.t.split(/\[([^\]]+)\]/);const ins=[];
+      segs.forEach((s,k)=>{if(k%2===0){li.append(s);}else{const inp=mk('input');inp.type='text';inp.autocomplete='off';inp.spellcheck=false;inp.setAttribute('autocapitalize','off');ins.push(inp);li.append(inp);if(s!=='?')li.append(' ',mk('span','hint','('+s+')'));}});
+      li.append(fix);
+      fns.push(()=>{let all=true;const corr=[];ins.forEach((inp,k)=>{const acc=it.a[k];const N=sec.loose?normL:norm;const g=N(inp.value);const ok=acc.some(a=>N(a)===g)||acc.some(a=>/^has /.test(a)&&a.replace(/^has /,'is ')===g);inp.readOnly=true;inp.classList.add(ok?'ok1':'bad1');if(!ok)all=false;corr.push(acc.map(pretty).filter((v,j,a)=>a.indexOf(v)===j).join(' / '));});
+        fix.textContent=all?'':'✗ Correct answer: '+corr.join('  …  ');return [li,all];});
+      li._reset=()=>{ins.forEach(i=>{i.value='';i.readOnly=false;i.classList.remove('ok1','bad1');});};
+    }
+  });
+  checks.push({fns,sc,n:sec.items.length,ol});
+});
+const WHY_LANG='en';
+function showWhy(li){const fix=li.querySelector('.fix');const ans=fix.textContent.replace(/^✗ Correct answer:\s*/,'');fix.textContent='';
+  const box=mk('div','why');box.append(mk('div','why-ans',(WHY_LANG==='en'?'Correct answer: ':'Правильна відповідь: ')+ans));
+  const ul=mk('ul');li._why.forEach(h=>{const x=mk('li');x.innerHTML=h;ul.append(x);});box.append(ul);fix.append(box);}
+const $=id=>document.getElementById(id);
+$('check').onclick=()=>{let t=0,m=0;checks.forEach(c=>{let s=0;c.fns.forEach(f=>{const [li,ok]=f();li.dataset.done='1';li.classList.add(ok?'ok':'bad');const _empty=!ok&&![...li.querySelectorAll('input')].some(i=>i.value.trim())&&![...li.querySelectorAll('select')].some(x=>x.value)&&!li.querySelector('.opt.wrong');if(_empty){const fx=li.querySelector('.fix');fx.textContent=(WHY_LANG==='en'?'No answer. Try again!':'Немає відповіді. Спробуй ще раз!');fx.classList.add('empty');li.querySelectorAll('.opt.right').forEach(x=>x.classList.remove('right'));}else if(!ok&&li._why)showWhy(li);if(ok)s++;});c.sc.textContent=s+' / '+c.n;t+=s;m+=c.n;});
+  $('check').disabled=true;$('result').style.display='block';$('score').textContent=t+' / '+m;$('result').scrollIntoView({behavior:'smooth'});};
+$('again').onclick=()=>{document.querySelectorAll('li.q').forEach(li=>{li.classList.remove('ok','bad');delete li.dataset.done;li.querySelector('.fix').textContent='';li.querySelector('.fix').classList.remove('empty');li._reset&&li._reset();});
+  checks.forEach(c=>c.sc.textContent='');$('check').disabled=false;$('result').style.display='none';window.scrollTo({top:0,behavior:'smooth'});};
+</script>
+<!-- site-dnd --><script src="/dnd.js"></script><!-- /site-dnd -->
+
+<!-- site-footer --><footer class="site-footer" id="contacts"><div class="fwrap"><div class="fcol fabout"><div class="fbrand">Your Digital Workbook</div><p>Liliia Labiak · English teacher.<br>Exercises for the lessons we do together.</p></div><div class="fcol"><h4>Contact</h4><a href="mailto:lilia.labiak17012002@gmail.com">lilia.labiak17012002@gmail.com</a><a href="tel:+380989960039">+380 98 996 00 39</a><a href="https://t.me/Lilia_labiak">Telegram: @Lilia_labiak</a></div><div class="fcol"><h4>Info</h4><a href="/terms">Terms &amp; Conditions</a></div></div><div class="fbottom"><span>© 2026 Liliia Labiak</span><span>English practice · A1–C1</span></div></footer><!-- /site-footer -->
+</body></html>
